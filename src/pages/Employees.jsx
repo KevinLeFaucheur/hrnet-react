@@ -9,7 +9,7 @@ const Table = styled.div`
 const TableSeparator = styled.div`
   height: 1px;
   width: 100%;
-  background-color: black;
+  background-color: #111;
 `
 
 const TableHeader = styled.header`
@@ -42,9 +42,53 @@ const TableFooter = styled.footer`
   justify-content: space-between;
 `
 
+const TableWrapper = styled.table`
+  width: 100%;
+  background: #DDD;
+  border-spacing: 0 1px;
+`
+
+const TableRow = styled.tr`
+  height: 34px; // must be fitting font instead
+  width: 100%;
+  padding: 8px 10px;
+  background: #f9f9f9;
+
+  &:nth-child(even) {
+    background: #fff;
+  }
+
+  .selected {
+    background: #f1f1f1;
+  }
+`
+
+const TD = styled.td`
+`
+
 const TableNav = styled.nav`
   display: flex;
   justify-content: space-between;
+
+  div {
+    padding: 0.5em 1em;
+  }
+`
+
+const TableNavButton = styled.button`
+  background: none;
+  border: none;
+
+  &.current {
+    background: linear-gradient(to bottom, #fff 0%, #dcdcdc 100%);
+    border: 1px solid #979797;
+  }
+    
+  &:not(.current):hover {
+    background: #333333;
+
+  }
+  padding: 0.5em 1em;
 `
 
 export const Employees = () => {
@@ -58,33 +102,45 @@ export const Employees = () => {
         <Table>
           <TableHeader>
             <TableShow>
-              <label htmlFor="entries">Show</label>
-              <select name="entries" id="entries">
-                <option>10</option>
-                <option>25</option>
-                <option>50</option>
-                <option>100</option>
-              </select>
-              <p>entries</p>
+              <label htmlFor="entries">
+                Show&nbsp;
+                <select name="entries" id="entries">
+                  <option value={10}>10</option>
+                  <option value={25}>25</option>
+                  <option value={50}>50</option>
+                  <option value={100}>100</option>
+                </select>
+                &nbsp;Entries
+              </label>
             </TableShow>
             <TableSearch>
-              <label>Search:</label>
-              <input />
+              <label>Search:&nbsp;<input /></label>
+              
             </TableSearch>
           </TableHeader>
 
 
-          {/** Header */}
+          {/** Table Header */}
           <TableSeparator />
           {/** Table Row */}
+          <TableWrapper>
+            <TableRow><TD>AL</TD><TD>AL</TD><TD>AL</TD><TD>AL</TD></TableRow>
+            <TableRow><TD>AL</TD><TD>AL</TD><TD>AL</TD><TD>AL</TD></TableRow>
+            <TableRow><TD>AL</TD><TD>AL</TD><TD>AL</TD><TD>AL</TD></TableRow>
+            <TableRow><TD>AL</TD><TD>AL</TD><TD>AL</TD><TD>AL</TD></TableRow>
+            <TableRow><TD>AL</TD><TD>AL</TD><TD>AL</TD><TD>AL</TD></TableRow>
+            <TableRow><TD>AL</TD><TD>AL</TD><TD>AL</TD><TD>AL</TD></TableRow>
+            <TableRow><TD>AL</TD><TD>AL</TD><TD>AL</TD><TD>AL</TD></TableRow>
+          </TableWrapper>
+            
 
           <TableSeparator />
           <TableFooter className="table-footer">
             <TableShowResults>Showing 1 to 1 of 1 entries</TableShowResults>
             <TableNav>
               <div>Previous</div>
-              <button>1</button>
-              <button>1</button>
+              <TableNavButton className="current">1</TableNavButton>
+              <TableNavButton>2</TableNavButton>
               <div>Next</div>
             </TableNav>
           </TableFooter>
