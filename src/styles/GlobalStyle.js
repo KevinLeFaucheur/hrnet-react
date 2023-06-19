@@ -66,6 +66,5 @@ export default createGlobalStyle`
   }
 
   #confirmation {
-    margin-top: 1rem;
   }
 `

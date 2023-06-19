@@ -7,9 +7,40 @@ const HomeWrapper = styled.main`
   button {
     margin-top: 1rem;
   }
+
+  dialog {
+    position: relative;
+    border: none;
+    border-radius: 8px;
+    max-width: 500px;
+    width: 90%;
+    padding: 15px 30px;
+    vertical-align: middle;
+    overflow: hidden;
+
+    &::backdrop {
+      background: rgba(0, 0, 0, 0.75);
+    }
+
+    .close-modal {
+      position: absolute;
+      /* top: -12.5px; */
+      right: 25px;
+      color: black;
+
+      i {
+        font-size: 1.5rem;
+      }
+    }
+  }
 `
 
 export const Home = () => {
+
+  const saveEmployee = () => {
+    document.getElementById('confirmation').showModal();
+  }
+
   return (
     <HomeWrapper>
       <div className="title">
@@ -59,9 +90,19 @@ export const Home = () => {
           </select>
         </form>
 
-        <button /*onClick="saveEmployee()"*/>Save</button>
+        <button onClick={() => saveEmployee()}>Save</button>
       </div>
-      <div id="confirmation" className="modal">Employee Created!</div>
+      <dialog id="confirmation" className="modal">
+        Employee Created!
+        <a 
+          aria-label="Close"
+          onClick={() => document.getElementById('confirmation').close()} 
+          href="#close-modal" 
+          rel="modal:close" 
+          className="close-modal">
+            <i className="fa-solid fa-circle-xmark" aria-hidden="true" />
+        </a>
+      </dialog>
     </HomeWrapper>
   )
 }
