@@ -38,6 +38,30 @@ const HomeWrapper = styled.main`
 export const Home = () => {
 
   const saveEmployee = () => {
+    const firstName = document.getElementById('first-name');
+    const lastName = document.getElementById('last-name');
+    const dateOfBirth = document.getElementById('date-of-birth');
+    const startDate = document.getElementById('start-date');
+    const department = document.getElementById('department');
+    const street = document.getElementById('street');
+    const city = document.getElementById('city');
+    const state = document.getElementById('state');
+    const zipCode = document.getElementById('zip-code');
+
+    const employees = JSON.parse(localStorage.getItem('employees')) || [];
+    const employee = {
+        firstName: firstName.value,
+        lastName: lastName.value,
+        dateOfBirth: dateOfBirth.value,
+        startDate: startDate.value,
+        department: department.value,
+        street: street.value,
+        city: city.value,
+        state: state.value,
+        zipCode: zipCode.value
+    };
+    employees.push(employee);
+    localStorage.setItem('employees', JSON.stringify(employees));
     document.getElementById('confirmation').showModal();
   }
 
@@ -57,10 +81,10 @@ export const Home = () => {
           <input type="text" id="last-name" />
 
           <label htmlFor="date-of-birth">Date of Birth</label>
-          <input id="date-of-birth" type="text" />
+          <input id="date-of-birth" type="text" onFocus={(e) => e.target.type='date'} onBlur={(e) => e.target.type='text'} />
 
           <label htmlFor="start-date">Start Date</label>
-          <input id="start-date" type="text" />
+          <input id="start-date" type="text" onFocus={(e) => e.target.type='date'} onBlur={(e) => e.target.type='text'} />
 
           <fieldset className="address">
             <legend>Address</legend>
@@ -73,7 +97,7 @@ export const Home = () => {
 
             <label htmlFor="state">State</label>
             <select name="state" id="state">
-              {states.map(state => <option key={state.abbreviation} >{state.name}</option>)}
+              {states.map(state => <option key={state.abbreviation} value={state.abbreviation} >{state.name}</option>)}
             </select>
 
             <label htmlFor="zip-code">Zip Code</label>
