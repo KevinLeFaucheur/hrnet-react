@@ -20,15 +20,29 @@ export const Employees = () => {
   //     ]
   // });
 
+  const table = {
+    data: employees,
+    columns: [
+        { title: 'First Name', data: 'firstName' },
+        { title: 'Last Name', data: 'lastName' },
+        { title: 'Start Date', data: 'startDate' },
+        { title: 'Department', data: 'department' },
+        { title: 'Date of Birth', data: 'dateOfBirth' },
+        { title: 'Street', data: 'street' },
+        { title: 'City', data: 'city' },
+        { title: 'State', data: 'state' },
+        { title: 'Zip Code', data: 'zipCode' },
+    ]
+  };
+
   return (
     <main>
       <div id="employee-div" className="container">
         <h1>Current Employees</h1>
-        <table id="employee-table" className="display" />
 
-          {/** Temporary Table */}
-          <DataTable data={employees} />
-          {/** Temporary Table */}
+        {/** Temporary Table */}
+        <DataTable table={table} />
+        {/** Temporary Table */}
 
         <Link to='/'>Home</Link>
       </div>

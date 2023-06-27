@@ -1,13 +1,13 @@
 import { styled } from "styled-components"
 
-const TableShow = styled.div`
+const Select = styled.div`
   display: flex;
   justify-content: space-between;
 `
 
-export const ShowEntriesSelect = () => {
+export const TableEntriesSelect = () => {
   return (
-    <TableShow>
+    <Select>
       <label htmlFor="entries">
         Show&nbsp;
         <select name="entries" id="entries">
@@ -18,6 +18,6 @@ export const ShowEntriesSelect = () => {
         </select>
         &nbsp;Entries
       </label>
-    </TableShow>
+    </Select>
   )
 }
