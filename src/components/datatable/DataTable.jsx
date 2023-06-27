@@ -8,6 +8,7 @@ import { TableHead } from "./TableHead"
 
 const TableContainer = styled.div`
   width: 890px;
+  font-size: 16px;
 `
 
 const TableHeader = styled.header`
@@ -22,8 +23,7 @@ const TableHeader = styled.header`
 
 const Table = styled.table`
   width: 100%;
-  background: #DDD;
-  border-spacing: 0 1px;
+  border-spacing: 0 0;
 `
 
 export const DataTable = ({ table }) => {
@@ -36,8 +36,6 @@ export const DataTable = ({ table }) => {
         <TableEntriesSelect />
         <TableSearch />
       </TableHeader>
-
-      <Separator />
 
       <Table>
         <TableHead columns={columns} />

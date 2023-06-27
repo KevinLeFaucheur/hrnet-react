@@ -40,9 +40,7 @@ export const Employees = () => {
       <div id="employee-div" className="container">
         <h1>Current Employees</h1>
 
-        {/** Temporary Table */}
         <DataTable table={table} />
-        {/** Temporary Table */}
 
         <Link to='/'>Home</Link>
       </div>

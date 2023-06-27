@@ -3,6 +3,7 @@ import { styled } from "styled-components"
 const TableShowResults = styled.div`
   display: flex;
   justify-content: space-between;
+  padding-top: 10px;
 `
 
 const TableFooter = styled.footer`
@@ -10,10 +11,10 @@ const TableFooter = styled.footer`
   justify-content: space-between;
 `
 
-
 const Nav = styled.nav`
   display: flex;
   justify-content: space-between;
+  padding-top: 4px;
 
   div {
     padding: 0.5em 1em;

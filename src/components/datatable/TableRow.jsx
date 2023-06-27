@@ -3,19 +3,24 @@ import { styled } from "styled-components"
 const TR = styled.tr`
   height: 34px; // must be fitting font instead
   width: 100%;
-  padding: 8px 10px;
   background: #f9f9f9;
 
-  &:nth-child(even) {
+  &:nth-child(odd) {
     background: #fff;
   }
 
   .selected {
     background: #f1f1f1;
   }
+
+  &:last-child > td {
+    border-bottom: none;
+  }
 `
 
 const TD = styled.td`
+  border-bottom: 1px solid #DDD;
+  padding: 8px 8px;
 `
 
 export const TableRow = ({ rowData, columns }) => {
