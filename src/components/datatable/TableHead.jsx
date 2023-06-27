@@ -1,6 +1,5 @@
 import { styled } from "styled-components"
-import sortUp from "./assets/sort-up.svg" 
-import sortDown from  "./assets/sort-down.svg" 
+import { TableSort } from "./TableSort"
 
 const TR = styled.tr`
   cursor: pointer;
@@ -13,19 +12,6 @@ const TH = styled.th`
   border-bottom: 1px solid #111;
   position: relative;
   padding: 10px 8px;
-
-  img {
-    opacity: 0.1;
-  }
-
-  img:last-child {
-    position: absolute;
-    right: 1px;
-  }
-`
-
-const Sort = styled.div`
-  float: right;
 `
 
 export const TableHead = ({ columns }) => {
@@ -33,13 +19,7 @@ export const TableHead = ({ columns }) => {
     <thead>
       <TR>
         {columns.map(column => {
-          return <TH key={column.data}>
-                    {column.title}
-                    <Sort>
-                      <img src={sortUp} alt={`sort up ${column.title}`} />
-                      <img src={sortDown} alt={`sort down ${column.title}`} />
-                    </Sort>
-                  </TH>
+          return <TH key={column.data}>{column.title}<TableSort name={column.title} /></TH>
         })}
       </TR>
     </thead>

@@ -24,12 +24,10 @@ const TD = styled.td`
 `
 
 export const TableRow = ({ rowData, columns }) => {
-  console.log(rowData);
-  console.log(columns);
 
   return (
     <TR>
-      {columns.map(column => <TD>{rowData[column.data]}</TD>)}
+      {columns.map(column => <TD key={`${column.title}`} >{rowData[column.data]}</TD>)}
     </TR>
   )
 }
