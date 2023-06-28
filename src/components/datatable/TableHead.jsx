@@ -1,6 +1,8 @@
 import { styled } from "styled-components"
-import { TableSort } from "./TableSort"
 import { useState } from "react"
+import sortUp from "./assets/sort-up.svg"
+import sortDown from "./assets/sort-down.svg"
+import sortNone from "./assets/sort-none.svg"
 
 const TR = styled.tr`
   cursor: pointer;
@@ -14,22 +16,26 @@ const TH = styled.th`
   position: relative;
   padding: 10px 8px;
   user-select: none;
+
+  img {
+    float: right;
+    height: 18px;
+  }
 `
 
 export const TableHead = ({ columns }) => {
   const [sorting, setSorting] = useState('none');
 
   const toggleSort = (name) => {
-    document.querySelectorAll('.sort > img').forEach(element => element.style.opacity = '0.1');
     document.querySelectorAll('th, td').forEach(cell => cell.classList.remove('selected'));
     document.querySelectorAll(`#th-${name}, #td-${name}`).forEach(cell => cell.classList.add('selected'));
 
     if(sorting === 'none' || sorting === 'down') {
       setSorting('up');
-      document.querySelector(`#sorting-${name} > img`).style.opacity = '0.5';
+      document.querySelector(`#sorting-${name}`).src = sortUp;
     } else {
       setSorting('down');
-      document.querySelector(`#sorting-${name} > img:last-child`).style.opacity = '0.5';
+      document.querySelector(`#sorting-${name}`).src = sortDown;
     }
   }
 
@@ -37,7 +43,10 @@ export const TableHead = ({ columns }) => {
     <thead>
       <TR>
         {columns.map(column => {
-          return <TH key={column.data} id={`th-${column.data}`} onClick={() => toggleSort(column.data)}>{column.title}<TableSort name={column.data} /></TH>
+          return  <TH key={column.data} id={`th-${column.data}`} tabIndex={0} onClick={() => toggleSort(column.data)}>
+                      {column.title}
+                      <img id={`sorting-${column.data}`} src={sortNone} alt={`sort ${column.data}`} />
+                  </TH>
         })}
       </TR>
     </thead>
