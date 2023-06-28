@@ -20,6 +20,13 @@ const TR = styled.tr`
   &:last-child > td {
     border-bottom: none;
   }
+
+  &:hover {
+    background-color: #f6f6f6;
+    .selected {
+      background-color: #eaeaea;
+    }
+  }
 `
 
 const TD = styled.td`
