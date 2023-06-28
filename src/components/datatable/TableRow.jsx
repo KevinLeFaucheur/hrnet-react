@@ -3,14 +3,18 @@ import { styled } from "styled-components"
 const TR = styled.tr`
   height: 34px; // must be fitting font instead
   width: 100%;
-  background: #f9f9f9;
-
-  &:nth-child(odd) {
-    background: #fff;
-  }
+  background: #fff;
 
   .selected {
-    background: #f1f1f1;
+    background: #fafafa;
+  }
+  
+  &:nth-child(odd) {
+    background: #f9f9f9;
+    
+    .selected {
+      background: #f1f1f1;
+    }
   }
 
   &:last-child > td {
@@ -27,7 +31,7 @@ export const TableRow = ({ rowData, columns }) => {
 
   return (
     <TR>
-      {columns.map(column => <TD key={`${column.title}`} >{rowData[column.data]}</TD>)}
+      {columns.map(column => <TD key={`${column.title}`} id={`td-${column.data}`} >{rowData[column.data]}</TD>)}
     </TR>
   )
 }

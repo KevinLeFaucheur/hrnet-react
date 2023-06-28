@@ -49,6 +49,6 @@ export const DataTable = ({ table }) => {
 
       <TableNav />
 
-    </TableContainer>
+    </TableContainer>  
   )
 }
