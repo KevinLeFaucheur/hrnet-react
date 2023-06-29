@@ -28,6 +28,7 @@ export const TableHead = ({ columns }) => {
 
   const toggleSort = (name) => {
     document.querySelectorAll('th, td').forEach(cell => cell.classList.remove('selected'));
+    document.querySelectorAll(`th > img`).forEach(image => image.src = sortNone);
     document.querySelectorAll(`#th-${name}, #td-${name}`).forEach(cell => cell.classList.add('selected'));
 
     if(sorting === 'none' || sorting === 'down') {
