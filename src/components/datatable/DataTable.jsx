@@ -28,39 +28,47 @@ const Table = styled.table`
 `
 
 export const SortingContext = createContext(null);
+export const DataContext = createContext(null);
 
 export const DataTable = ({ table }) => {
   const { data, columns } = table;
-
   const [sortBy, setSortBy] = useState(null); 
 
+
   useEffect(() => {
-    console.log(sortBy);
-  }, [sortBy])
+    if(sortBy) {
+      let desc = sortBy.desc ? -1 : 1;
+      data.sort((a, b) => { 
+        return  a[sortBy.col] < b[sortBy.col] ? 1 * desc :
+                a[sortBy.col] > b[sortBy.col] ? -1 * desc : 0;
+      });
+    }
+  }, [data, sortBy])
 
   return (
-    <SortingContext.Provider value={setSortBy}>
-            <TableContainer id="employee-table" className="display" >
+    <DataContext.Provider value={data}>
+      <SortingContext.Provider value={setSortBy}>
+        <TableContainer id="employee-table" className="display" >
 
-        <TableHeader>
-          <TableEntriesSelect />
-          <TableSearch />
-        </TableHeader>
+          <TableHeader>
+            <TableEntriesSelect />
+            <TableSearch />
+          </TableHeader>
 
-        <Table>
-          <TableHead columns={columns} />
+          <Table>
+            <TableHead columns={columns} />
 
-          <tbody>
-            {data.map((rowData, index) => <TableRow key={`row-${index}`} rowData={rowData} columns={columns} />)}
-          </tbody>
-        </Table>
+            <tbody>
+              { data?.map((rowData, index) => <TableRow key={`row-${index}`} rowData={rowData} columns={columns} />)}
+            </tbody>
+          </Table>
 
-        <Separator />
+          <Separator />
 
-        <TableNav />
+          <TableNav />
 
-      </TableContainer>  
-    </SortingContext.Provider>
-
+        </TableContainer>  
+      </SortingContext.Provider>      
+    </DataContext.Provider>
   )
 }
