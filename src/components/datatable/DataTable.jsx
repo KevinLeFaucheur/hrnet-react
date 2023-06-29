@@ -5,6 +5,7 @@ import { TableRow } from "./TableRow"
 import { TableNav } from "./TableNav"
 import { Separator } from "./Separator"
 import { TableHead } from "./TableHead"
+import { createContext, useEffect, useState } from "react"
 
 const TableContainer = styled.div`
   width: 890px;
@@ -26,29 +27,40 @@ const Table = styled.table`
   border-spacing: 0 0;
 `
 
+export const SortingContext = createContext(null);
+
 export const DataTable = ({ table }) => {
   const { data, columns } = table;
 
+  const [sortBy, setSortBy] = useState(null); 
+
+  useEffect(() => {
+    console.log(sortBy);
+  }, [sortBy])
+
   return (
-    <TableContainer id="employee-table" className="display" >
+    <SortingContext.Provider value={setSortBy}>
+            <TableContainer id="employee-table" className="display" >
 
-      <TableHeader>
-        <TableEntriesSelect />
-        <TableSearch />
-      </TableHeader>
+        <TableHeader>
+          <TableEntriesSelect />
+          <TableSearch />
+        </TableHeader>
 
-      <Table>
-        <TableHead columns={columns} />
+        <Table>
+          <TableHead columns={columns} />
 
-        <tbody>
-          {data.map((rowData, index) => <TableRow key={`row-${index}`} rowData={rowData} columns={columns} />)}
-        </tbody>
-      </Table>
+          <tbody>
+            {data.map((rowData, index) => <TableRow key={`row-${index}`} rowData={rowData} columns={columns} />)}
+          </tbody>
+        </Table>
 
-      <Separator />
+        <Separator />
 
-      <TableNav />
+        <TableNav />
 
-    </TableContainer>  
+      </TableContainer>  
+    </SortingContext.Provider>
+
   )
 }

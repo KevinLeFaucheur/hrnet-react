@@ -1,8 +1,9 @@
 import { styled } from "styled-components"
-import { useState } from "react"
+import { useContext, useState } from "react"
 import sortUp from "./assets/sort-up.svg"
 import sortDown from "./assets/sort-down.svg"
 import sortNone from "./assets/sort-none.svg"
+import { SortingContext } from "./DataTable"
 
 const TR = styled.tr`
   cursor: pointer;
@@ -26,6 +27,8 @@ const TH = styled.th`
 export const TableHead = ({ columns }) => {
   const [sorting, setSorting] = useState('none');
 
+  const sortByCtx = useContext(SortingContext);
+
   const toggleSort = (name) => {
     document.querySelectorAll('th, td').forEach(cell => cell.classList.remove('selected'));
     document.querySelectorAll(`th > img`).forEach(image => image.src = sortNone);
@@ -33,9 +36,11 @@ export const TableHead = ({ columns }) => {
 
     if(sorting === 'none' || sorting === 'down') {
       setSorting('up');
+      sortByCtx({ col: name, desc: false});
       document.querySelector(`#sorting-${name}`).src = sortUp;
     } else {
       setSorting('down');
+      sortByCtx({ col: name, desc: true});
       document.querySelector(`#sorting-${name}`).src = sortDown;
     }
   }
