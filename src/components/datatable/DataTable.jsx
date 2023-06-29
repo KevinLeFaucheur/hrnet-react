@@ -29,10 +29,13 @@ const Table = styled.table`
 
 export const SortingContext = createContext(null);
 export const DataContext = createContext(null);
+export const EntriesContext = createContext(10);
 
 export const DataTable = ({ table }) => {
   const { data, columns } = table;
   const [sortBy, setSortBy] = useState(null); 
+  const [entries, setEntries] = useState(10);
+  const [selected, setSelected] = useState(null);
 
 
   useEffect(() => {
@@ -43,31 +46,35 @@ export const DataTable = ({ table }) => {
                 a[sortBy.col] > b[sortBy.col] ? -1 * desc : 0;
       });
     }
-  }, [data, sortBy])
+    setSelected(data.slice(0, entries));
+  }, [data, entries, sortBy])
 
   return (
     <DataContext.Provider value={data}>
       <SortingContext.Provider value={setSortBy}>
-        <TableContainer id="employee-table" className="display" >
+        <EntriesContext.Provider value={setEntries}>
+          <TableContainer id="employee-table" className="display" >
 
-          <TableHeader>
-            <TableEntriesSelect />
-            <TableSearch />
-          </TableHeader>
+            <TableHeader>
+              <TableEntriesSelect />
+              <TableSearch />
+            </TableHeader>
 
-          <Table>
-            <TableHead columns={columns} />
+            <Table>
+              <TableHead columns={columns} />
 
-            <tbody>
-              { data?.map((rowData, index) => <TableRow key={`row-${index}`} rowData={rowData} columns={columns} />)}
-            </tbody>
-          </Table>
+              <tbody>
+                { selected?.map((rowData, index) => <TableRow key={`row-${index}`} rowData={rowData} columns={columns} />)}
+              </tbody>
+            </Table>
 
-          <Separator />
+            <Separator />
 
-          <TableNav />
+            <TableNav />
 
-        </TableContainer>  
+          </TableContainer>    
+        </EntriesContext.Provider>
+ 
       </SortingContext.Provider>      
     </DataContext.Provider>
   )
