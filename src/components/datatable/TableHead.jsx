@@ -21,6 +21,7 @@ const TH = styled.th`
   img {
     float: right;
     height: 18px;
+    margin-left: 0.5rem;
   }
 `
 

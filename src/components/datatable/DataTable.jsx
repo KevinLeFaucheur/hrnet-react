@@ -8,7 +8,6 @@ import { TableHead } from "./TableHead"
 import { createContext, useEffect, useState } from "react"
 
 const TableContainer = styled.div`
-  width: 890px;
   font-size: 16px;
 `
 
@@ -34,7 +33,7 @@ export const EntriesContext = createContext(10);
 export const DataTable = ({ table }) => {
   const { data, columns } = table;
   const [sortBy, setSortBy] = useState(null); 
-  const [entries, setEntries] = useState(10);
+  const [entries, setEntries] = useState(1);
   const [selected, setSelected] = useState(null);
 
 
