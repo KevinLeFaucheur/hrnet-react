@@ -1,9 +1,11 @@
 import { Link } from "react-router-dom"
 import { DataTable } from "../components/datatable/DataTable";
+import dataMocks from "../employees.json"
 
 export const Employees = () => {
 
   const employees = JSON.parse(localStorage.getItem('employees'));
+  const useMocks = true;
 
   // document.getElementById('#employee-table').DataTable({
   //     data: employees,
@@ -21,7 +23,7 @@ export const Employees = () => {
   // });
 
   const table = {
-    data: employees,
+    data: useMocks ? dataMocks : employees,
     columns: [
         { title: 'First Name', data: 'firstName' },
         { title: 'Last Name', data: 'lastName' },

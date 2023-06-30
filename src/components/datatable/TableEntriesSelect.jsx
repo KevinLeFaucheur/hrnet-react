@@ -14,7 +14,7 @@ export const TableEntriesSelect = () => {
     <Select>
       <label htmlFor="entries">
         Show&nbsp;
-        <select name="entries" id="entries" onChange={(e) => setEntriesCtx(e.currentTarget.value)} >
+        <select name="entries" id="entries" onChange={(e) => setEntriesCtx(parseInt(e.currentTarget.value))} >
           <option value={1}>1</option>
           <option value={3}>3</option>
           <option value={5}>5</option>

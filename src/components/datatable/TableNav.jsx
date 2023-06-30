@@ -1,4 +1,6 @@
+import { useContext } from "react"
 import { styled } from "styled-components"
+import { PaginationContext } from "./DataTable"
 
 const TableShowResults = styled.div`
   display: flex;
@@ -37,15 +39,22 @@ const TableNavButton = styled.button`
   padding: 0.5em 1em;
 `
 
-export const TableNav = () => {
+export const TableNav = ({ entries, totalEntries }) => {
+  const { pageIndex, setPageIndex, pageCount } = useContext(PaginationContext);
+  const start = (pageIndex * entries) + 1;
+  const end = (pageIndex * entries) + entries;
+
   return (
     <TableFooter className="table-footer">
-      <TableShowResults>Showing 1 to 1 of 1 entries</TableShowResults>
+      <TableShowResults>Showing {start} to {end} of {totalEntries} entries</TableShowResults>
       <Nav>
         <div>Previous</div>
-        <TableNavButton className="current">1</TableNavButton>
-        <TableNavButton>2</TableNavButton>
-        <div>Next</div>
+        <TableNavButton onClick={() => setPageIndex(pageIndex - 1)} className="current">{pageIndex + 1}</TableNavButton>
+        {pageIndex <= pageCount ?
+        <>
+          <TableNavButton onClick={() => setPageIndex(pageIndex + 1)} >{pageIndex + 2}</TableNavButton>
+          <div>Next</div>
+        </> : ''}
       </Nav>
     </TableFooter>
   )
