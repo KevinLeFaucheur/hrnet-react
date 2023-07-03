@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom"
 import { styled } from "styled-components"
 import { states } from "../data/States"
+import { Modal } from "../components/modal/Modal"
+import { useState } from "react"
 
 const HomeWrapper = styled.main`
 
@@ -65,6 +67,8 @@ export const Home = () => {
     document.getElementById('confirmation').showModal();
   }
 
+  const [show, setShow] = useState(false);
+
   return (
     <HomeWrapper>
       <div className="title">
@@ -116,17 +120,10 @@ export const Home = () => {
 
         <button onClick={() => saveEmployee()}>Save</button>
       </div>
-      <dialog id="confirmation" className="modal">
-        Employee Created!
-        <a 
-          aria-label="Close"
-          onClick={() => document.getElementById('confirmation').close()} 
-          href="#close-modal" 
-          rel="modal:close" 
-          className="close-modal">
-            <i className="fa-solid fa-circle-xmark" aria-hidden="true" />
-        </a>
-      </dialog>
+
+      <button onClick={() => setShow(true)} >Show Modal</button>
+      <Modal onClose={() => setShow(false)} show={show}/>
+
     </HomeWrapper>
   )
 }
