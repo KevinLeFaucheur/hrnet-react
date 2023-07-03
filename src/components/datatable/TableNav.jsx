@@ -50,7 +50,7 @@ export const TableNav = ({ entries, totalEntries }) => {
       <Nav>
         <div>Previous</div>
         <TableNavButton onClick={() => setPageIndex(pageIndex - 1)} className="current">{pageIndex + 1}</TableNavButton>
-        {pageIndex <= pageCount ?
+        {pageIndex < pageCount-1 ?
         <>
           <TableNavButton onClick={() => setPageIndex(pageIndex + 1)} >{pageIndex + 2}</TableNavButton>
           <div>Next</div>
