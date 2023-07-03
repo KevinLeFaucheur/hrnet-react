@@ -122,7 +122,9 @@ export const Home = () => {
       </div>
 
       <button onClick={() => setShow(true)} >Show Modal</button>
-      <Modal onClose={() => setShow(false)} show={show}/>
+      <Modal title="test" onClose={() => setShow(false)} show={show}>
+        Employee Created!
+      </Modal>
 
     </HomeWrapper>
   )
