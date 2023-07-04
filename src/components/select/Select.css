@@ -1,0 +1,39 @@
+.select-container {
+  text-align: left;
+  border: 1px solid #ccc;
+  position: relative;
+  border-radius: 5px;
+}
+
+.select-input {
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  user-select: none;
+}
+
+.select-menu {
+  position: absolute;
+  /* transform: translateY(4px); */
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  overflow: auto;
+  max-height: 150px;
+  background-color: #fff;
+}
+
+.select-item {
+  padding: 5px;
+  cursor: pointer;
+}
+
+.select-item:hover {
+  background-color: aliceblue;
+}
+
+.select-item.selected {
+  background-color: blue;
+  color: #fff;
+}

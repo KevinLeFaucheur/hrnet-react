@@ -3,6 +3,7 @@ import { styled } from "styled-components"
 import { states } from "../data/States"
 import { Modal } from "../components/modal/Modal"
 import { useState } from "react"
+import { Select } from "../components/select/Select"
 
 const HomeWrapper = styled.main`
 
@@ -69,6 +70,14 @@ export const Home = () => {
 
   const [show, setShow] = useState(false);
 
+  const options = [
+    { value: 'Sales', label: 'Sales' },
+    { value: 'Marketing', label: 'Marketing' },
+    { value: 'Engineering', label: 'Engineering' },
+    { value: 'Human Resources', label: 'Human Resources' },
+    { value: 'Legal', label: 'Legal' }
+  ]
+
   return (
     <HomeWrapper>
       <div className="title">
@@ -116,6 +125,10 @@ export const Home = () => {
             <option>Human Resources</option>
             <option>Legal</option>
           </select>
+          <Select 
+            placeHolder="Select..." 
+            options={options} 
+            onChange={(value) => console.log(value)}/>
         </form>
 
         <button onClick={() => saveEmployee()}>Save</button>
