@@ -65,7 +65,8 @@ export const Home = () => {
     };
     employees.push(employee);
     localStorage.setItem('employees', JSON.stringify(employees));
-    document.getElementById('confirmation').showModal();
+    // document.getElementById('confirmation').showModal();
+    setShow(true);
   }
 
   const [show, setShow] = useState(false);
@@ -125,17 +126,16 @@ export const Home = () => {
             <option>Human Resources</option>
             <option>Legal</option>
           </select>
-          <Select 
+          <Select
             placeHolder="Select..." 
             options={options} 
-            onChange={(value) => console.log(value)}/>
+            onChange={(value) => console.log(value)}
+          />
         </form>
 
         <button onClick={() => saveEmployee()}>Save</button>
       </div>
-
-      <button onClick={() => setShow(true)} >Show Modal</button>
-      <Modal title="test" onClose={() => setShow(false)} show={show}>
+      <Modal /*header='Hello World' footer={<button onClick={() => setShow(false)}>Close</button>}*/ onClose={() => setShow(false)} show={show}>
         Employee Created!
       </Modal>
 
