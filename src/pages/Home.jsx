@@ -113,7 +113,6 @@ export const Home = () => {
 
             <label htmlFor="state">State</label>
             <Select
-              placeHolder="Select..." 
               options={states} 
               onChange={(value) => setStateValue(value)}
             />
@@ -124,7 +123,6 @@ export const Home = () => {
 
           <label htmlFor="department">Department</label>
           <Select
-            placeHolder="Select..." 
             options={options} 
             onChange={(value) => setDepartmentValue(value)}
           />

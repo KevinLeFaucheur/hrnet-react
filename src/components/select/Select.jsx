@@ -32,7 +32,7 @@ export const Select = ({ placeHolder, options, onChange }) => {
   }, [])
 
   const setPlaceholder = () => {
-    return selectedValue ? selectedValue.label : placeHolder;
+    return selectedValue ? selectedValue.label : placeHolder ? placeHolder : options[0].label;
   }
 
   const handleInputClick = (e) => {
