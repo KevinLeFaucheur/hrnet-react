@@ -23,19 +23,21 @@ const Icon = () => {
  * - CSS
  * - accessibility
  * - more tolerant options building 
- * 
  */
 
 export const Select = ({ placeHolder, options, onChange }) => {
   const [showMenu, setShowMenu] = useState(false);
   const [selectedValue, setSelectedValue] = useState(null);
+  const [upwards, setUpwards] = useState(false);
 
   useEffect(() => {
     const handler = () => setShowMenu(false);
+    
+    setUpwards(document.querySelector('.select-container')?.getBoundingClientRect().bottom + 150 > window.innerHeight);
 
     window.addEventListener('click', handler);
     return () => { window.removeEventListener('click', handler) }
-  })
+  }, [])
 
   const setPlaceholder = () => {
     return selectedValue ? selectedValue.label : placeHolder;
@@ -66,7 +68,7 @@ export const Select = ({ placeHolder, options, onChange }) => {
         </div>
 
       </div>
-      {showMenu && <div className="select-menu">
+      {showMenu && <div className={`select-menu ${upwards ? "upwards" : ""}`}>
         {options.map(option => (
           <div 
             onClick={() => onItemClick(option)} 
