@@ -48,7 +48,7 @@ export const Home = () => {
     // const department = document.getElementById('department');
     const street = document.getElementById('street');
     const city = document.getElementById('city');
-    const state = document.getElementById('state');
+    // const state = document.getElementById('state');
     const zipCode = document.getElementById('zip-code');
 
     const employees = JSON.parse(localStorage.getItem('employees')) || [];
@@ -60,7 +60,7 @@ export const Home = () => {
         department: departmentValue /*department.value*/,
         street: street.value,
         city: city.value,
-        state: state.value,
+        state: stateValue /*state.value*/,
         zipCode: zipCode.value
     };
     employees.push(employee);
@@ -71,6 +71,7 @@ export const Home = () => {
 
   const [show, setShow] = useState(false);
   const [departmentValue, setDepartmentValue] = useState(null);
+  const [stateValue, setStateValue] = useState(null);
 
   const options = [
     { value: 'Sales', label: 'Sales' },
@@ -111,9 +112,11 @@ export const Home = () => {
             <input id="city" type="text" />
 
             <label htmlFor="state">State</label>
-            <select name="state" id="state">
-              {states.map(state => <option key={state.abbreviation} value={state.abbreviation} >{state.name}</option>)}
-            </select>
+            <Select
+              placeHolder="Select..." 
+              options={states} 
+              onChange={(value) => setStateValue(value)}
+            />
 
             <label htmlFor="zip-code">Zip Code</label>
             <input id="zip-code" type="number" />
