@@ -38,6 +38,11 @@
   background-color: aliceblue;
 }
 
+.select-item.active {
+  background-color: #89b6da;
+  color: #fff;
+}
+
 .select-item.selected {
   background-color: #59d;
   color: #fff;

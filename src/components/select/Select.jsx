@@ -1,35 +1,40 @@
 import { useEffect, useState } from "react";
 import "./Select.css"
-
-const Icon = () => {
-  return (
-    <svg height="20" width="20" viewBox="0 0 20 20">
-      <path d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"></path>
-    </svg>
-  );
-};
+import { Icon } from "./assets/Icon";
+import { keyboard } from "@testing-library/user-event/dist/keyboard";
 
 /**
  * TODO: 
- * - 1st option as placeholder is none
- * - CSS
+ * - CSS options
  * - accessibility
- * - more tolerant options building 
+ * - more tolerant options building (optional)
+ * - upwards is broken
  */
 
 export const Select = ({ placeHolder, options, onChange }) => {
   const [showMenu, setShowMenu] = useState(false);
   const [selectedValue, setSelectedValue] = useState(null);
+
   const [upwards, setUpwards] = useState(false);
+
+  const [focus, setFocus] = useState(-1);
+  const [keyCode, setKeyCode] = useState(null);
 
   useEffect(() => {
     const handler = () => setShowMenu(false);
-    
+
     setUpwards(document.querySelector('.select-container')?.getBoundingClientRect().bottom + 150 > window.innerHeight);
+    
+    if(showMenu){
+      let selectMenu = document.querySelector('.select-menu');
+      selectMenu.children[focus].focus();
+      selectMenu.children[focus].classList.add('active');  
+    }
+
 
     window.addEventListener('click', handler);
     return () => { window.removeEventListener('click', handler) }
-  }, [])
+  }, [focus, keyCode, showMenu])
 
   const setPlaceholder = () => {
     return selectedValue ? selectedValue.label : placeHolder ? placeHolder : options[0].label;
@@ -38,6 +43,31 @@ export const Select = ({ placeHolder, options, onChange }) => {
   const handleInputClick = (e) => {
     e.stopPropagation();
     setShowMenu(!showMenu);
+  }
+
+  const handleKeyDown = (e) => {
+    e.stopPropagation();
+    if(e.keyCode === 32) setShowMenu(!showMenu);
+    setKeyCode(e.keyCode);
+    setFocus(0);
+  }
+
+  const handleOption = (e) => {
+    e.stopPropagation();
+    e.preventDefault();
+    if(e.keyCode === 32) setShowMenu(!showMenu);
+    setKeyCode(e.keyCode);
+
+    let selectMenu = document.querySelector('.select-menu');
+    let index = focus;
+    e.target.classList.remove('active');
+    switch(e.keyCode) {
+      case 38: if(index > 0) index--; setFocus(index); break;
+      case 40: if(index < selectMenu.children.length-1) index++;  setFocus(index); break;
+      default:
+    }
+    // selectMenu.children[focus].focus();
+    // selectMenu.children[focus].classList.add('active');
   }
 
   const onItemClick = (option) => {
@@ -51,18 +81,20 @@ export const Select = ({ placeHolder, options, onChange }) => {
 
   return (
     <div className="select-container">
-      <div tabIndex={0} onKeyDown={handleInputClick} onClick={handleInputClick} className="select-input">
+      <div tabIndex={0} onKeyDown={handleKeyDown} onClick={handleInputClick} className="select-input">
         <div className="select-selected-value">{setPlaceholder()}</div>
         <div className="select-tools">
           <div className="select-tool">
-            <Icon />
+            <Icon rotate={showMenu}/>
           </div>
         </div>
-
       </div>
+
       {showMenu && <div className={`select-menu ${upwards ? "upwards" : ""}`}>
         {options.map(option => (
           <div 
+            tabIndex={0}
+            onKeyDown={handleOption}
             onClick={() => onItemClick(option)} 
             key={option.value} 
             className={`select-item ${isSelected(option) && "selected"}`}>
@@ -70,6 +102,7 @@ export const Select = ({ placeHolder, options, onChange }) => {
           </div>
         ))}
       </div>}
+
     </div>
   )
 }
