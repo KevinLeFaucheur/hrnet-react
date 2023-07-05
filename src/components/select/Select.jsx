@@ -17,6 +17,15 @@ const Icon = () => {
 //   );
 // };
 
+/**
+ * TODO: 
+ * - 1st option as placeholder is none
+ * - CSS
+ * - accessibility
+ * - more tolerant options building 
+ * 
+ */
+
 export const Select = ({ placeHolder, options, onChange }) => {
   const [showMenu, setShowMenu] = useState(false);
   const [selectedValue, setSelectedValue] = useState(null);

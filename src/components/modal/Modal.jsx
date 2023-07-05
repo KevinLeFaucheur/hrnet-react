@@ -9,6 +9,15 @@ const Close = ({ onClick }) => {
   )
 }
 
+/**
+ * TODO: 
+ * - close button not drawing correctly
+ * - CSS
+ * - accessibility
+ * - see jQuery functionality
+ * 
+ */
+
 export const Modal = (props) => {
   const { show, onClose, header, footer } = props;
 

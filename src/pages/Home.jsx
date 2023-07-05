@@ -45,7 +45,7 @@ export const Home = () => {
     const lastName = document.getElementById('last-name');
     const dateOfBirth = document.getElementById('date-of-birth');
     const startDate = document.getElementById('start-date');
-    const department = document.getElementById('department');
+    // const department = document.getElementById('department');
     const street = document.getElementById('street');
     const city = document.getElementById('city');
     const state = document.getElementById('state');
@@ -57,7 +57,7 @@ export const Home = () => {
         lastName: lastName.value,
         dateOfBirth: dateOfBirth.value,
         startDate: startDate.value,
-        department: department.value,
+        department: departmentValue /*department.value*/,
         street: street.value,
         city: city.value,
         state: state.value,
@@ -70,6 +70,7 @@ export const Home = () => {
   }
 
   const [show, setShow] = useState(false);
+  const [departmentValue, setDepartmentValue] = useState(null);
 
   const options = [
     { value: 'Sales', label: 'Sales' },
@@ -119,17 +120,10 @@ export const Home = () => {
           </fieldset>
 
           <label htmlFor="department">Department</label>
-          <select name="department" id="department">
-            <option>Sales</option>
-            <option>Marketing</option>
-            <option>Engineering</option>
-            <option>Human Resources</option>
-            <option>Legal</option>
-          </select>
           <Select
             placeHolder="Select..." 
             options={options} 
-            onChange={(value) => console.log(value)}
+            onChange={(value) => setDepartmentValue(value)}
           />
         </form>
 
