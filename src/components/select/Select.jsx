@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import "./Select.css"
 import { Icon } from "./assets/Icon";
-import { keyboard } from "@testing-library/user-event/dist/keyboard";
 
 /**
  * TODO: 
  * - CSS options
- * - accessibility
+ * - accessibility:
+ *    - space or enter should select a value
+ *    - arrow up and down on input should shuffle options too
  * - more tolerant options building (optional)
  * - upwards is broken
  */
@@ -31,7 +32,6 @@ export const Select = ({ placeHolder, options, onChange }) => {
       selectMenu.children[focus].classList.add('active');  
     }
 
-
     window.addEventListener('click', handler);
     return () => { window.removeEventListener('click', handler) }
   }, [focus, keyCode, showMenu])
@@ -47,6 +47,7 @@ export const Select = ({ placeHolder, options, onChange }) => {
 
   const handleKeyDown = (e) => {
     e.stopPropagation();
+    e.preventDefault();
     if(e.keyCode === 32) setShowMenu(!showMenu);
     setKeyCode(e.keyCode);
     setFocus(0);
@@ -60,14 +61,15 @@ export const Select = ({ placeHolder, options, onChange }) => {
 
     let selectMenu = document.querySelector('.select-menu');
     let index = focus;
-    e.target.classList.remove('active');
     switch(e.keyCode) {
-      case 38: if(index > 0) index--; setFocus(index); break;
-      case 40: if(index < selectMenu.children.length-1) index++;  setFocus(index); break;
+      case 38: if(index > 0) index--; break;
+      case 40: if(index < selectMenu.children.length-1) index++; break;
       default:
     }
-    // selectMenu.children[focus].focus();
-    // selectMenu.children[focus].classList.add('active');
+    if(index !== focus) {
+      setFocus(index);
+      e.target.classList.remove('active');
+    }
   }
 
   const onItemClick = (option) => {
