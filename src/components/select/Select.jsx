@@ -6,7 +6,6 @@ import { Icon } from "./assets/Icon";
  * TODO: 
  * - CSS options
  * - accessibility:
- *    - arrow up and down on input should shuffle options too
  * - more tolerant options building (optional)
  * - upwards is broken
  */
@@ -14,11 +13,8 @@ import { Icon } from "./assets/Icon";
 export const Select = ({ placeHolder, options, onChange }) => {
   const [showMenu, setShowMenu] = useState(false);
   const [selectedValue, setSelectedValue] = useState(null);
-
   const [upwards, setUpwards] = useState(false);
-
-  const [focus, setFocus] = useState(-1);
-  const [keyCode, setKeyCode] = useState(null);
+  const [focus, setFocus] = useState(0);
 
   useEffect(() => {
     const handler = () => setShowMenu(false);
@@ -47,30 +43,34 @@ export const Select = ({ placeHolder, options, onChange }) => {
   const handleKeyDown = (e) => {
     e.stopPropagation();
     e.preventDefault();
-    if(e.keyCode === 32) setShowMenu(!showMenu);
-    setKeyCode(e.keyCode);
+    if([13, 32].includes(e.keyCode)) {
+      setShowMenu(!showMenu);
+      setFocus(focus);
+    }
 
     let index = focus;
     switch(e.keyCode) {
       case 38: if(index > 0) index--; break;
-      case 40: if(index < options.children.length-1) index++; break;
+      case 40: if(index < options.length-1) index++; break;
       default:
     }
-
-    setFocus(0);
+    setSelectedValue(options[index]);
+    onChange(options[index].value);
+    if(index !== focus) {
+      setFocus(index);
+    }
   }
 
   const handleOption = (option, e) => {
     e.stopPropagation();
     e.preventDefault();
     if([13, 27, 32].includes(e.keyCode)) setShowMenu(!showMenu);
-    setKeyCode(e.keyCode);
 
     let selectMenu = document.querySelector('.select-menu');
     let index = focus;
     switch(e.keyCode) {
       case 13:
-      case 32: setSelectedValue(option); break;
+      case 32: setSelectedValue(option); onChange(option.value); break;
       case 38: if(index > 0) index--; break;
       case 40: if(index < selectMenu.children.length-1) index++; break;
       default:
