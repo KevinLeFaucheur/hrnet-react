@@ -33,11 +33,22 @@ const TableNavButton = styled.button`
   }
     
   &:not(.current):hover {
-    background: #333333;
+    background: linear-gradient(to bottom, #585858 0%, #111 100%);
+    color: white;
 
   }
   padding: 0.5em 1em;
 `
+
+/**
+ * TODO:
+ *  - Pagination shows 5 next pages
+ *  - Previous always stays
+ *  - ...
+ *  - Last page shows
+ *  - First page shows
+ *  - Columns width stay still
+*/
 
 export const TableNav = ({ entries, totalEntries }) => {
   const { pageIndex, setPageIndex, pageCount } = useContext(PaginationContext);
@@ -48,8 +59,11 @@ export const TableNav = ({ entries, totalEntries }) => {
     <TableFooter className="table-footer">
       <TableShowResults>Showing {start} to {end} of {totalEntries} entries</TableShowResults>
       <Nav>
-        <div>Previous</div>
-        <TableNavButton onClick={() => setPageIndex(pageIndex - 1)} className="current">{pageIndex + 1}</TableNavButton>
+        {pageIndex >= 1 ?
+        <>
+          <div>Previous</div>
+        </> : ''}
+        <TableNavButton onClick={() => pageIndex >= 1 ? setPageIndex(pageIndex - 1) : null} className="current">{pageIndex + 1}</TableNavButton>
         {pageIndex < pageCount-1 ?
         <>
           <TableNavButton onClick={() => setPageIndex(pageIndex + 1)} >{pageIndex + 2}</TableNavButton>

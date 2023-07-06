@@ -6,37 +6,16 @@ import { useState } from "react"
 import { Select } from "../components/select/Select"
 
 const HomeWrapper = styled.main`
-
   button {
     margin-top: 1rem;
   }
-
-  dialog {
-    position: relative;
-    border: none;
-    border-radius: 8px;
-    max-width: 500px;
-    width: 90%;
-    padding: 15px 30px;
-    vertical-align: middle;
-    overflow: hidden;
-
-    &::backdrop {
-      background: rgba(0, 0, 0, 0.75);
-    }
-
-    .close-modal {
-      position: absolute;
-      /* top: -12.5px; */
-      right: 25px;
-      color: black;
-
-      i {
-        font-size: 1.5rem;
-      }
-    }
-  }
 `
+
+/**
+ * TODO:
+ *  - When modal opens, selects are not occluded
+ *  - When modal opens, isolate modal accessibility (tabindex) 
+ */
 
 export const Home = () => {
 

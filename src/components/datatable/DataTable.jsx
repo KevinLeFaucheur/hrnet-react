@@ -50,6 +50,8 @@ export const DataTable = ({ table }) => {
    *    - Space and enter can change page
    *    - Search is focusable
    *    - Show entries are focusable and selectable
+   * 
+   *  - Col Width based on th
    */
 
   useEffect(() => {

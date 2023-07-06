@@ -46,7 +46,7 @@ export const TableHead = ({ columns }) => {
     }
   }
 
-  const handleOption = (name, e) => {
+  const toggleSortKeyboard = (name, e) => {
     if([13, 27, 32].includes(e.keyCode)) toggleSort(name);
   }
 
@@ -57,7 +57,7 @@ export const TableHead = ({ columns }) => {
           return  <TH key={column.data} 
                       id={`th-${column.data}`} 
                       tabIndex={0} 
-                      onKeyDown={(e) => handleOption(column.data, e)}
+                      onKeyDown={(e) => toggleSortKeyboard(column.data, e)}
                       onClick={() => toggleSort(column.data)}>
                       {column.title}
                       <img id={`sorting-${column.data}`} src={sortNone} alt={`sort ${column.data}`} />
