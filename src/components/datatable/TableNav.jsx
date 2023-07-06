@@ -55,21 +55,45 @@ export const TableNav = ({ entries, totalEntries }) => {
   const start = (pageIndex * entries) + 1;
   const end = (pageIndex * entries) + entries;
 
+  const buildPagination = () => {
+    let pagination = [];
+    let i = pageIndex;
+    let max = pageCount;
+    pagination[0] = (i < 5) ? 2  : (i > (max - 5)) ? -1    : -1;
+    pagination[1] = (i < 5) ? 3  : (i > (max - 5)) ? max - 4 : i; 
+    pagination[2] = (i < 5) ? 4  : (i > (max - 5)) ? max - 3 : i + 1;
+    pagination[3] = (i < 5) ? 5  : (i > (max - 5)) ? max - 2 : i + 2;
+    pagination[4] = (i < 5) ? -2 : (i > (max - 5)) ? max - 1 : -2;
+
+    return pagination;
+  };
+
   return (
     <TableFooter className="table-footer">
       <TableShowResults>Showing {start} to {end} of {totalEntries} entries</TableShowResults>
       <Nav>
-        {pageIndex >= 1 ?
-        <>
-          <div>Previous</div>
-        </> : ''}
-        <TableNavButton onClick={() => pageIndex >= 1 ? setPageIndex(pageIndex - 1) : null} className="current">{pageIndex + 1}</TableNavButton>
-        {pageIndex < pageCount-1 ?
-        <>
-          <TableNavButton onClick={() => setPageIndex(pageIndex + 1)} >{pageIndex + 2}</TableNavButton>
-          <div>Next</div>
-        </> : ''}
+
+        <TableNavButton onClick={() => pageIndex >= 1 ? setPageIndex(pageIndex - 1) : null} >Previous</TableNavButton>
+
+        <TableNavButton onClick={() => setPageIndex(0)} className={`${pageIndex === 0 ? "current" : ""}`}>1</TableNavButton>
+
+        {buildPagination().map(index => {
+          return [-1, -2].includes(index) ? 
+            <div key={index} >...</div> : 
+            <TableNavButton key={index-1} onClick={() => setPageIndex(index-1)} className={`${index-1 === pageIndex ? "current" : ""}`}>{index}</TableNavButton>;
+        })}
+
+        <TableNavButton onClick={() => setPageIndex(pageCount - 1)} className={`${pageIndex === (pageCount - 1) ? "current" : ""}`}>{pageCount}</TableNavButton>
+
+        <TableNavButton onClick={() => pageIndex < (pageCount - 1) ? setPageIndex(pageIndex + 1) : null} >Next</TableNavButton>
+
       </Nav>
     </TableFooter>
+  )
+}
+
+const PageButton = ({ index }) => {
+  return (
+    <></>
   )
 }
