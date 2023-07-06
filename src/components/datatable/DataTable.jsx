@@ -41,13 +41,15 @@ export const DataTable = ({ table }) => {
 
 
   /**
-   * total of entries 300
-   * page selection of entries 10
-   * => number of pages 300 / 10 rounded up
-   * current index 7 => page 8
-   * entries from => 0-9, 10-11, ..., 70-79
-   * => index * entries = start
-   * => index * entries + (entries-1)
+   * TODO:
+   * - CSS
+   * - Accessibility:
+   *    - headers are focusable
+   *    - Space or enter can toggle sorts
+   *    - pagination is focusable
+   *    - Space and enter can change page
+   *    - Search is focusable
+   *    - Show entries are focusable and selectable
    */
 
   useEffect(() => {

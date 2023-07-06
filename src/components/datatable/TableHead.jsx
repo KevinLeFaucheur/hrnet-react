@@ -46,11 +46,19 @@ export const TableHead = ({ columns }) => {
     }
   }
 
+  const handleOption = (name, e) => {
+    if([13, 27, 32].includes(e.keyCode)) toggleSort(name);
+  }
+
   return (
     <thead>
       <TR>
         {columns.map(column => {
-          return  <TH key={column.data} id={`th-${column.data}`} tabIndex={0} onClick={() => toggleSort(column.data)}>
+          return  <TH key={column.data} 
+                      id={`th-${column.data}`} 
+                      tabIndex={0} 
+                      onKeyDown={(e) => handleOption(column.data, e)}
+                      onClick={() => toggleSort(column.data)}>
                       {column.title}
                       <img id={`sorting-${column.data}`} src={sortNone} alt={`sort ${column.data}`} />
                   </TH>
