@@ -4,6 +4,7 @@ import { states } from "../data/States"
 import { Modal } from "../components/modal/Modal"
 import { useState } from "react"
 import { Select } from "../components/select/Select"
+import { DatePicker } from "../components/datepicker/DatePicker"
 
 const HomeWrapper = styled.main`
   button {
@@ -80,6 +81,8 @@ export const Home = () => {
 
           <label htmlFor="start-date">Start Date</label>
           <input id="start-date" type="text" onFocus={(e) => e.target.type='date'} onBlur={(e) => e.target.type='text'} />
+
+          <DatePicker />
 
           <fieldset className="address">
             <legend>Address</legend>
