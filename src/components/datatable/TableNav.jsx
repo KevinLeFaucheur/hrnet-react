@@ -42,11 +42,7 @@ const TableNavButton = styled.button`
 
 /**
  * TODO:
- *  - Pagination shows 5 next pages
- *  - Previous always stays
- *  - ...
- *  - Last page shows
- *  - First page shows
+ *  - Pagination to be tested
  *  - Columns width stay still
 */
 
@@ -89,11 +85,5 @@ export const TableNav = ({ entries, totalEntries }) => {
 
       </Nav>
     </TableFooter>
-  )
-}
-
-const PageButton = ({ index }) => {
-  return (
-    <></>
   )
 }
