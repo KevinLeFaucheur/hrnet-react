@@ -39,6 +39,15 @@ export const DataTable = ({ table }) => {
   const [pageIndex, setPageIndex] = useState(0);
   const [pageCount, setPageCount] = useState(1);
 
+  /** Get Max Length String for a single column */
+  const getMaxLengthString = (columnData) => {
+    return data.reduce((acc, data) => Math.max(acc, data[columnData].split('').length), -1);
+  }
+
+  useEffect(() => {
+    // columns.forEach(column => console.log(column.data));
+    columns.forEach(column => console.log(getMaxLengthString(column.data)));
+  })
 
   /**
    * TODO:

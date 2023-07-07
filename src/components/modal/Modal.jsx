@@ -14,6 +14,7 @@ const Close = ({ onClick }) => {
  * - CSS
  * - accessibility
  * - see jQuery functionality
+ * - trap focus
  */
 
 export const Modal = (props) => {
