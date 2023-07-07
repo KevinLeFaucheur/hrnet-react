@@ -1,9 +1,9 @@
 <svg width="30" height="30" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
   <circle cx="30" cy="30" r="30" fill="black"/>
-  <line x1="22.2218" y1="22.2218" x2="37.7782" y2="37.7782" stroke="white" strokeWidth="4"/>
   <circle cx="37.7782" cy="37.7782" r="2" transform="rotate(45 37.7782 37.7782)" fill="white"/>
   <circle cx="22.2218" cy="22.2218" r="2" transform="rotate(45 22.2218 22.2218)" fill="white"/>
-  <line x1="22.2218" y1="37.7782" x2="37.7782" y2="22.2218" stroke="white" strokeWidth="4"/>
+  <line x1="22.2218" y1="22.2218" x2="37.7782" y2="37.7782" stroke="white" stroke-width="4"/>
   <circle cx="37.7782" cy="22.2218" r="2" transform="rotate(-45 37.7782 22.2218)" fill="white"/>
   <circle cx="22.2218" cy="37.7782" r="2" transform="rotate(-45 22.2218 37.7782)" fill="white"/>
-</svg> 
+  <line x1="22.2218" y1="37.7782" x2="37.7782" y2="22.2218" stroke="white" stroke-width="4"/>
+</svg>

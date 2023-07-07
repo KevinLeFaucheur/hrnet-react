@@ -41,6 +41,7 @@ export const Select = ({ placeHolder, options, onChange }) => {
   }
 
   const handleKeyDown = (e) => {
+    if(e.keyCode === 9) return;
     e.stopPropagation();
     e.preventDefault();
     if([13, 32].includes(e.keyCode)) {
