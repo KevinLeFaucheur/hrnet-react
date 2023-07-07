@@ -43,14 +43,7 @@ export const DataTable = ({ table }) => {
   /**
    * TODO:
    * - CSS
-   * - Accessibility:
-   *    - headers are focusable
-   *    - Space or enter can toggle sorts
-   *    - pagination is focusable
-   *    - Space and enter can change page
-   *    - Search is focusable
-   *    - Show entries are focusable and selectable
-   * 
+   * - Accessibility:   * 
    *  - Col Width based on th
    */
 

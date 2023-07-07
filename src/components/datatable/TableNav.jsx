@@ -55,11 +55,11 @@ export const TableNav = ({ entries, totalEntries }) => {
     let pagination = [];
     let i = pageIndex;
     let max = pageCount;
-    pagination[0] = (i < 5) ? 2  : (i > (max - 5)) ? -1    : -1;
-    pagination[1] = (i < 5) ? 3  : (i > (max - 5)) ? max - 4 : i; 
-    pagination[2] = (i < 5) ? 4  : (i > (max - 5)) ? max - 3 : i + 1;
-    pagination[3] = (i < 5) ? 5  : (i > (max - 5)) ? max - 2 : i + 2;
-    pagination[4] = (i < 5) ? -2 : (i > (max - 5)) ? max - 1 : -2;
+    if(pageCount > 2) pagination[0] = (i < 5) ? 2  : (i > (max - 5)) ? '...'    : '...';
+    if(pageCount > 3) pagination[1] = (i < 5) ? 3  : (i > (max - 5)) ? max - 4 : i; 
+    if(pageCount > 4) pagination[2] = (i < 5) ? 4  : (i > (max - 5)) ? max - 3 : i + 1;
+    if(pageCount > 5) pagination[3] = (i < 5) ? 5  : (i > (max - 5)) ? max - 2 : i + 2;
+    if(pageCount > 6) pagination[4] = (i < 5) ? '...' : (i > (max - 5)) ? max - 1 : '...';
 
     return pagination;
   };
@@ -74,8 +74,8 @@ export const TableNav = ({ entries, totalEntries }) => {
         <TableNavButton onClick={() => setPageIndex(0)} className={`${pageIndex === 0 ? "current" : ""}`}>1</TableNavButton>
 
         {buildPagination().map(index => {
-          return [-1, -2].includes(index) ? 
-            <div key={index} >...</div> : 
+          return ['...'].includes(index) ? 
+            <div key={index} >{index}</div> : 
             <TableNavButton key={index-1} onClick={() => setPageIndex(index-1)} className={`${index-1 === pageIndex ? "current" : ""}`}>{index}</TableNavButton>;
         })}
 
