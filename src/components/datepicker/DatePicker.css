@@ -6,8 +6,8 @@
 }
 
 .datepicker-input {
-  padding: 5px;
-  background-color: #f6f6f6;
+  /* padding: 5px; */
+  background-color: #fff;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -16,13 +16,61 @@
 
 .datepicker-menu {
   position: absolute;
-  width: 100%;
+  padding: 8px;
+  padding-top: 0;
   border: 1px solid #ccc;
   border-radius: 5px;
   overflow: auto;
-  max-height: 150px;
   background-color: #fff;
+}
 
-  /* Testing */
-  height: 200px;
+.datepicker-menu nav{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.datepicker-month {
+  width: 100px;
+}
+
+.datepicker-nav button {
+  border: none;
+  background: transparent;
+  height: 25px;
+  margin: 0;
+  opacity: 0.5;
+}
+
+.datepicker-month, .datepicker-year {
+  text-align: right;
+  font-weight: 700;
+  padding: 5px 3px;
+}
+
+.datepicker-nav svg {
+}
+
+.datepicker-menu table {
+  border-spacing: 0 0;
+}
+
+.datepicker-menu th, td {
+  width: 32px; /* more dynamic */
+  height: 25px;
+}
+
+.datepicker-menu th {
+  color: #999;
+  background: #f1f1f1;
+  border: 1px solid #ddd;
+  font-size: 12px;
+}
+
+.datepicker-menu td {
+  color: #666;
+  background: #f5f5f5;
+  border: 1px solid #ddd;
+  text-align: right;
+  padding-right: 5px;
 }

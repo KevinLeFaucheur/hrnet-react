@@ -7,7 +7,7 @@ import { Select } from "../components/select/Select"
 import { DatePicker } from "../components/datepicker/DatePicker"
 
 const HomeWrapper = styled.main`
-  button {
+  .save {
     margin-top: 1rem;
   }
 `
@@ -110,7 +110,7 @@ export const Home = () => {
           />
         </form>
 
-        <button onClick={() => saveEmployee()}>Save</button>
+        <button className="save" onClick={() => saveEmployee()}>Save</button>
       </div>
       <Modal /*header='Hello World' footer={<button onClick={() => setShow(false)}>Close</button>}*/ onClose={() => setShow(false)} show={show}>
         Employee Created!
