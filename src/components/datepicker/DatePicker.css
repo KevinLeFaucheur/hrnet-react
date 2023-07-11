@@ -35,6 +35,7 @@
 }
 
 .datepicker-nav button {
+  cursor: pointer;
   border: none;
   background: transparent;
   height: 25px;
@@ -43,12 +44,26 @@
 }
 
 .datepicker-month, .datepicker-year {
+  cursor: pointer;
+  border: none;
   text-align: right;
   font-weight: 700;
   padding: 5px 3px;
+  padding-right: 1rem;
+
+  appearance: none;
+  background-image: url('./assets/arrow.svg');
+  background-repeat: no-repeat;
+  background-position: right 0 bottom 50%;
+  background-size: 0.65rem auto;
 }
 
-.datepicker-nav svg {
+.datepicker-month:hover, .datepicker-year:hover {
+  text-decoration: underline;
+}
+
+.datepicker-month > option, .datepicker-year > option {
+  padding: 5px 3px;
 }
 
 .datepicker-menu table {
@@ -73,4 +88,10 @@
   border: 1px solid #ddd;
   text-align: right;
   padding-right: 5px;
+}
+
+
+.datepicker-menu td:hover {
+  background-color: #FF8000;
+  color: #fff;
 }

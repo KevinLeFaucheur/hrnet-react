@@ -14,20 +14,56 @@ const months = [
   'September', 'October', 'November', 'December'
 ];
 
-const daysCount = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+const yearsRange = (minYear, maxYear) => Array.from({ length: (maxYear - minYear + 1) }, (_, i) => minYear + i);
 
-const weekCount = (date) => {
-  return Math.ceil((daysCount[date.getMonth()] - date.getDay()) / 7);
+const daysCount = (year, month) => new Date(year, month, 0).getDate();
+
+const weekCount = (daysCount) => {
+  return Math.ceil(daysCount / 7);
+}
+
+const dataBuilder = (date) => {
+  /**
+   * start index
+   * end index
+   * previous month count
+   * weekcount
+   */
+  let days = daysCount(date.getFullYear(), date.getMonth() + 1, 0);
+  let start = new Date(date.getFullYear(), date.getMonth()).getDay();
+  let end = start + days;
+  let prevCount = daysCount(date.getFullYear(), date.getMonth(), 0);
+  let weeks = weekCount(start + days);
+  let length = weeks * 7;
+  let arr = [...Array(length)];
+
+  for (let i = 0; i < length; i++) {
+    if(i < start) {
+      arr[i] = prevCount - start + i + 1;
+    } else if(i < end) {
+      arr[i] = i - start + 1;
+    } else {
+      arr[i] = i - days - start + 1;
+    }
+  }
+
+  console.log(arr, weeks);
+
+  let weeksArr = [];
+  for (let i = 0; i < weeks; i++) {
+    weeksArr[i] = arr.slice(i * 7 , (i+1) * 7);
+  }
+  return weeksArr;
 }
 
 export const DatePicker = () => {
-  const [showDatePicker, setShowDatePicker] = useState(false);
   const today = new Date(Date.now());
-  const [weekRows, setWeekRows] = useState(weekCount(today))
+  const [showDatePicker, setShowDatePicker] = useState(false);
+  const [selectedDay, setSelectedDay] = useState(today);
+  const [selectedMonth, setSelectedMonth] = useState(today.getMonth());
+  const [selectedYear, setSelectedYear] = useState(today.getFullYear());
 
-  const [weekDay, setWeekDay] = useState(today.getDay())
-  const [month, setMonth] = useState(today.getMonth())
-  const [year, setYear] = useState(today.getFullYear())
+  console.log(selectedMonth, selectedYear);
 
   const handleInputClick = (e) => {
     e.stopPropagation();
@@ -35,13 +71,21 @@ export const DatePicker = () => {
   }
 
   const handleClick = (i) => {
-    if (month + i < 0) {
-      setMonth(11);
-      setYear(year - 1);
-    } else if(month + i > 11) {
-      setMonth(0);
-      setYear(year + 1);
-    } else setMonth(month + i);
+    if (selectedMonth + i < 0) {
+      setSelectedMonth(11);
+      setSelectedYear(selectedYear - 1);
+    } else if(selectedMonth + i > 11) {
+      setSelectedMonth(0);
+      setSelectedYear(selectedYear + 1);
+    } else setSelectedMonth(selectedMonth + i);
+  }
+
+  const handleMonthChange = (e) => {
+    setSelectedMonth(e.target.value);
+  }
+
+  const handleYearChange = (e) => {
+    setSelectedYear(e.target.value);
   }
 
   return (
@@ -58,9 +102,26 @@ export const DatePicker = () => {
       {showDatePicker && <div className="datepicker-menu">
         <nav className="datepicker-nav">
           <button onClick={() => handleClick(-1)} className="datepicker-prev"><ArrowLeft /></button>
-          <button onClick={() => setWeekDay(today.getDay())} className="datepicker-today"><Home /></button>
-          <div className="datepicker-month">{months[month]}<SmallArrow /></div>
-          <div className="datepicker-year">{year}<SmallArrow /></div>
+          <button onClick={() => setSelectedDay(today.getDay())} className="datepicker-today"><Home /></button>
+
+          {/* {<div className="datepicker-month">{months[selectedMonth]}<SmallArrow /></div>} */}
+          <select 
+            className="datepicker-month" 
+            value={months[selectedMonth]} 
+            onChange={handleMonthChange}
+            >
+              {months.map((_, i) => <option key={months[i]} value={months[i]}>{months[i]}</option>)}
+          </select>
+
+          {/* {<div className="datepicker-year">{selectedYear}<SmallArrow /></div>} */}
+          <select 
+            className="datepicker-year" 
+            value={selectedYear} 
+            onChange={handleYearChange}
+            >
+              {yearsRange(1950, 2050).map(year => <option key={year} value={year}>{year}</option>)}
+          </select>
+
           <button onClick={() => handleClick(1)} className="datepicker-next"><ArrowRight /></button>
         </nav>
         <div className="datepicker-body">
@@ -74,12 +135,13 @@ export const DatePicker = () => {
               </tr>
             </thead>
             <tbody>
-              {[...Array(weekRows)].map((week, i) => 
-              <tr key={`Week-${i+1}`} >
-                {[...Array(7)].map((day, j) => 
-                  <td key={(i * 7) + j + 1}>{(i * 7) + j + 1}</td>
-                )}
-              </tr>)}
+              {dataBuilder(selectedDay).map((week, i) => 
+                <tr key={`Week-${i+1}`}>
+                  {week.map((day) => 
+                    <td key={day}>{day}</td>
+                  )}
+                </tr>
+              )}
             </tbody>
           </table>
         </footer>      
