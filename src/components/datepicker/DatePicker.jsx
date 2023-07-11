@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Icon } from "./assets/Icon";
 import { ArrowLeft, ArrowRight, Home, SmallArrow } from "./assets/Icons"
 import "./DatePicker.css";
@@ -23,16 +23,12 @@ const weekCount = (daysCount) => {
 }
 
 const dataBuilder = (date) => {
-  /**
-   * start index
-   * end index
-   * previous month count
-   * weekcount
-   */
   let days = daysCount(date.getFullYear(), date.getMonth() + 1, 0);
   let start = new Date(date.getFullYear(), date.getMonth()).getDay();
   let end = start + days;
-  let prevCount = daysCount(date.getFullYear(), date.getMonth(), 0);
+  let year = date.getMonth() === 0 ? date.getFullYear() - 1 : date.getFullYear();
+  let prevMonth = date.getMonth() === 0 ? 11 : date.getMonth() - 1;
+  let prevCount = daysCount(year, prevMonth, 0);
   let weeks = weekCount(start + days);
   let length = weeks * 7;
   let arr = [...Array(length)];
@@ -47,8 +43,6 @@ const dataBuilder = (date) => {
     }
   }
 
-  console.log(arr, weeks);
-
   let weeksArr = [];
   for (let i = 0; i < weeks; i++) {
     weeksArr[i] = arr.slice(i * 7 , (i+1) * 7);
@@ -57,13 +51,19 @@ const dataBuilder = (date) => {
 }
 
 export const DatePicker = () => {
-  const today = new Date(Date.now());
   const [showDatePicker, setShowDatePicker] = useState(false);
-  const [selectedDay, setSelectedDay] = useState(today);
-  const [selectedMonth, setSelectedMonth] = useState(today.getMonth());
-  const [selectedYear, setSelectedYear] = useState(today.getFullYear());
+  const [selectedDate, setSelectedDate] = useState(new Date(Date.now()));
+  const [selectedDay, setSelectedDay] = useState(selectedDate.getDate());
+  const [selectedMonth, setSelectedMonth] = useState(selectedDate.getMonth());
+  const [selectedYear, setSelectedYear] = useState(selectedDate.getFullYear());
+  const [data, setData] = useState(dataBuilder(selectedDate));
 
-  console.log(selectedMonth, selectedYear);
+  useEffect(() => {
+    setData(dataBuilder(new Date(selectedYear, selectedMonth, selectedDay)));
+    console.log('useEffect', new Date(selectedYear, selectedMonth, selectedDay));
+  }, [selectedDate])
+
+  console.log('component', selectedDay, selectedMonth, selectedYear);
 
   const handleInputClick = (e) => {
     e.stopPropagation();
@@ -78,14 +78,18 @@ export const DatePicker = () => {
       setSelectedMonth(0);
       setSelectedYear(selectedYear + 1);
     } else setSelectedMonth(selectedMonth + i);
+    setSelectedDate(new Date(selectedYear, selectedMonth, selectedDay));
+    console.log('handClick', selectedDay, selectedMonth, selectedYear);
   }
 
   const handleMonthChange = (e) => {
     setSelectedMonth(e.target.value);
+    setSelectedDate(new Date(selectedYear, selectedMonth, selectedDay));
   }
 
   const handleYearChange = (e) => {
     setSelectedYear(e.target.value);
+    setSelectedDate(new Date(selectedYear, selectedMonth, selectedDay));
   }
 
   return (
@@ -102,15 +106,15 @@ export const DatePicker = () => {
       {showDatePicker && <div className="datepicker-menu">
         <nav className="datepicker-nav">
           <button onClick={() => handleClick(-1)} className="datepicker-prev"><ArrowLeft /></button>
-          <button onClick={() => setSelectedDay(today.getDay())} className="datepicker-today"><Home /></button>
+          <button onClick={() => setSelectedDate(new Date(Date.now()))} className="datepicker-today"><Home /></button>
 
           {/* {<div className="datepicker-month">{months[selectedMonth]}<SmallArrow /></div>} */}
           <select 
             className="datepicker-month" 
-            value={months[selectedMonth]} 
+            value={selectedMonth} 
             onChange={handleMonthChange}
             >
-              {months.map((_, i) => <option key={months[i]} value={months[i]}>{months[i]}</option>)}
+              {months.map((_, i) => <option key={months[i]} value={i}>{months[i]}</option>)}
           </select>
 
           {/* {<div className="datepicker-year">{selectedYear}<SmallArrow /></div>} */}
@@ -135,7 +139,7 @@ export const DatePicker = () => {
               </tr>
             </thead>
             <tbody>
-              {dataBuilder(selectedDay).map((week, i) => 
+              {data.map((week, i) => 
                 <tr key={`Week-${i+1}`}>
                   {week.map((day) => 
                     <td key={day}>{day}</td>
