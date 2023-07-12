@@ -93,6 +93,11 @@
   padding-right: 5px;
 }
 
+.datepicker-menu td.selected {
+  background-color: #0099ff;
+  color: #fff;
+}
+
 .datepicker-menu td:hover {
   cursor: default;
   background-color: #FF8000;
