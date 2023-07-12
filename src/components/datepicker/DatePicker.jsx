@@ -16,19 +16,27 @@ const months = [
 
 const yearsRange = (minYear, maxYear) => Array.from({ length: (maxYear - minYear + 1) }, (_, i) => minYear + i);
 
-const daysCount = (year, month) => new Date(year, month, 0).getDate();
+const daysCount = (year, month) => new Date(year, month + 1, 0).getDate();
 
 const weekCount = (daysCount) => {
   return Math.ceil(daysCount / 7);
 }
 
 const dataBuilder = (date) => {
-  let days = daysCount(date.getFullYear(), date.getMonth() + 1, 0);
+  console.log('current date: ', date.getFullYear(), date.getMonth(), date.getDate());
+
+  let days = daysCount(date.getFullYear(), date.getMonth(), 0);
   let start = new Date(date.getFullYear(), date.getMonth()).getDay();
   let end = start + days;
   let year = date.getMonth() === 0 ? date.getFullYear() - 1 : date.getFullYear();
   let prevMonth = date.getMonth() === 0 ? 11 : date.getMonth() - 1;
+
+  console.log('previous month: ', prevMonth);
+  
   let prevCount = daysCount(year, prevMonth, 0);
+  
+  console.log('previous month count: ', prevCount);
+
   let weeks = weekCount(start + days);
   let length = weeks * 7;
   let arr = [...Array(length)];
@@ -52,18 +60,16 @@ const dataBuilder = (date) => {
 
 export const DatePicker = () => {
   const [showDatePicker, setShowDatePicker] = useState(false);
+  
   const [selectedDate, setSelectedDate] = useState(new Date(Date.now()));
   const [selectedDay, setSelectedDay] = useState(selectedDate.getDate());
   const [selectedMonth, setSelectedMonth] = useState(selectedDate.getMonth());
   const [selectedYear, setSelectedYear] = useState(selectedDate.getFullYear());
-  const [data, setData] = useState(dataBuilder(selectedDate));
+  const [data, setData] = useState([]);
 
   useEffect(() => {
     setData(dataBuilder(new Date(selectedYear, selectedMonth, selectedDay)));
-    console.log('useEffect', new Date(selectedYear, selectedMonth, selectedDay));
-  }, [selectedDate])
-
-  console.log('component', selectedDay, selectedMonth, selectedYear);
+  }, [selectedDay, selectedMonth, selectedYear])
 
   const handleInputClick = (e) => {
     e.stopPropagation();
@@ -72,14 +78,18 @@ export const DatePicker = () => {
 
   const handleClick = (i) => {
     if (selectedMonth + i < 0) {
+
       setSelectedMonth(11);
       setSelectedYear(selectedYear - 1);
+
     } else if(selectedMonth + i > 11) {
+
       setSelectedMonth(0);
       setSelectedYear(selectedYear + 1);
+
     } else setSelectedMonth(selectedMonth + i);
+
     setSelectedDate(new Date(selectedYear, selectedMonth, selectedDay));
-    console.log('handClick', selectedDay, selectedMonth, selectedYear);
   }
 
   const handleMonthChange = (e) => {
