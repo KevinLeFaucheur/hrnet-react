@@ -1,6 +1,6 @@
-import { createElement, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Icon } from "./assets/Icon";
-import { ArrowLeft, ArrowRight, Home, SmallArrow } from "./assets/Icons"
+import { ArrowLeft, ArrowRight, Home } from "./assets/Icons"
 import "./DatePicker.css";
 
 const weekdays = [
@@ -23,24 +23,26 @@ const weekCount = (daysCount) => {
 }
 
 const dataBuilder = (date) => {
+
   let days = daysCount(date.getFullYear(), date.getMonth(), 0);
   let start = new Date(date.getFullYear(), date.getMonth()).getDay();
   let end = start + days;
-  let year = date.getMonth() === 0 ? date.getFullYear() - 1 : date.getFullYear();
+  let prevMonthYear = date.getMonth() === 0 ? date.getFullYear() - 1 : date.getFullYear();
   let prevMonth = date.getMonth() === 0 ? 11 : date.getMonth() - 1;
   let nextMonth = date.getMonth() === 11 ? 0 : date.getMonth() + 1;
-  let prevCount = daysCount(year, prevMonth, 0);
+  let prevCount = daysCount(prevMonthYear, prevMonth, 0);
   let weeks = weekCount(start + days);
   let length = weeks * 7;
+  console.log(length);
   let arr = [...Array(length)];
 
   for (let i = 0; i < length; i++) {
     if(i < start) {
-      arr[i] = new Date(year, prevMonth, prevCount - start + i + 1);
+      arr[i] = new Date(prevMonthYear, prevMonth, prevCount - start + i + 1);
     } else if(i < end) {
-      arr[i] = new Date(year, date.getMonth(), i - start + 1);
+      arr[i] = new Date(date.getFullYear(), date.getMonth(), i - start + 1);
     } else {
-      arr[i] = new Date(year, nextMonth, i - days - start + 1);
+      arr[i] = new Date(date.getFullYear(), nextMonth, i - days - start + 1);
     }
   }
 
@@ -49,6 +51,12 @@ const dataBuilder = (date) => {
     weeksArr[i] = arr.slice(i * 7 , (i+1) * 7);
   }
   return weeksArr;
+}
+
+const compareDate = (date1, date2) => {
+  return date1.getFullYear() === date2.getFullYear()
+  && date1.getMonth() === date2.getMonth()
+  && date1.getDate() === date2.getDate();
 }
 
 export const DatePicker = () => {
@@ -66,6 +74,12 @@ export const DatePicker = () => {
     const date = new Date(selectedYear, selectedMonth, selectedDay);
     setData(dataBuilder(date));
     inputRef.current.innerText = date.toLocaleDateString();
+
+    // const selected = document.querySelectorAll("[data-year='"+selectedYear+"'][data-month='"+selectedMonth+"'][data-day='"+selectedDay+"']");
+    // console.log(selected);
+    // console.log("[data-year='"+selectedYear+"'][data-month='"+selectedMonth+"'][data-day='"+selectedDay+"']");
+    // selected[0]?.classList.add('selected');
+
   }, [selectedDay, selectedMonth, selectedYear])
 
   const handleInputClick = (e) => {
@@ -74,19 +88,23 @@ export const DatePicker = () => {
   }
 
   const handleClick = (i) => {
-    if (selectedMonth + i < 0) {
-
-      setSelectedMonth(11);
-      setSelectedYear(selectedYear - 1);
-
-    } else if(selectedMonth + i > 11) {
-
-      setSelectedMonth(0);
-      setSelectedYear(selectedYear + 1);
-
-    } else setSelectedMonth(selectedMonth + i);
-
-    setSelectedDate(new Date(selectedYear, selectedMonth, selectedDay));
+    let newYear, newMonth;
+    if (parseInt(selectedMonth) + i < 0) {
+      newMonth = 11;
+      newYear = parseInt(selectedYear) - 1;
+      
+    } else if(parseInt(selectedMonth) + i > 11) {
+      newMonth = 0;
+      newYear = parseInt(selectedYear) + 1;
+      
+    } else {
+      newMonth = parseInt(selectedMonth) + i;
+      newYear = selectedYear;
+    }
+    
+    setSelectedYear(newYear);
+    setSelectedMonth(newMonth);
+    setSelectedDate(new Date(newYear, newMonth, selectedDay));
   }
 
   const handleMonthChange = (e) => {
@@ -159,7 +177,9 @@ export const DatePicker = () => {
               { data.map((week, i) => 
                 <tr key={`Week-${i + 1}`}>
                   { week.map(date => 
+                    
                     <td 
+                      className={`${compareDate(selectedDate, date) ? 'selected' : ''}`}
                       data-year={date.getFullYear()} data-month={date.getMonth()} data-day={date.getDate()} 
                       key={date.toLocaleDateString()} 
                       onClick={(e) => handleDateChange(e)}
