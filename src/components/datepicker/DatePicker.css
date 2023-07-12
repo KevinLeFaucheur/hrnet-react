@@ -1,13 +1,16 @@
 .datepicker-container {
   text-align: left;
-  border: 1px solid #ccc;
+  border: 1px solid #858585;
   position: relative;
-  border-radius: 5px;
+  border-radius: 3px;
+  font-size: 0.8rem;
+
+  /* TODO: better solution */
+  width: 177px;
 }
 
 .datepicker-input {
   /* padding: 5px; */
-  background-color: #fff;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -89,7 +92,6 @@
   text-align: right;
   padding-right: 5px;
 }
-
 
 .datepicker-menu td:hover {
   cursor: default;

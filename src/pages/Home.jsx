@@ -80,7 +80,7 @@ export const Home = () => {
           <input id="date-of-birth" type="text" onFocus={(e) => e.target.type='date'} onBlur={(e) => e.target.type='text'} />
 
           <label htmlFor="start-date">Start Date</label>
-          <input id="start-date" type="text" onFocus={(e) => e.target.type='date'} onBlur={(e) => e.target.type='text'} />
+          {/* <input id="start-date" type="text" onFocus={(e) => e.target.type='date'} onBlur={(e) => e.target.type='text'} />*/}
 
           <DatePicker />
 

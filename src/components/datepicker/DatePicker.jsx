@@ -142,7 +142,7 @@ export const DatePicker = () => {
               {data.map((week, i) => 
                 <tr key={`Week-${i+1}`}>
                   {week.map((day) => 
-                    <td key={day}>{day}</td>
+                    <td key={day} onClick={() => console.log(selectedDate)}>{day}</td>
                   )}
                 </tr>
               )}
