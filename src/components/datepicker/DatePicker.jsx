@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from "react";
-import { Icon } from "./assets/Icon";
 import { ArrowLeft, ArrowRight, Home, Calendar } from "./assets/Icons"
 import "./DatePicker.css";
 
@@ -54,9 +53,8 @@ const dataBuilder = (date) => {
 
 const selectClass = (date1, date2) => {
   if (date1.getFullYear() === date2.getFullYear()
-  && date1.getMonth() === date2.getMonth()
-  && date1.getDate() === date2.getDate()) {
-    console.log(date1.getDate());
+    && date1.getMonth() === date2.getMonth()
+    && date1.getDate() === date2.getDate()) {
     return 'selected';
   }
   if(date1.getMonth() !== date2.getMonth()) {
@@ -73,7 +71,7 @@ const selectClass = (date1, date2) => {
  */
 
 
-export const DatePicker = ({ id }) => {
+export const DatePicker = ({ id, onChange }) => {
   const [showDatePicker, setShowDatePicker] = useState(false);
   
   const [selectedDate, setSelectedDate] = useState(new Date(Date.now()));
@@ -89,6 +87,7 @@ export const DatePicker = ({ id }) => {
 
     setData(dataBuilder(date));
     inputRef.current.innerText = date.toLocaleDateString();   
+    onChange(date.toLocaleDateString());
     
     window.addEventListener('click', close);
     return () => window.removeEventListener('click', close);

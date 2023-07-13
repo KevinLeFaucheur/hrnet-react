@@ -23,8 +23,8 @@ export const Home = () => {
   const saveEmployee = () => {
     const firstName = document.getElementById('first-name');
     const lastName = document.getElementById('last-name');
-    const dateOfBirth = document.getElementById('date-of-birth');
-    const startDate = document.getElementById('start-date');
+    // const dateOfBirth = document.getElementById('date-of-birth');
+    // const startDate = document.getElementById('start-date');
     // const department = document.getElementById('department');
     const street = document.getElementById('street');
     const city = document.getElementById('city');
@@ -35,8 +35,8 @@ export const Home = () => {
     const employee = {
         firstName: firstName.value,
         lastName: lastName.value,
-        dateOfBirth: dateOfBirth.value,
-        startDate: startDate.value,
+        dateOfBirth: birthValue /*dateOfBirth.value*/,
+        startDate: startValue /*startDate.value*/,
         department: departmentValue /*department.value*/,
         street: street.value,
         city: city.value,
@@ -52,6 +52,8 @@ export const Home = () => {
   const [show, setShow] = useState(false);
   const [departmentValue, setDepartmentValue] = useState(null);
   const [stateValue, setStateValue] = useState(null);
+  const [birthValue, setBirthValue] = useState(null);
+  const [startValue, setStartValue] = useState(null);
 
   const options = [
     { value: 'Sales', label: 'Sales' },
@@ -78,11 +80,17 @@ export const Home = () => {
 
           <label htmlFor="date-of-birth">Date of Birth</label>
           {/* {<input id="date-of-birth" type="text" onFocus={(e) => e.target.type='date'} onBlur={(e) => e.target.type='text'} />} */}
-          <DatePicker id='birth' />
+          <DatePicker 
+            id='birth' 
+            onChange={(value) => setBirthValue(value)}
+          />
 
           <label htmlFor="start-date">Start Date</label>
           {/* <input id="start-date" type="text" onFocus={(e) => e.target.type='date'} onBlur={(e) => e.target.type='text'} />*/}
-          <DatePicker id='start' />
+          <DatePicker 
+            id='start'
+            onChange={(value) => setStartValue(value)} 
+          />
 
           <fieldset className="address">
             <legend>Address</legend>
