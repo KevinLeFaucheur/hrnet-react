@@ -29,3 +29,11 @@ export const SmallArrow = () => {
     </svg>
   )
 }
+
+export const Calendar = () => {
+  return (
+    <svg width="7" height="8" viewBox="0 0 7 8" transform="scale(1.3, 1.3)" opacity={0.75} fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path fillRule="evenodd" clipRule="evenodd" d="M2 0H1V1H0V8H7V1H6V0H5V1H2V0ZM6 3H1V7H6V3Z" fill="black"/>
+    </svg>
+  )
+}

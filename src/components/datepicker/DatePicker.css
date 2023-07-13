@@ -10,12 +10,17 @@
 }
 
 .datepicker-input {
-  padding-left: 0.5rem;
+  padding: 0 0.5rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
   user-select: none;
 }
+
+.select-tool {
+  display: flex;
+  align-items: center;
+} 
 
 .datepicker-menu {
   position: absolute;
@@ -27,6 +32,7 @@
   overflow: auto;
   background-color: #fff;
   z-index: 2;
+  overflow-y: hidden;
 }
 
 .datepicker-menu nav{

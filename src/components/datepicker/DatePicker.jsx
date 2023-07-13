@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Icon } from "./assets/Icon";
-import { ArrowLeft, ArrowRight, Home } from "./assets/Icons"
+import { ArrowLeft, ArrowRight, Home, Calendar } from "./assets/Icons"
 import "./DatePicker.css";
 
 const weekdays = [
@@ -162,7 +162,7 @@ export const DatePicker = ({ id }) => {
         <div ref={inputRef} className="select-selected-value">DD/MM/YY</div>
         <div className="select-tools">
           <div className="select-tool">
-            <Icon />
+            <Calendar />
           </div>
         </div>
       </div>  
