@@ -73,18 +73,25 @@ export const DatePicker = () => {
   useEffect(() => {
     const date = new Date(selectedYear, selectedMonth, selectedDay);
     setData(dataBuilder(date));
-    inputRef.current.innerText = date.toLocaleDateString();
+    inputRef.current.innerText = date.toLocaleDateString();   
+    
+    window.addEventListener('click', close);
 
-    // const selected = document.querySelectorAll("[data-year='"+selectedYear+"'][data-month='"+selectedMonth+"'][data-day='"+selectedDay+"']");
-    // console.log(selected);
-    // console.log("[data-year='"+selectedYear+"'][data-month='"+selectedMonth+"'][data-day='"+selectedDay+"']");
-    // selected[0]?.classList.add('selected');
+    return () => window.removeEventListener('click', close);
 
   }, [selectedDay, selectedMonth, selectedYear])
 
   const handleInputClick = (e) => {
     e.stopPropagation();
     setShowDatePicker(!showDatePicker);
+  }
+
+  const close = (e) => {
+    if (e.target.contains(document.querySelector('.datepicker-container'))) {
+      setShowDatePicker(false);
+    } else {
+      console.log('do nothing');
+    }
   }
 
   const handleClick = (i) => {
@@ -128,7 +135,7 @@ export const DatePicker = () => {
   }
 
   return (
-    <div className="datepicker-container">
+    <div className="datepicker-container">  
       <div className="datepicker-input" onClick={handleInputClick}>
         <div ref={inputRef} className="select-selected-value">DD/MM/YY</div>
         <div className="select-tools">
@@ -136,9 +143,11 @@ export const DatePicker = () => {
             <Icon />
           </div>
         </div>
-      </div>
+      </div>  
+      
 
       {showDatePicker && <div className="datepicker-menu">
+
         <nav className="datepicker-nav">
           <button onClick={() => handleClick(-1)} className="datepicker-prev"><ArrowLeft /></button>
           <button onClick={() => setSelectedDate(new Date(Date.now()))} className="datepicker-today"><Home /></button>
@@ -190,7 +199,7 @@ export const DatePicker = () => {
               )}
             </tbody>
           </table>
-        </footer>      
+        </footer>  
       </div>}
     </div>
   )

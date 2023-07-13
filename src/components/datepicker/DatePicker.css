@@ -10,7 +10,7 @@
 }
 
 .datepicker-input {
-  /* padding: 5px; */
+  padding-left: 0.5rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -25,6 +25,7 @@
   border-radius: 5px;
   overflow: auto;
   background-color: #fff;
+  z-index: 2;
 }
 
 .datepicker-menu nav{
@@ -48,6 +49,7 @@
 
 .datepicker-month, .datepicker-year {
   cursor: pointer;
+  user-select: none;
   border: none;
   text-align: right;
   font-weight: 700;
@@ -102,4 +104,14 @@
   cursor: default;
   background-color: #FF8000;
   color: #fff;
+}
+
+.blocker {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  content: ' ';
+  background: rgba(0, 0, 0, 0.1);
 }
