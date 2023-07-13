@@ -19,6 +19,7 @@
 
 .datepicker-menu {
   position: absolute;
+  user-select: none;
   padding: 8px;
   padding-top: 0;
   border: 1px solid #ccc;
@@ -49,7 +50,6 @@
 
 .datepicker-month, .datepicker-year {
   cursor: pointer;
-  user-select: none;
   border: none;
   text-align: right;
   font-weight: 700;
@@ -95,6 +95,10 @@
   padding-right: 5px;
 }
 
+.datepicker-menu td.greyed {
+  opacity: 0.5;
+}
+
 .datepicker-menu td.selected {
   background-color: #0099ff;
   color: #fff;
@@ -104,14 +108,4 @@
   cursor: default;
   background-color: #FF8000;
   color: #fff;
-}
-
-.blocker {
-  position: fixed;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  content: ' ';
-  background: rgba(0, 0, 0, 0.1);
 }

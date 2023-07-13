@@ -33,7 +33,6 @@ const dataBuilder = (date) => {
   let prevCount = daysCount(prevMonthYear, prevMonth, 0);
   let weeks = weekCount(start + days);
   let length = weeks * 7;
-  console.log(length);
   let arr = [...Array(length)];
 
   for (let i = 0; i < length; i++) {
@@ -53,13 +52,28 @@ const dataBuilder = (date) => {
   return weeksArr;
 }
 
-const compareDate = (date1, date2) => {
-  return date1.getFullYear() === date2.getFullYear()
+const selectClass = (date1, date2) => {
+  if (date1.getFullYear() === date2.getFullYear()
   && date1.getMonth() === date2.getMonth()
-  && date1.getDate() === date2.getDate();
+  && date1.getDate() === date2.getDate()) {
+    console.log(date1.getDate());
+    return 'selected';
+  }
+  if(date1.getMonth() !== date2.getMonth()) {
+    return 'greyed';
+  }
 }
 
-export const DatePicker = () => {
+/**
+ * TODO:
+ * - Accessibility
+ * - Tab focus
+ * - max-heigth of options within datepicker
+ * - Date icon
+ */
+
+
+export const DatePicker = ({ id }) => {
   const [showDatePicker, setShowDatePicker] = useState(false);
   
   const [selectedDate, setSelectedDate] = useState(new Date(Date.now()));
@@ -72,11 +86,11 @@ export const DatePicker = () => {
 
   useEffect(() => {
     const date = new Date(selectedYear, selectedMonth, selectedDay);
+
     setData(dataBuilder(date));
     inputRef.current.innerText = date.toLocaleDateString();   
     
     window.addEventListener('click', close);
-
     return () => window.removeEventListener('click', close);
 
   }, [selectedDay, selectedMonth, selectedYear])
@@ -87,10 +101,8 @@ export const DatePicker = () => {
   }
 
   const close = (e) => {
-    if (e.target.contains(document.querySelector('.datepicker-container'))) {
+    if (e.target.contains(document.querySelector(`#${id}-container`))) {
       setShowDatePicker(false);
-    } else {
-      console.log('do nothing');
     }
   }
 
@@ -124,10 +136,20 @@ export const DatePicker = () => {
     setSelectedDate(new Date(selectedYear, selectedMonth, selectedDay));
   }
 
+  const handleClickToday = () => {
+    const today = new Date(Date.now());
+    setSelectedMonth(today.getMonth());
+    setSelectedYear(today.getFullYear());
+    setSelectedDay(today.getDate());
+    setSelectedDate(today);
+  }
+
   const handleDateChange = (e) => {
-    const tds = document.querySelectorAll('.datepicker-menu table td');
+
+    let tds = document.querySelectorAll(`#${id}-menu td`);
     tds.forEach(td => td.classList.remove('selected'));
     e.target.classList.add('selected');
+
     setSelectedMonth(e.target.dataset.month);
     setSelectedYear(e.target.dataset.year);
     setSelectedDay(e.target.dataset.day);
@@ -135,7 +157,7 @@ export const DatePicker = () => {
   }
 
   return (
-    <div className="datepicker-container">  
+    <div id={`${id}-container`} className="datepicker-container">  
       <div className="datepicker-input" onClick={handleInputClick}>
         <div ref={inputRef} className="select-selected-value">DD/MM/YY</div>
         <div className="select-tools">
@@ -145,12 +167,11 @@ export const DatePicker = () => {
         </div>
       </div>  
       
-
-      {showDatePicker && <div className="datepicker-menu">
+      {showDatePicker && <div id={`${id}-menu`} className="datepicker-menu">
 
         <nav className="datepicker-nav">
           <button onClick={() => handleClick(-1)} className="datepicker-prev"><ArrowLeft /></button>
-          <button onClick={() => setSelectedDate(new Date(Date.now()))} className="datepicker-today"><Home /></button>
+          <button onClick={handleClickToday} className="datepicker-today"><Home /></button>
 
           {/* {<div className="datepicker-month">{months[selectedMonth]}<SmallArrow /></div>} */}
           <select 
@@ -173,9 +194,6 @@ export const DatePicker = () => {
           <button onClick={() => handleClick(1)} className="datepicker-next"><ArrowRight /></button>
         </nav>
         <div className="datepicker-body">
-
-        </div>      
-        <footer className="datepicker-footer">
           <table>
             <thead>
               <tr>
@@ -188,7 +206,7 @@ export const DatePicker = () => {
                   { week.map(date => 
                     
                     <td 
-                      className={`${compareDate(selectedDate, date) ? 'selected' : ''}`}
+                      className={selectClass(new Date(selectedYear, selectedMonth, selectedDay), date)}
                       data-year={date.getFullYear()} data-month={date.getMonth()} data-day={date.getDate()} 
                       key={date.toLocaleDateString()} 
                       onClick={(e) => handleDateChange(e)}
@@ -199,7 +217,9 @@ export const DatePicker = () => {
               )}
             </tbody>
           </table>
-        </footer>  
+        </div>      
+
+        <footer className="datepicker-footer"></footer>  
       </div>}
     </div>
   )

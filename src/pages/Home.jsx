@@ -78,11 +78,11 @@ export const Home = () => {
 
           <label htmlFor="date-of-birth">Date of Birth</label>
           {/* {<input id="date-of-birth" type="text" onFocus={(e) => e.target.type='date'} onBlur={(e) => e.target.type='text'} />} */}
-          <DatePicker />
+          <DatePicker id='birth' />
 
           <label htmlFor="start-date">Start Date</label>
           {/* <input id="start-date" type="text" onFocus={(e) => e.target.type='date'} onBlur={(e) => e.target.type='text'} />*/}
-          <DatePicker />
+          <DatePicker id='start' />
 
           <fieldset className="address">
             <legend>Address</legend>
