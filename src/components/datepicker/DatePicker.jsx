@@ -153,6 +153,8 @@ export const DatePicker = ({ id, onChange }) => {
     setSelectedYear(e.target.dataset.year);
     setSelectedDay(e.target.dataset.day);
     setSelectedDate(new Date(selectedYear, selectedMonth, selectedDay));
+    
+    setShowDatePicker(!showDatePicker);
   }
 
   return (
