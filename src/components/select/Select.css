@@ -16,7 +16,7 @@
 
 .select-menu {
   position: absolute;
-  /* transform: translateY(4px); */
+  z-index: 2;
   width: 100%;
   border: 1px solid #ccc;
   border-radius: 5px;

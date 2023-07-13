@@ -67,9 +67,7 @@ const selectClass = (date1, date2) => {
  * - Accessibility
  * - Tab focus
  * - max-heigth of options within datepicker
- * - Date icon
  */
-
 
 export const DatePicker = ({ id, onChange }) => {
   const [showDatePicker, setShowDatePicker] = useState(false);
@@ -80,13 +78,14 @@ export const DatePicker = ({ id, onChange }) => {
   const [selectedYear, setSelectedYear] = useState(selectedDate.getFullYear());
   const [data, setData] = useState([]);
 
-  const inputRef = useRef('');
+  const placeholderRef = useRef();
+  const inputRef = useRef();
 
   useEffect(() => {
     const date = new Date(selectedYear, selectedMonth, selectedDay);
 
     setData(dataBuilder(date));
-    inputRef.current.innerText = date.toLocaleDateString();   
+    placeholderRef.current.innerText = date.toLocaleDateString();   
     onChange(date.toLocaleDateString());
     
     window.addEventListener('click', close);
@@ -95,12 +94,11 @@ export const DatePicker = ({ id, onChange }) => {
   }, [selectedDay, selectedMonth, selectedYear])
 
   const handleInputClick = (e) => {
-    e.stopPropagation();
     setShowDatePicker(!showDatePicker);
   }
 
   const close = (e) => {
-    if (e.target.contains(document.querySelector(`#${id}-container`))) {
+    if (inputRef.current && !inputRef.current.contains(e.target)) {
       setShowDatePicker(false);
     }
   }
@@ -153,14 +151,14 @@ export const DatePicker = ({ id, onChange }) => {
     setSelectedYear(e.target.dataset.year);
     setSelectedDay(e.target.dataset.day);
     setSelectedDate(new Date(selectedYear, selectedMonth, selectedDay));
-    
+
     setShowDatePicker(!showDatePicker);
   }
 
   return (
     <div id={`${id}-container`} className="datepicker-container">  
-      <div className="datepicker-input" onClick={handleInputClick}>
-        <div ref={inputRef} className="select-selected-value">DD/MM/YY</div>
+      <div className="datepicker-input" ref={inputRef} onClick={handleInputClick}>
+        <div ref={placeholderRef} className="select-selected-value">DD/MM/YY</div>
         <div className="select-tools">
           <div className="select-tool">
             <Calendar />

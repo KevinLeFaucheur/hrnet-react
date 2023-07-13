@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "./Select.css"
 import { Icon } from "./assets/Icon";
 
@@ -15,9 +15,14 @@ export const Select = ({ placeHolder, options, onChange }) => {
   const [selectedValue, setSelectedValue] = useState(null);
   const [upwards, setUpwards] = useState(false);
   const [focus, setFocus] = useState(0);
+  const inputRef = useRef();
 
   useEffect(() => {
-    const handler = () => setShowMenu(false);
+    const handler = (e) => { 
+      if(inputRef.current && !inputRef.current.contains(e.target)) {
+        setShowMenu(false); 
+      }
+    }
 
     setUpwards(document.querySelector('.select-container')?.getBoundingClientRect().bottom + 150 > window.innerHeight);
     
@@ -36,7 +41,6 @@ export const Select = ({ placeHolder, options, onChange }) => {
   }
 
   const handleInputClick = (e) => {
-    e.stopPropagation();
     setShowMenu(!showMenu);
   }
 
@@ -93,7 +97,7 @@ export const Select = ({ placeHolder, options, onChange }) => {
 
   return (
     <div className="select-container">
-      <div tabIndex={0} onKeyDown={handleKeyDown} onClick={handleInputClick} className="select-input">
+      <div tabIndex={0} onKeyDown={handleKeyDown} ref={inputRef} onClick={handleInputClick} className="select-input">
         <div className="select-selected-value">{setPlaceholder()}</div>
         <div className="select-tools">
           <div className="select-tool">
