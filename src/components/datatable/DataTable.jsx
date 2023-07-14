@@ -22,8 +22,8 @@ const TableHeader = styled.header`
 `
 
 const Table = styled.table`
-  width: 100%;
   border-spacing: 0 0;
+  table-layout: fixed;
 `
 
 export const SortingContext = createContext(null);
@@ -34,20 +34,11 @@ export const PaginationContext = createContext({ current: 0, total: 1 });
 export const DataTable = ({ table }) => {
   const { data, columns } = table;
   const [sortBy, setSortBy] = useState(null); 
-  const [entries, setEntries] = useState(1);
+  const [entries, setEntries] = useState(10);
   const [selected, setSelected] = useState(null);
   const [pageIndex, setPageIndex] = useState(0);
   const [pageCount, setPageCount] = useState(1);
-
-  /** Get Max Length String for a single column */
-  const getMaxLengthString = (columnData) => {
-    return data.reduce((acc, data) => Math.max(acc, data[columnData].split('').length), -1);
-  }
-
-  useEffect(() => {
-    // columns.forEach(column => console.log(column.data));
-    columns.forEach(column => console.log(getMaxLengthString(column.data)));
-  })
+  const [displayData, setDisplayData] = useState(data);
 
   /**
    * TODO:
@@ -57,21 +48,26 @@ export const DataTable = ({ table }) => {
    */
 
   useEffect(() => {
+    setDisplayData(displayData ? displayData : data);
+
+    console.log('rendering: ', displayData);
+    
     /** */
     if(sortBy) {
       let desc = sortBy.desc ? -1 : 1;
-      data.sort((a, b) => { 
+      displayData.sort((a, b) => { 
         return  a[sortBy.col] < b[sortBy.col] ? 1 * desc :
                 a[sortBy.col] > b[sortBy.col] ? -1 * desc : 0;
       });
     }
 
     /** */
-    setSelected(data.slice((pageIndex) * entries, pageIndex * entries + entries));
+    setSelected(displayData.slice((pageIndex) * entries, pageIndex * entries + entries));
 
     /** */
-    setPageCount(Math.ceil(data.length / entries));
-  }, [data, entries, pageIndex, sortBy])
+    setPageCount(Math.ceil(displayData.length / entries));
+    
+  }, [data, displayData, entries, pageIndex, sortBy]);
 
   return (
     <DataContext.Provider value={data}>
@@ -83,7 +79,7 @@ export const DataTable = ({ table }) => {
 
               <TableHeader>
                 <TableEntriesSelect />
-                <TableSearch />
+                <TableSearch onChange={setDisplayData} />
               </TableHeader>
 
               <Table>
@@ -96,7 +92,7 @@ export const DataTable = ({ table }) => {
 
               <Separator />
 
-              <TableNav entries={entries} totalEntries={data.length} />
+              <TableNav entries={entries} totalEntries={displayData.length} />
 
             </TableContainer>   
 

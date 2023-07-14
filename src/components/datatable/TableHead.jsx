@@ -3,7 +3,7 @@ import { useContext, useState } from "react"
 import sortUp from "./assets/sort-up.svg"
 import sortDown from "./assets/sort-down.svg"
 import sortNone from "./assets/sort-none.svg"
-import { SortingContext } from "./DataTable"
+import { DataContext, SortingContext } from "./DataTable"
 
 const TR = styled.tr`
   cursor: pointer;
@@ -17,6 +17,7 @@ const TH = styled.th`
   position: relative;
   padding: 10px 8px;
   user-select: none;
+  width: ${props => props.width + 'px'};
 
   img {
     float: right;
@@ -25,10 +26,21 @@ const TH = styled.th`
   }
 `
 
+
+
+// columns.forEach(column => console.log(column.data));
+// columns.forEach(column => console.log(getMaxLengthString(column.data)));
+
 export const TableHead = ({ columns }) => {
   const [sorting, setSorting] = useState('none');
 
+  const data = useContext(DataContext);
   const sortByCtx = useContext(SortingContext);
+
+  /** Get Max Length String for a single column */
+  const getMaxLengthString = (columnData) => {
+    return data.reduce((acc, data) => Math.max(acc, data[columnData].split('').length), -1);
+  }
 
   const toggleSort = (name) => {
     document.querySelectorAll('th, td').forEach(cell => cell.classList.remove('selected'));
@@ -56,6 +68,7 @@ export const TableHead = ({ columns }) => {
         {columns.map(column => {
           return  <TH key={column.data} 
                       id={`th-${column.data}`} 
+                      width={getMaxLengthString(column.data)}
                       tabIndex={0} 
                       onKeyDown={(e) => toggleSortKeyboard(column.data, e)}
                       onClick={() => toggleSort(column.data)}>
