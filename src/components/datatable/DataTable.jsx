@@ -43,8 +43,9 @@ export const DataTable = ({ table }) => {
   /**
    * TODO:
    * - CSS
-   * - Accessibility:   * 
+   * - Accessibility:
    *  - Col Width based on th
+   *  - Columns width stay still
    */
 
   useEffect(() => {

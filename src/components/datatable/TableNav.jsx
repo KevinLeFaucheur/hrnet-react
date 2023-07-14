@@ -42,8 +42,9 @@ const TableNavButton = styled.button`
 
 /**
  * TODO:
- *  - Pagination to be tested
- *  - Columns width stay still
+ * - Pagination to be tested
+ * - Showing 1 to 10 of 7 entries (calculate correct amount of entries if less)
+ * - Pagination [1] [1] (second button should disappear)
 */
 
 export const TableNav = ({ entries, totalEntries }) => {
