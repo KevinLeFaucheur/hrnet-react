@@ -45,6 +45,7 @@ const TableNavButton = styled.button`
  * - Pagination to be tested
  * - Showing 1 to 10 of 7 entries (calculate correct amount of entries if less)
  * - Pagination [1] [1] (second button should disappear)
+ * - Update on search if out of bounds
 */
 
 export const TableNav = ({ entries, totalEntries }) => {
