@@ -15,22 +15,30 @@ const TR = styled.tr`
 const TH = styled.th`
   border-bottom: 1px solid #111;
   position: relative;
-  padding: 10px 8px;
+  padding: 10px 18px;
   user-select: none;
   width: ${props => props.width + 'px'};
+  background-repeat: no-repeat;
+  background-position: 100% 50%;
 
-  img {
-    float: right;
-    height: 18px;
-    margin-left: 0.5rem;
+  /* .sorting-desc {
+    background-image: ${sortUp};
   }
+
+  .sorting-asc {
+    background-image: ${sortDown};
+  }
+
+  .sorting {
+    background-image: url("./assets/sort-none.svg");
+  } */
 `
 
-
-
-// columns.forEach(column => console.log(column.data));
-// columns.forEach(column => console.log(getMaxLengthString(column.data)));
-
+/**
+ * 
+ * @param {*} param0 
+ * @returns 
+ */
 export const TableHead = ({ columns }) => {
   const [sorting, setSorting] = useState('none');
 
@@ -44,17 +52,17 @@ export const TableHead = ({ columns }) => {
 
   const toggleSort = (name) => {
     document.querySelectorAll('th, td').forEach(cell => cell.classList.remove('selected'));
-    document.querySelectorAll(`th > img`).forEach(image => image.src = sortNone);
+    console.log(document.querySelectorAll(`th`).forEach(th => th.style.backgroundImage = `url(${sortNone})`));
     document.querySelectorAll(`#th-${name}, #td-${name}`).forEach(cell => cell.classList.add('selected'));
 
     if(sorting === 'none' || sorting === 'down') {
       setSorting('up');
       sortByCtx({ col: name, desc: false});
-      document.querySelector(`#sorting-${name}`).src = sortUp;
+      document.querySelector(`#th-${name}`).style.backgroundImage = `url(${sortDown})`;
     } else {
       setSorting('down');
       sortByCtx({ col: name, desc: true});
-      document.querySelector(`#sorting-${name}`).src = sortDown;
+      document.querySelector(`#th-${name}`).style.backgroundImage = `url(${sortUp})`;
     }
   }
 
@@ -68,12 +76,12 @@ export const TableHead = ({ columns }) => {
         {columns.map(column => {
           return  <TH key={column.data} 
                       id={`th-${column.data}`} 
+                      // className={sorting === 'down' ? 'sorting-desc' : sorting === 'up' ? 'sorting-asc' : 'sorting'}
                       width={getMaxLengthString(column.data)}
                       tabIndex={0} 
                       onKeyDown={(e) => toggleSortKeyboard(column.data, e)}
                       onClick={() => toggleSort(column.data)}>
                       {column.title}
-                      <img id={`sorting-${column.data}`} src={sortNone} alt={`sort ${column.data}`} />
                   </TH>
         })}
       </TR>
