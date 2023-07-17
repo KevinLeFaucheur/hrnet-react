@@ -1,5 +1,10 @@
 import { styled } from "styled-components"
 
+/**
+ * TODO:
+ * - Pagination to be tested
+*/
+
 export const Pagination = ({ pageIndex, pageCount, setPageIndex }) => {
   return (
     <>
@@ -9,7 +14,7 @@ export const Pagination = ({ pageIndex, pageCount, setPageIndex }) => {
 
       {buildPagination(pageIndex, pageCount).map(index => {
         return ['...'].includes(index) ? 
-          <div key={index} >{index}</div> : 
+          <div key={index + Math.random(1)} >{index}</div> : 
           <TableNavButton key={index-1} onClick={() => setPageIndex(index-1)} className={`${index-1 === pageIndex ? "current" : ""}`}>{index}</TableNavButton>;
       })}
 

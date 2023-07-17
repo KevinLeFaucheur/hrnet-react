@@ -51,7 +51,7 @@ export const DataTable = ({ table }) => {
   useEffect(() => {
     setDisplayData(displayData ? displayData : data);
 
-    console.table(displayData);
+    // console.table(displayData);
     
     /** */
     if(sortBy) {

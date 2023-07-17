@@ -19,13 +19,6 @@ const Nav = styled.nav`
   }
 `
 
-/**
- * TODO:
- * - Pagination to be tested
- * - Update on search if out of bounds
- * - (filtered from 300 total entries)
-*/
-
 export const TableNav = ({ entries, totalEntries }) => {
   const { pageIndex, setPageIndex, pageCount } = useContext(PaginationContext);
 
@@ -34,7 +27,7 @@ export const TableNav = ({ entries, totalEntries }) => {
       <TableShowResults pageIndex={pageIndex} entries={entries} totalEntries={totalEntries} />
 
       <Nav>
-        <Pagination pageIndex={pageIndex} pageCount={pageCount} setPageIndex={setPageIndex}/>
+        <Pagination pageIndex={pageIndex} pageCount={pageCount} setPageIndex={setPageIndex} />
       </Nav>
     </TableFooter>
   )

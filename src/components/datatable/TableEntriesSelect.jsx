@@ -8,6 +8,12 @@ const Select = styled.div`
 `
 
 /**
+ * TODO:
+ * - Update on search if out of bounds
+ * - (filtered from 300 total entries)
+*/
+
+/**
  * Options: array of integers as values for option of the select
  * @param {Array of number} options 
  * @renders a select component with numbers of entries as options 
