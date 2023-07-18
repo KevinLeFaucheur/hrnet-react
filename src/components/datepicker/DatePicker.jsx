@@ -79,7 +79,7 @@ export const DatePicker = ({ id, onChange }) => {
   const [data, setData] = useState([]);
 
   const placeholderRef = useRef();
-  const inputRef = useRef();
+  const datepickerRef = useRef();
 
   useEffect(() => {
     const date = new Date(selectedYear, selectedMonth, selectedDay);
@@ -98,7 +98,7 @@ export const DatePicker = ({ id, onChange }) => {
   }
 
   const close = (e) => {
-    if (inputRef.current && !inputRef.current.contains(e.target)) {
+    if (datepickerRef.current && !datepickerRef.current.contains(e.target)) {
       setShowDatePicker(false);
     }
   }
@@ -156,8 +156,8 @@ export const DatePicker = ({ id, onChange }) => {
   }
 
   return (
-    <div id={`${id}-container`} className="datepicker-container">  
-      <div className="datepicker-input" ref={inputRef} onClick={handleInputClick}>
+    <div id={`${id}-container`} className="datepicker-container" ref={datepickerRef}>  
+      <div className="datepicker-input" onClick={handleInputClick}>
         <div ref={placeholderRef} className="select-selected-value">DD/MM/YY</div>
         <div className="select-tools">
           <div className="select-tool">

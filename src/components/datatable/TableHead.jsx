@@ -13,11 +13,13 @@ const TR = styled.tr`
 `
 
 const TH = styled.th`
+  box-sizing: content-box;
   border-bottom: 1px solid #111;
   position: relative;
   padding: 10px 18px;
   user-select: none;
   width: ${props => props.width + 'px'};
+  background-image: url(${sortNone});
   background-repeat: no-repeat;
   background-position: 100% 50%;
 
@@ -50,9 +52,27 @@ export const TableHead = ({ columns }) => {
     return data.reduce((acc, data) => Math.max(acc, data[columnData].split('').length), -1);
   }
 
+  const getLongestString = (columnData) => {
+    return data.sort((row1, row2) => row2[columnData].length - row1[columnData].length)[0][columnData];
+  }
+
+  // console.log(data.reduce((acc, row) => Math.max(acc, row['street'].length), -1));
+
+  const getStringLengthInPixels = (string) => {
+    let textSpan = document.createElement('span');
+    textSpan.textContent = string;
+    textSpan.id = 'text';
+    document.body.appendChild(textSpan);
+    // let width = document.getElementById('text').clientWidth;
+    let width = Math.ceil(textSpan.getClientRects()[0].width);
+    document.body.removeChild(textSpan);
+
+    return width;
+  }
+
   const toggleSort = (name) => {
     document.querySelectorAll('th, td').forEach(cell => cell.classList.remove('selected'));
-    console.log(document.querySelectorAll(`th`).forEach(th => th.style.backgroundImage = `url(${sortNone})`));
+    document.querySelectorAll(`th`).forEach(th => th.style.backgroundImage = `url(${sortNone})`);
     document.querySelectorAll(`#th-${name}, #td-${name}`).forEach(cell => cell.classList.add('selected'));
 
     if(sorting === 'none' || sorting === 'down') {
@@ -77,7 +97,7 @@ export const TableHead = ({ columns }) => {
           return  <TH key={column.data} 
                       id={`th-${column.data}`} 
                       // className={sorting === 'down' ? 'sorting-desc' : sorting === 'up' ? 'sorting-asc' : 'sorting'}
-                      width={getMaxLengthString(column.data)}
+                      width={getStringLengthInPixels(getLongestString(column.data))}
                       tabIndex={0} 
                       onKeyDown={(e) => toggleSortKeyboard(column.data, e)}
                       onClick={() => toggleSort(column.data)}>

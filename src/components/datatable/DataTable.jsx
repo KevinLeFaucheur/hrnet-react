@@ -24,6 +24,7 @@ const TableHeader = styled.header`
 const Table = styled.table`
   border-spacing: 0 0;
   table-layout: fixed;
+  border-collapse: collapse;
 `
 
 export const SortingContext = createContext(null);
