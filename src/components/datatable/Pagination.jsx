@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { styled } from "styled-components"
 
 /**
@@ -6,6 +7,11 @@ import { styled } from "styled-components"
 */
 
 export const Pagination = ({ pageIndex, pageCount, setPageIndex }) => {
+
+  useEffect(() => {
+    if(pageIndex + 1 > pageCount) setPageIndex(0);
+  }, [pageCount, pageIndex, setPageIndex])
+
   return (
     <>
       <TableNavButton onClick={() => pageIndex >= 1 ? setPageIndex(pageIndex - 1) : null} >Previous</TableNavButton>
