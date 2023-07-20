@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { ArrowLeft, ArrowRight, Home, Calendar } from "./assets/Icons"
+import { ArrowLeft, ArrowRight, Home, Calendar, ArrowUp, ArrowDown } from "./assets/Icons"
 import "./DatePicker.css";
 
 const weekdays = [
@@ -14,6 +14,7 @@ const months = [
 ];
 
 const yearsRange = (minYear, maxYear) => Array.from({ length: (maxYear - minYear + 1) }, (_, i) => minYear + i);
+const hoursRange = (minHour, maxHour) => Array.from({ length: (maxHour - minHour + 1) }, (_, i) => minHour + i);
 
 const daysCount = (year, month) => new Date(year, month + 1, 0).getDate();
 
@@ -80,6 +81,12 @@ export const DatePicker = ({ id, onChange }) => {
 
   const placeholderRef = useRef();
   const datepickerRef = useRef();
+
+  /**
+   * 
+   */
+  let saveSelected = true;
+  let timepicker = true;
 
   useEffect(() => {
     const date = new Date(selectedYear, selectedMonth, selectedDay);
@@ -167,58 +174,76 @@ export const DatePicker = ({ id, onChange }) => {
       </div>  
       
       {showDatePicker && <div id={`${id}-menu`} className="datepicker-menu">
+        <div className="datepicker-calendar">
+          <nav className="datepicker-nav">
+            <button onClick={() => handleClick(-1)} className="datepicker-prev"><ArrowLeft /></button>
+            <button onClick={handleClickToday} className="datepicker-today"><Home /></button>
 
-        <nav className="datepicker-nav">
-          <button onClick={() => handleClick(-1)} className="datepicker-prev"><ArrowLeft /></button>
-          <button onClick={handleClickToday} className="datepicker-today"><Home /></button>
+            {/* {<div className="datepicker-month">{months[selectedMonth]}<SmallArrow /></div>} */}
+            <select 
+              className="datepicker-month" 
+              value={selectedMonth} 
+              onChange={handleMonthChange}
+              >
+                { months.map((_, i) => <option key={months[i]} value={i}>{months[i]}</option>) }
+            </select>
 
-          {/* {<div className="datepicker-month">{months[selectedMonth]}<SmallArrow /></div>} */}
-          <select 
-            className="datepicker-month" 
-            value={selectedMonth} 
-            onChange={handleMonthChange}
-            >
-              { months.map((_, i) => <option key={months[i]} value={i}>{months[i]}</option>) }
-          </select>
+            {/* {<div className="datepicker-year">{selectedYear}<SmallArrow /></div>} */}
+            <select 
+              className="datepicker-year" 
+              value={selectedYear} 
+              onChange={handleYearChange}
+              >
+                { yearsRange(1950, 2050).map(year => <option key={year} value={year}>{year}</option>) }
+            </select>
 
-          {/* {<div className="datepicker-year">{selectedYear}<SmallArrow /></div>} */}
-          <select 
-            className="datepicker-year" 
-            value={selectedYear} 
-            onChange={handleYearChange}
-            >
-              { yearsRange(1950, 2050).map(year => <option key={year} value={year}>{year}</option>) }
-          </select>
+            <button onClick={() => handleClick(1)} className="datepicker-next"><ArrowRight /></button>
+          </nav>
 
-          <button onClick={() => handleClick(1)} className="datepicker-next"><ArrowRight /></button>
-        </nav>
-        <div className="datepicker-body">
-          <table>
-            <thead>
-              <tr>
-                { weekdays.map(day => <th key={day} >{day.slice(0, 3)}</th>) }
-              </tr>
-            </thead>
-            <tbody>
-              { data.map((week, i) => 
-                <tr key={`Week-${i + 1}`}>
-                  { week.map(date => 
-                    
-                    <td 
-                      className={selectClass(new Date(selectedYear, selectedMonth, selectedDay), date)}
-                      data-year={date.getFullYear()} data-month={date.getMonth()} data-day={date.getDate()} 
-                      key={date.toLocaleDateString()} 
-                      onClick={(e) => handleDateChange(e)}
-                      >
-                        {date.getDate()}
-                    </td>) }
+          <div className="datepicker-body">
+            <table>
+              <thead>
+                <tr>
+                  { weekdays.map(day => <th key={day} >{day.slice(0, 3)}</th>) }
                 </tr>
-              )}
-            </tbody>
-          </table>
-        </div>      
+              </thead>
+              <tbody>
+                { data.map((week, i) => 
+                  <tr key={`Week-${i + 1}`}>
+                    { week.map(date => 
+                      
+                      <td 
+                        className={selectClass(new Date(selectedYear, selectedMonth, selectedDay), date)}
+                        data-year={date.getFullYear()} data-month={date.getMonth()} data-day={date.getDate()} 
+                        key={date.toLocaleDateString()} 
+                        onClick={(e) => handleDateChange(e)}
+                        >
+                          {date.getDate()}
+                      </td>) }
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>      
 
-        <footer className="datepicker-footer"></footer>  
+          <footer className="datepicker-footer">
+            {saveSelected && <button type="button" className="datepicker-save-selected">Save Selected</button>}
+          </footer> 
+        </div> 
+
+        {timepicker && 
+        <div className="timepicker" >
+          <button type="button" className="timepicker_prev" ><ArrowUp /></button>
+            <div className="time_box time_scroller">
+              <div>
+                { hoursRange(0, 23).map(hour => <div key={hour} className="timepicker_time" data-hour={hour} data-minute={0}>{hour + ':00'}</div>) }
+              </div>
+              <div className="scrollbar">
+                <div className="thumb">&nbsp;</div>
+              </div>
+            </div>
+          <button type="button" className="timepicker_next" ><ArrowDown /></button>
+        </div>}
       </div>}
     </div>
   )
