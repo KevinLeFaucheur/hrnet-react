@@ -150,6 +150,10 @@
   margin-left: 14px;
 }
 
+.timepicker_prev:hover, .timepicker_next:hover {
+  opacity: 1;
+}
+
 .timepicker_prev {
   margin-bottom: 7px;
 }

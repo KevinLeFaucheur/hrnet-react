@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 /**
  * TODO:
@@ -9,17 +9,26 @@ import { useRef, useState } from "react";
  */
 const clamp = (num, min, max) => Math.min(Math.max(num, min), max);
 
-export const Scrollbar = ({ scroller }) => {
+export const Scrollbar = ({ scroller, unit }) => {
   const [isMouseDown, setIsMouseDown] = useState(false);
   const scrollBarRef = useRef(); 
   const thumbRef = useRef(); 
-
-  console.log(scroller);
 
   const scrollTotalLength = scroller.current?.clientHeight ?? 0;
 
   let offset;
   let offsetThumb;
+
+  useEffect(() => {
+
+    // let scrollbartop = scrollBarRef.current.getBoundingClientRect().top;
+    // offset = clamp(e.clientY - scrollbartop - thumbHalfHeight, 0, scrollBarRef.current.clientHeight - thumbRef.current.clientHeight);
+    // let scrollPercent = (thumbTopY - scrollBarRef.current.getBoundingClientRect().top) / (scrollBarRef.current.clientHeight - thumbRef.current.clientHeight);
+    // thumbRef.current.style.marginTop = offset + 'px';
+    scroller.current.style.marginTop = (parseInt(scroller.current.style.marginTop) - unit) + 'px';
+    console.log(parseInt(scroller.current.style.marginTop));
+
+  }, [scroller, unit])
 
   const handleMouseDown = (e) => {
     switch (e.type) {
