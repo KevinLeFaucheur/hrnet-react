@@ -3,17 +3,7 @@ import { ArrowLeft, ArrowRight, Home, Calendar } from "./assets/Icons"
 import "./DatePicker.css";
 import { TimePicker } from "./TimePicker";
 import { range } from "./utils";
-
-const weekdays = [
-  'Sunday', 'Monday', 'Tuesday', 
-  'Wednesday', 'Thursday', 'Friday', 'Saturday'
-];
-
-const months = [
-  'January', 'February', 'Mars', 'April',
-  'May', 'June', 'July', 'August', 
-  'September', 'October', 'November', 'December'
-];
+import { i18n } from "../../datetimepicker/default_options";
 
 const daysCount = (year, month) => new Date(year, month + 1, 0).getDate();
 
@@ -69,13 +59,14 @@ const selectClass = (date1, date2) => {
  * - max-heigth of options within datepicker
  */
 
-export const DatePicker = ({ id, onChange }) => {
+export const DatePicker = ({ id, onChange, options }) => {
   const [showDatePicker, setShowDatePicker] = useState(false);
   
   const [selectedDate, setSelectedDate] = useState(new Date(Date.now()));
   const [selectedDay, setSelectedDay] = useState(selectedDate.getDate());
   const [selectedMonth, setSelectedMonth] = useState(selectedDate.getMonth());
   const [selectedYear, setSelectedYear] = useState(selectedDate.getFullYear());
+  const [selectedTime, setSelectedTime] = useState(selectedDate.getHours());
   const [data, setData] = useState([]);
 
   const placeholderRef = useRef();
@@ -84,10 +75,13 @@ export const DatePicker = ({ id, onChange }) => {
   const yearsRange = range(1950, 2050);
 
   /**
-   * 
+   * DefaultOptions
    */
   let saveSelected = true;
   let timepicker = true;
+  let locale = options?.locale ?? document.documentElement.lang;
+  let weekdays = i18n[locale].dayOfWeekShort;
+  let months = i18n[locale].months;
 
   useEffect(() => {
     const date = new Date(selectedYear, selectedMonth, selectedDay);
@@ -99,7 +93,7 @@ export const DatePicker = ({ id, onChange }) => {
     window.addEventListener('click', close);
     return () => window.removeEventListener('click', close);
 
-  }, [selectedDay, selectedMonth, selectedYear])
+  }, [onChange, selectedDay, selectedMonth, selectedYear])
 
   const handleInputClick = (e) => {
     setShowDatePicker(!showDatePicker);
@@ -150,12 +144,12 @@ export const DatePicker = ({ id, onChange }) => {
   }
 
   const handleSaveSelected = () => {
+    localStorage.setItem('date', selectedDate);
     // e.preventDefault();
     // datetimepicker.data('changed', true);
     // _xdsoft_datetime.setCurrentTime(getCurrentValue());
     // input.val(_xdsoft_datetime.str());
     // datetimepicker.trigger('close.xdsoft');
-
   }
 
   const handleDateChange = (e) => {
@@ -240,7 +234,7 @@ export const DatePicker = ({ id, onChange }) => {
             {saveSelected && <button type="button" className="datepicker-save-selected" onClick={handleSaveSelected} >Save Selected</button>}
           </footer> 
         </div> 
-        {timepicker && <TimePicker />}
+        {timepicker && <TimePicker setSelectedTime={setSelectedTime} />}
       </div>}
     </div>
   )
