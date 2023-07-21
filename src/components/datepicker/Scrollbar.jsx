@@ -9,12 +9,10 @@ import { clamp } from "./utils";
  * - Set Selected Time
  */
 
-export const Scrollbar = ({ scroller }) => {
+export const Scrollbar = ({ scroller, setMargin, scrollPercent }) => {
   const [isMouseDown, setIsMouseDown] = useState(false);
   const scrollBarRef = useRef(); 
   const thumbRef = useRef(); 
-
-  const scrollTotalLength = scroller.current?.clientHeight ?? 0;
 
   let offset;
   let offsetThumb;
@@ -31,13 +29,15 @@ export const Scrollbar = ({ scroller }) => {
     }
   }
 
+  useEffect(() => {
+    console.log(scrollPercent);
+    let margin = (scrollBarRef.current.clientHeight - thumbRef.current.clientHeight) * scrollPercent;
+    thumbRef.current.style.marginTop = margin + 'px';
+  }, [scrollPercent])
+
   const handleScrolling = (e, isMouseDown) => {  
     let thumbHalfHeight = thumbRef.current.clientHeight / 2;
     let thumbTopY = thumbRef.current.getBoundingClientRect().top;
-    let scrollRange = { 
-      min: scrollBarRef.current.getBoundingClientRect().top - 1, 
-      max: scrollBarRef.current.getBoundingClientRect().bottom - thumbRef.current.clientHeight
-    };
 
     if(isMouseDown) {
 
@@ -45,7 +45,7 @@ export const Scrollbar = ({ scroller }) => {
       offset = clamp(e.clientY - scrollbartop - thumbHalfHeight, 0, scrollBarRef.current.clientHeight - thumbRef.current.clientHeight);
       thumbRef.current.style.marginTop = offset + 'px';
       let scrollPercent = (thumbTopY - scrollBarRef.current.getBoundingClientRect().top) / (scrollBarRef.current.clientHeight - thumbRef.current.clientHeight);
-      scroller.current.style.marginTop = -(scrollPercent * (scrollTotalLength - scrollBarRef.current.clientHeight)) + 'px';
+      setMargin(-(scrollPercent * (scroller.current.clientHeight - scrollBarRef.current.clientHeight)) );
     }
     else {
       offset = 0;
