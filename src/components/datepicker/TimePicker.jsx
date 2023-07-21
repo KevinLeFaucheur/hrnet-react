@@ -1,11 +1,13 @@
 import { useEffect, useRef, useState } from "react";
 import { Scrollbar } from "./Scrollbar"
 import { ArrowDown, ArrowUp } from "./assets/Icons";
-import "./DatePicker.css";
 import { clamp, range } from "./utils";
+import "./DatePicker.css";
 
-
-export const TimePicker = () => {
+/**
+ * 
+ */
+export const TimePicker = ({ setSelectedTime }) => {
   const timeScrollerRef = useRef();
   const timerpickerRef = useRef();
   const unitRef = useRef();
@@ -18,7 +20,8 @@ export const TimePicker = () => {
     timerpickerRef.current
       .querySelectorAll('.timepicker_time')
       .forEach(hour => hour.classList.remove('selected'));
-    e.target.classList.add('selected')
+    e.target.classList.add('selected');
+    setSelectedTime(e.target);
   }
 
   const handleScrollButton = (n) => {  

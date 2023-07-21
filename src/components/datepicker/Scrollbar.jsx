@@ -5,17 +5,22 @@ import { clamp } from "./utils";
  * TODO:
  * - Min and Max pos // Clamp marginTop instead
  * - Keep dragging on leave
- * - Buttons
- * - Set Selected Time
  */
-
 export const Scrollbar = ({ scroller, setMargin, scrollPercent }) => {
   const [isMouseDown, setIsMouseDown] = useState(false);
-  const scrollBarRef = useRef(); 
-  const thumbRef = useRef(); 
+  const trackRef = useRef(); 
+  const thumbRef = useRef();   
+  
+  const [mousePosY, setMousePosY] = useState(0);
 
-  let offset;
-  let offsetThumb;
+  useEffect(() => {
+    const handleMouseMove = (event) => {
+      setMousePosY(event.clientY);
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, []);
 
   const handleMouseDown = (e) => {
     switch (e.type) {
@@ -30,32 +35,33 @@ export const Scrollbar = ({ scroller, setMargin, scrollPercent }) => {
   }
 
   useEffect(() => {
-    console.log(scrollPercent);
-    let margin = (scrollBarRef.current.clientHeight - thumbRef.current.clientHeight) * scrollPercent;
+
+    const handleScrolling = (e) => { 
+      
+      if(isMouseDown) {
+        console.log(mousePosY - thumbRef.current.getBoundingClientRect().top);
+        let thumbHalfHeight = thumbRef.current.clientHeight / 2;
+        let thumbTopY = thumbRef.current.getBoundingClientRect().top;  
+        let scrollbartop = trackRef.current.getBoundingClientRect().top;
+        let offset = clamp(mousePosY - scrollbartop - thumbHalfHeight, 0, trackRef.current.clientHeight - thumbRef.current.clientHeight);
+        thumbRef.current.style.marginTop = offset + 'px';
+        let scrollPercent = (thumbTopY - trackRef.current.getBoundingClientRect().top) / (trackRef.current.clientHeight - thumbRef.current.clientHeight);
+        setMargin(-(scrollPercent * (scroller.current.clientHeight - trackRef.current.clientHeight)) );
+      }
+    }
+
+    window.addEventListener('mousemove', handleScrolling);
+    return () => window.removeEventListener('mousemove', handleScrolling);
+  }, [isMouseDown, mousePosY, scroller, setMargin])
+
+  useEffect(() => {
+    let margin = (trackRef.current.clientHeight - thumbRef.current.clientHeight) * scrollPercent;
     thumbRef.current.style.marginTop = margin + 'px';
   }, [scrollPercent])
 
-  const handleScrolling = (e, isMouseDown) => {  
-    let thumbHalfHeight = thumbRef.current.clientHeight / 2;
-    let thumbTopY = thumbRef.current.getBoundingClientRect().top;
-
-    if(isMouseDown) {
-
-      let scrollbartop = scrollBarRef.current.getBoundingClientRect().top;
-      offset = clamp(e.clientY - scrollbartop - thumbHalfHeight, 0, scrollBarRef.current.clientHeight - thumbRef.current.clientHeight);
-      thumbRef.current.style.marginTop = offset + 'px';
-      let scrollPercent = (thumbTopY - scrollBarRef.current.getBoundingClientRect().top) / (scrollBarRef.current.clientHeight - thumbRef.current.clientHeight);
-      setMargin(-(scrollPercent * (scroller.current.clientHeight - scrollBarRef.current.clientHeight)) );
-    }
-    else {
-      offset = 0;
-    }
-  }
-
   return (
-    <div onMouseMove={(e) => handleScrolling(e, isMouseDown)}  ref={scrollBarRef} className="scrollbar">
+    <div ref={trackRef} className="scrollbar">
       <div 
-        onClick={(e) => offsetThumb = e.nativeEvent.offsetY}
         onMouseDown={handleMouseDown} 
         onMouseUp={handleMouseDown} 
         onMouseLeave={handleMouseDown}
