@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { ArrowLeft, ArrowRight, Home, Calendar } from "./assets/Icons"
 import "./DatePicker.css";
 import { TimePicker } from "./TimePicker";
+import { range } from "./utils";
 
 const weekdays = [
   'Sunday', 'Monday', 'Tuesday', 
@@ -13,8 +14,6 @@ const months = [
   'May', 'June', 'July', 'August', 
   'September', 'October', 'November', 'December'
 ];
-
-const yearsRange = (minYear, maxYear) => Array.from({ length: (maxYear - minYear + 1) }, (_, i) => minYear + i);
 
 const daysCount = (year, month) => new Date(year, month + 1, 0).getDate();
 
@@ -81,6 +80,8 @@ export const DatePicker = ({ id, onChange }) => {
 
   const placeholderRef = useRef();
   const datepickerRef = useRef();
+
+  const yearsRange = range(1950, 2050);
 
   /**
    * 
@@ -203,7 +204,7 @@ export const DatePicker = ({ id, onChange }) => {
               value={selectedYear} 
               onChange={handleYearChange}
               >
-                { yearsRange(1950, 2050).map(year => <option key={year} value={year}>{year}</option>) }
+                { yearsRange.map(year => <option key={year} value={year}>{year}</option>) }
             </select>
 
             <button onClick={() => handleClick(1)} className="datepicker-next"><ArrowRight /></button>
