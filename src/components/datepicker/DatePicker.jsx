@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
-import { ArrowLeft, ArrowRight, Home, Calendar, ArrowUp, ArrowDown } from "./assets/Icons"
+import { ArrowLeft, ArrowRight, Home, Calendar } from "./assets/Icons"
 import "./DatePicker.css";
+import { TimePicker } from "./TimePicker";
 
 const weekdays = [
   'Sunday', 'Monday', 'Tuesday', 
@@ -14,7 +15,6 @@ const months = [
 ];
 
 const yearsRange = (minYear, maxYear) => Array.from({ length: (maxYear - minYear + 1) }, (_, i) => minYear + i);
-const hoursRange = (minHour, maxHour) => Array.from({ length: (maxHour - minHour + 1) }, (_, i) => minHour + i);
 
 const daysCount = (year, month) => new Date(year, month + 1, 0).getDate();
 
@@ -148,6 +148,15 @@ export const DatePicker = ({ id, onChange }) => {
     setSelectedDate(today);
   }
 
+  const handleSaveSelected = () => {
+    // e.preventDefault();
+    // datetimepicker.data('changed', true);
+    // _xdsoft_datetime.setCurrentTime(getCurrentValue());
+    // input.val(_xdsoft_datetime.str());
+    // datetimepicker.trigger('close.xdsoft');
+
+  }
+
   const handleDateChange = (e) => {
 
     let tds = document.querySelectorAll(`#${id}-menu td`);
@@ -227,23 +236,10 @@ export const DatePicker = ({ id, onChange }) => {
           </div>      
 
           <footer className="datepicker-footer">
-            {saveSelected && <button type="button" className="datepicker-save-selected">Save Selected</button>}
+            {saveSelected && <button type="button" className="datepicker-save-selected" onClick={handleSaveSelected} >Save Selected</button>}
           </footer> 
         </div> 
-
-        {timepicker && 
-        <div className="timepicker" >
-          <button type="button" className="timepicker_prev" ><ArrowUp /></button>
-            <div className="time_box time_scroller">
-              <div>
-                { hoursRange(0, 23).map(hour => <div key={hour} className="timepicker_time" data-hour={hour} data-minute={0}>{hour + ':00'}</div>) }
-              </div>
-              <div className="scrollbar">
-                <div className="thumb">&nbsp;</div>
-              </div>
-            </div>
-          <button type="button" className="timepicker_next" ><ArrowDown /></button>
-        </div>}
+        {timepicker && <TimePicker />}
       </div>}
     </div>
   )

@@ -208,5 +208,8 @@
 .thumb {
   height: 37px;
   border-radius: 4px;
-  background: #ccc !important;
+  background: #ccc;
+}
+.thumb:hover {
+  background-color: #FF8000;
 }
