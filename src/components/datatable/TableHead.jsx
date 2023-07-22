@@ -22,18 +22,6 @@ const TH = styled.th`
   background-image: url(${sortNone});
   background-repeat: no-repeat;
   background-position: 100% 50%;
-
-  /* .sorting-desc {
-    background-image: ${sortUp};
-  }
-
-  .sorting-asc {
-    background-image: ${sortDown};
-  }
-
-  .sorting {
-    background-image: url("./assets/sort-none.svg");
-  } */
 `
 
 /**
@@ -48,9 +36,9 @@ export const TableHead = ({ columns }) => {
   const sortByCtx = useContext(SortingContext);
 
   /** Get Max Length String for a single column */
-  const getMaxLengthString = (columnData) => {
-    return data.reduce((acc, data) => Math.max(acc, data[columnData].split('').length), -1);
-  }
+  // const getMaxLengthString = (columnData) => {
+  //   return data.reduce((acc, data) => Math.max(acc, data[columnData].split('').length), -1);
+  // }
 
   const getLongestString = (columnData) => {
     return data.sort((row1, row2) => row2[columnData].length - row1[columnData].length)[0][columnData];

@@ -1,7 +1,7 @@
 import { useCallback, useEffect } from "react";
 import { createPortal } from "react-dom";
-import "./Modal.css"
-import close from "./assets/close.svg"
+import close from "./assets/close.svg";
+import "./Modal.css";
 
 const Close = ({ onClick }) => {
   return (
