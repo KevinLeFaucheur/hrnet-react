@@ -5,9 +5,10 @@ import { clamp, range } from "./utils";
 import "./index.css";
 
 /**
- * 
+ * TimerPicker renders a range of hours to select,
+ * Returns the selected time through 'setSelectedTime' 
  */
-export const TimePicker = ({ setSelectedTime, setIsScrolling }) => {
+export const TimePicker = ({ setSelectedTime }) => {
   const timeScrollerRef = useRef();
   const timerpickerRef = useRef();
   const unitRef = useRef();

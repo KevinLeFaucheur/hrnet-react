@@ -2,9 +2,10 @@ import { Link } from "react-router-dom"
 import { styled } from "styled-components"
 import { states } from "../data/States"
 import { Modal } from "../components/modal/Modal"
-import { useState } from "react"
+import { useContext, useState } from "react"
 import { Select } from "../components/select/Select"
 import { DatePicker } from "../components/datepicker/DatePicker"
+import { DataContext } from "../App"
 
 const HomeWrapper = styled.main`
   .save {
@@ -17,21 +18,17 @@ const HomeWrapper = styled.main`
  *  - When modal opens, selects are not occluded
  *  - When modal opens, isolate modal accessibility (tabindex) 
  */
-
 export const Home = () => {
+  const employees = useContext(DataContext);
 
   const saveEmployee = () => {
     const firstName = document.getElementById('first-name');
     const lastName = document.getElementById('last-name');
-    // const dateOfBirth = document.getElementById('date-of-birth');
-    // const startDate = document.getElementById('start-date');
-    // const department = document.getElementById('department');
     const street = document.getElementById('street');
     const city = document.getElementById('city');
-    // const state = document.getElementById('state');
     const zipCode = document.getElementById('zip-code');
 
-    const employees = JSON.parse(localStorage.getItem('employees')) || [];
+    // const employees = JSON.parse(localStorage.getItem('employees')) || [];
     const employee = {
         firstName: firstName.value,
         lastName: lastName.value,
@@ -44,7 +41,7 @@ export const Home = () => {
         zipCode: zipCode.value
     };
     employees.push(employee);
-    localStorage.setItem('employees', JSON.stringify(employees));
+    // localStorage.setItem('employees', JSON.stringify(employees));
     // document.getElementById('confirmation').showModal();
     setShow(true);
   }

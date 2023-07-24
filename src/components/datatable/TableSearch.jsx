@@ -1,6 +1,6 @@
 import { useContext, useRef } from "react"
 import { styled } from "styled-components"
-import { DataContext } from "./DataTable"
+import { TableContext } from "./DataTable"
 import { search } from './utils/search'
 import clear from './assets/clear.svg'
 
@@ -32,21 +32,11 @@ const Search = styled.div`
  * Search:
  * - Send a regex to SearchContexts
  */
-
 export const TableSearch = ({ onChange }) => {
-  const data = useContext(DataContext);
+  const data = useContext(TableContext);
   const inputRef = useRef('');
   
   const event = new Event("clear");
-
-  // useEffect(() => {
-  //   inputRef.current.addEventListener(
-  //     "clear",
-  //     e => onChange(search(data, e.target.value)),
-  //     false,
-  //   );
-  // }, [data, onChange])
-
   const handleClearInput = () => {
     inputRef.current.value = '';
     inputRef.current.dispatchEvent(event);

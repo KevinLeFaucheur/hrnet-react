@@ -3,7 +3,7 @@ import { useContext, useState } from "react"
 import sortUp from "./assets/sort-up.svg"
 import sortDown from "./assets/sort-down.svg"
 import sortNone from "./assets/sort-none.svg"
-import { DataContext, SortingContext } from "./DataTable"
+import { SortingContext, TableContext } from "./DataTable"
 
 const TR = styled.tr`
   cursor: pointer;
@@ -32,7 +32,8 @@ const TH = styled.th`
 export const TableHead = ({ columns }) => {
   const [sorting, setSorting] = useState('none');
 
-  const data = useContext(DataContext);
+  const data = useContext(TableContext);
+  console.log(data);
   const sortByCtx = useContext(SortingContext);
 
   /** Get Max Length String for a single column */

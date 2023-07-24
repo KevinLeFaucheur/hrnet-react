@@ -27,8 +27,8 @@ const Table = styled.table`
   border-collapse: collapse;
 `
 
+export const TableContext = createContext(null);
 export const SortingContext = createContext(null);
-export const DataContext = createContext(null);
 export const EntriesContext = createContext(10);
 export const PaginationContext = createContext({ current: 0, total: 1 });
 
@@ -51,8 +51,6 @@ export const DataTable = ({ table }) => {
 
   useEffect(() => {
     setDisplayData(displayData ? displayData : data);
-
-    // console.table(displayData);
     
     /** */
     if(sortBy) {
@@ -72,7 +70,7 @@ export const DataTable = ({ table }) => {
   }, [data, displayData, entries, pageIndex, sortBy]);
 
   return (
-    <DataContext.Provider value={data}>
+    <TableContext.Provider value={data}>
       <SortingContext.Provider value={setSortBy}>
         <EntriesContext.Provider value={setEntries}>
           <PaginationContext.Provider value={{ pageIndex, setPageIndex, pageCount }}>
@@ -101,6 +99,6 @@ export const DataTable = ({ table }) => {
           </PaginationContext.Provider>
         </EntriesContext.Provider>
       </SortingContext.Provider>      
-    </DataContext.Provider>
+    </TableContext.Provider>
   )
 }

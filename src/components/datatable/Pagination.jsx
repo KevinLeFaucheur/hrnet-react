@@ -2,10 +2,8 @@ import { useEffect } from "react";
 import { styled } from "styled-components"
 
 /**
- * TODO:
- * - Pagination to be tested
+ * 
 */
-
 export const Pagination = ({ pageIndex, pageCount, setPageIndex }) => {
 
   useEffect(() => {
