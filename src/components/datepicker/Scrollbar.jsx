@@ -5,7 +5,6 @@ import { ScrollingContext } from "./DatePicker";
 /**
  * TODO:
  * - Min and Max pos // Clamp marginTop instead
- * - mouseup should always stop it
  */
 export const Scrollbar = ({ scroller, setMargin, scrollPercent }) => {
   const setIsScrolling = useContext(ScrollingContext);
@@ -22,6 +21,19 @@ export const Scrollbar = ({ scroller, setMargin, scrollPercent }) => {
     setCanScroll(value)
   }
 
+  const handleMouseDown = (e) => {
+    setCanScroll(true);
+    // switch (e.type) {
+    //   case 'mousedown': setCanScroll(true);
+    //   break;
+    //   case 'mouseup': setCanScroll(false);
+    //   break;
+    //   case 'mouseleave': if(!canScroll) setCanScroll(false);
+    //   break;
+    //   default:
+    // }
+  }
+
   useEffect(() => {
     ['mousemove', 'touchmove'].forEach(event => window.addEventListener(event, handleMouseMove));
     ['mouseup', 'touchup'].forEach(event => window.addEventListener(event, () => handleCanScroll(false)));
@@ -32,25 +44,12 @@ export const Scrollbar = ({ scroller, setMargin, scrollPercent }) => {
     };
   }, []);
 
-  const handleMouseDown = (e) => {
-    switch (e.type) {
-      case 'mousedown': setCanScroll(true);
-      break;
-      case 'mouseup': setCanScroll(false);
-      break;
-      case 'mouseleave': if(!canScroll) setCanScroll(false);
-      break;
-      default:
-    }
-  }
-
   useEffect(() => {
 
     const handleScrolling = (e) => { 
       
       if(canScroll) {
         setIsScrolling(true);
-        // console.log(mousePosY - thumbRef.current.getBoundingClientRect().top);
         let thumbHalfHeight = thumbRef.current.clientHeight / 2;
         let thumbTopY = thumbRef.current.getBoundingClientRect().top;  
         let scrollbartop = trackRef.current.getBoundingClientRect().top;
@@ -76,9 +75,8 @@ export const Scrollbar = ({ scroller, setMargin, scrollPercent }) => {
     <div ref={trackRef} className="scrollbar">
       <div 
         onMouseDown={handleMouseDown} 
-        onMouseUp={handleMouseDown} 
-        onMouseLeave={handleMouseDown}
-        // onMouseMove={(e) => handleScrolling(e, canScroll)} 
+        // onMouseUp={handleMouseDown} 
+        // onMouseLeave={handleMouseDown}
         className="thumb"
         ref={thumbRef}
       >&nbsp;</div>

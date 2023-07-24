@@ -67,7 +67,7 @@ export const DatePicker = ({ id, onChange, options }) => {
   const [selectedMonth, setSelectedMonth] = useState(selectedDate.getMonth());
   const [selectedYear, setSelectedYear] = useState(selectedDate.getFullYear());
   const [selectedTime, setSelectedTime] = useState(selectedDate.getHours());
-  const [isScrolling, setIsScrolling] = useState([]);
+  const [isScrolling, setIsScrolling] = useState(false);
   const [data, setData] = useState([]);
 
   const placeholderRef = useRef();
