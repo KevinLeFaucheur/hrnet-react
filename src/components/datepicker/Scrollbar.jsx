@@ -1,6 +1,6 @@
 import { useContext, useEffect, useRef, useState } from "react";
-import { clamp } from "./utils";
 import { ScrollingContext } from "./DatePicker";
+import { clamp } from "./utils";
 
 /**
  * TODO:
@@ -13,26 +13,9 @@ export const Scrollbar = ({ scroller, setMargin, scrollPercent }) => {
   const trackRef = useRef(); 
   const thumbRef = useRef();   
   
-  const handleMouseMove = (event) => {
-    setMousePosY(event.clientY);
-  };
-
-  const handleCanScroll = (value) => {
-    setCanScroll(value)
-  }
-
-  const handleMouseDown = (e) => {
-    setCanScroll(true);
-    // switch (e.type) {
-    //   case 'mousedown': setCanScroll(true);
-    //   break;
-    //   case 'mouseup': setCanScroll(false);
-    //   break;
-    //   case 'mouseleave': if(!canScroll) setCanScroll(false);
-    //   break;
-    //   default:
-    // }
-  }
+  const handleMouseMove = (event) => setMousePosY(event.clientY);
+  const handleCanScroll = (value) => setCanScroll(value);
+  const handleMouseDown = () => setCanScroll(true);
 
   useEffect(() => {
     ['mousemove', 'touchmove'].forEach(event => window.addEventListener(event, handleMouseMove));
@@ -50,12 +33,16 @@ export const Scrollbar = ({ scroller, setMargin, scrollPercent }) => {
       
       if(canScroll) {
         setIsScrolling(true);
+
         let thumbHalfHeight = thumbRef.current.clientHeight / 2;
         let thumbTopY = thumbRef.current.getBoundingClientRect().top;  
         let scrollbartop = trackRef.current.getBoundingClientRect().top;
-        let offset = clamp(mousePosY - scrollbartop - thumbHalfHeight, 0, trackRef.current.clientHeight - thumbRef.current.clientHeight);
+        let scrollableHeight = trackRef.current.clientHeight - thumbRef.current.clientHeight;
+        let offset = clamp(mousePosY - scrollbartop - thumbHalfHeight, 0, scrollableHeight);
+
         thumbRef.current.style.marginTop = offset + 'px';
-        let scrollPercent = (thumbTopY - trackRef.current.getBoundingClientRect().top) / (trackRef.current.clientHeight - thumbRef.current.clientHeight);
+        let scrollPercent = (thumbTopY - scrollbartop) / scrollableHeight;
+
         setMargin(-(scrollPercent * (scroller.current.clientHeight - trackRef.current.clientHeight)) );
       } else {
         setIsScrolling(false);
@@ -75,8 +62,6 @@ export const Scrollbar = ({ scroller, setMargin, scrollPercent }) => {
     <div ref={trackRef} className="scrollbar">
       <div 
         onMouseDown={handleMouseDown} 
-        // onMouseUp={handleMouseDown} 
-        // onMouseLeave={handleMouseDown}
         className="thumb"
         ref={thumbRef}
       >&nbsp;</div>
