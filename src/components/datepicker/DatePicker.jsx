@@ -1,9 +1,9 @@
-import { useEffect, useRef, useState } from "react";
-import { ArrowLeft, ArrowRight, Home, Calendar } from "./assets/Icons"
-import "./DatePicker.css";
+import { createContext, useEffect, useRef, useState } from "react";
+import { ArrowLeft, ArrowRight, Home, Calendar } from "./assets/Icons";
 import { TimePicker } from "./TimePicker";
 import { range } from "./utils";
-import { i18n } from "../../datetimepicker/default_options";
+import { i18n } from "./default_options";
+import "./index.css";
 
 const daysCount = (year, month) => new Date(year, month + 1, 0).getDate();
 
@@ -58,15 +58,16 @@ const selectClass = (date1, date2) => {
  * - Tab focus
  * - max-heigth of options within datepicker
  */
+export const ScrollingContext = createContext(null);
 
 export const DatePicker = ({ id, onChange, options }) => {
   const [showDatePicker, setShowDatePicker] = useState(false);
-  
   const [selectedDate, setSelectedDate] = useState(new Date(Date.now()));
   const [selectedDay, setSelectedDay] = useState(selectedDate.getDate());
   const [selectedMonth, setSelectedMonth] = useState(selectedDate.getMonth());
   const [selectedYear, setSelectedYear] = useState(selectedDate.getFullYear());
   const [selectedTime, setSelectedTime] = useState(selectedDate.getHours());
+  const [isScrolling, setIsScrolling] = useState([]);
   const [data, setData] = useState([]);
 
   const placeholderRef = useRef();
@@ -75,15 +76,27 @@ export const DatePicker = ({ id, onChange, options }) => {
   const yearsRange = range(1950, 2050);
 
   /**
-   * DefaultOptions
+   * Passing datepicker options as object
+   * @type {object} options {
+   * @property {boolean} save - your age.
+   * @property {boolean} timepicker - your age.
+   * @property {string} locale - your age.
+   * }
    */
-  let saveSelected = true;
-  let timepicker = true;
+  let saveSelected = options?.save ?? false;
+  let timepicker = options?.timepicker ?? false;
   let locale = options?.locale ?? document.documentElement.lang;
   let weekdays = i18n[locale].dayOfWeekShort;
   let months = i18n[locale].months;
 
   useEffect(() => {
+
+    const close = (e) => {
+      if (datepickerRef.current && !datepickerRef.current.contains(e.target) && !isScrolling) {
+        setShowDatePicker(false);
+      }
+    }
+
     const date = new Date(selectedYear, selectedMonth, selectedDay);
 
     setData(dataBuilder(date));
@@ -93,16 +106,10 @@ export const DatePicker = ({ id, onChange, options }) => {
     window.addEventListener('click', close);
     return () => window.removeEventListener('click', close);
 
-  }, [onChange, selectedDay, selectedMonth, selectedYear])
+  }, [isScrolling, onChange, selectedDay, selectedMonth, selectedYear])
 
   const handleInputClick = (e) => {
     setShowDatePicker(!showDatePicker);
-  }
-
-  const close = (e) => {
-    if (datepickerRef.current && !datepickerRef.current.contains(e.target)) {
-      setShowDatePicker(false);
-    }
   }
 
   const handleClick = (i) => {
@@ -234,7 +241,10 @@ export const DatePicker = ({ id, onChange, options }) => {
             {saveSelected && <button type="button" className="datepicker-save-selected" onClick={handleSaveSelected} >Save Selected</button>}
           </footer> 
         </div> 
-        {timepicker && <TimePicker setSelectedTime={setSelectedTime} />}
+        {timepicker && 
+          <ScrollingContext.Provider value={setIsScrolling}>
+            <TimePicker setSelectedTime={setSelectedTime} />
+          </ScrollingContext.Provider>}
       </div>}
     </div>
   )

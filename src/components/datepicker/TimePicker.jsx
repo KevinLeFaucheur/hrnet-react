@@ -2,12 +2,12 @@ import { useEffect, useRef, useState } from "react";
 import { Scrollbar } from "./Scrollbar"
 import { ArrowDown, ArrowUp } from "./assets/Icons";
 import { clamp, range } from "./utils";
-import "./DatePicker.css";
+import "./index.css";
 
 /**
  * 
  */
-export const TimePicker = ({ setSelectedTime }) => {
+export const TimePicker = ({ setSelectedTime, setIsScrolling }) => {
   const timeScrollerRef = useRef();
   const timerpickerRef = useRef();
   const unitRef = useRef();

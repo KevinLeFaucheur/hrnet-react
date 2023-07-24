@@ -90,6 +90,7 @@ export const Home = () => {
           <DatePicker 
             id='start'
             onChange={(value) => setStartValue(value)} 
+            options={{ locale: 'fr', timepicker: true }}
           />
 
           <fieldset className="address">
