@@ -1,5 +1,6 @@
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { clamp } from "./utils";
+import { ScrollingContext } from "./DatePicker";
 
 /**
  * TODO:
@@ -7,6 +8,7 @@ import { clamp } from "./utils";
  * - mouseup should always stop it
  */
 export const Scrollbar = ({ scroller, setMargin, scrollPercent }) => {
+  const setIsScrolling = useContext(ScrollingContext);
   const [canScroll, setCanScroll] = useState(false);
   const [mousePosY, setMousePosY] = useState(0);
   const trackRef = useRef(); 
@@ -17,7 +19,6 @@ export const Scrollbar = ({ scroller, setMargin, scrollPercent }) => {
   };
 
   const handleCanScroll = (value) => {
-    console.log('mouseup: ', value);
     setCanScroll(value)
   }
 
@@ -48,6 +49,7 @@ export const Scrollbar = ({ scroller, setMargin, scrollPercent }) => {
     const handleScrolling = (e) => { 
       
       if(canScroll) {
+        setIsScrolling(true);
         // console.log(mousePosY - thumbRef.current.getBoundingClientRect().top);
         let thumbHalfHeight = thumbRef.current.clientHeight / 2;
         let thumbTopY = thumbRef.current.getBoundingClientRect().top;  
@@ -56,12 +58,14 @@ export const Scrollbar = ({ scroller, setMargin, scrollPercent }) => {
         thumbRef.current.style.marginTop = offset + 'px';
         let scrollPercent = (thumbTopY - trackRef.current.getBoundingClientRect().top) / (trackRef.current.clientHeight - thumbRef.current.clientHeight);
         setMargin(-(scrollPercent * (scroller.current.clientHeight - trackRef.current.clientHeight)) );
+      } else {
+        setIsScrolling(false);
       }
     }
 
     ['mousemove', 'touchmove'].forEach(event => window.addEventListener(event, handleScrolling));
     return () => ['mousemove', 'touchmove'].forEach(event => window.removeEventListener(event, handleScrolling));
-  }, [canScroll, mousePosY, scroller, setMargin])
+  }, [canScroll, mousePosY, scroller, setIsScrolling, setMargin])
 
   useEffect(() => {
     let margin = (trackRef.current.clientHeight - thumbRef.current.clientHeight) * scrollPercent;
