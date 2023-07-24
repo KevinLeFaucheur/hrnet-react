@@ -13,26 +13,26 @@ const dataBuilder = (date) => {
   let prevMonthYear = date.getMonth() === 0 ? date.getFullYear() - 1 : date.getFullYear();
   let prevMonth = date.getMonth() === 0 ? 11 : date.getMonth() - 1;
   let nextMonth = date.getMonth() === 11 ? 0 : date.getMonth() + 1;
-  let prevCount = daysCount(prevMonthYear, prevMonth, 0);
+  let prevMonthDaysCount = daysCount(prevMonthYear, prevMonth, 0);
   let weeks = weekCount(start + days);
   let length = weeks * 7;
-  let arr = [...Array(length)];
+  let cells = [...Array(length)];
 
   for (let i = 0; i < length; i++) {
     if(i < start) {
-      arr[i] = new Date(prevMonthYear, prevMonth, prevCount - start + i + 1);
+      cells[i] = new Date(prevMonthYear, prevMonth, prevMonthDaysCount - start + i + 1);
     } else if(i < end) {
-      arr[i] = new Date(date.getFullYear(), date.getMonth(), i - start + 1);
+      cells[i] = new Date(date.getFullYear(), date.getMonth(), i - start + 1);
     } else {
-      arr[i] = new Date(date.getFullYear(), nextMonth, i - days - start + 1);
+      cells[i] = new Date(date.getFullYear(), nextMonth, i - days - start + 1);
     }
   }
 
-  let weeksArr = [];
+  let calendar = [];
   for (let i = 0; i < weeks; i++) {
-    weeksArr[i] = arr.slice(i * 7 , (i+1) * 7);
+    calendar[i] = cells.slice(i * 7 , (i+1) * 7);
   }
-  return weeksArr;
+  return calendar;
 }
 
 const selectClass = (date1, date2) => {
@@ -66,8 +66,9 @@ export const DatePicker = ({ id, onChange, options }) => {
 
   const placeholderRef = useRef();
   const datepickerRef = useRef();
-
   const yearsRange = range(1950, 2050);
+
+  const handleInputClick = () => setShowDatePicker(!showDatePicker);
 
   /**
    * Passing datepicker options as object
@@ -84,29 +85,25 @@ export const DatePicker = ({ id, onChange, options }) => {
   let months = i18n[locale].months;
 
   useEffect(() => {
+    const date = new Date(selectedYear, selectedMonth, selectedDay);
+    setData(dataBuilder(date));
+    placeholderRef.current.innerText = date.toLocaleDateString();   
+    onChange(date.toLocaleDateString());
 
+  }, [onChange, selectedDay, selectedMonth, selectedYear]);
+
+  useEffect(() => {
     const close = (e) => {
       if (datepickerRef.current && !datepickerRef.current.contains(e.target) && !isScrolling) {
         setShowDatePicker(false);
       }
-    }
-
-    const date = new Date(selectedYear, selectedMonth, selectedDay);
-
-    setData(dataBuilder(date));
-    placeholderRef.current.innerText = date.toLocaleDateString();   
-    onChange(date.toLocaleDateString());
-    
+    }    
     window.addEventListener('click', close);
     return () => window.removeEventListener('click', close);
-
-  }, [isScrolling, onChange, selectedDay, selectedMonth, selectedYear])
-
-  const handleInputClick = (e) => {
-    setShowDatePicker(!showDatePicker);
-  }
+  }, [isScrolling])
 
   const handleClick = (i) => {
+
     let newYear, newMonth;
     if (parseInt(selectedMonth) + i < 0) {
       newMonth = 11;
@@ -155,8 +152,9 @@ export const DatePicker = ({ id, onChange, options }) => {
 
   const handleDateChange = (e) => {
 
-    let tds = document.querySelectorAll(`#${id}-menu td`);
-    tds.forEach(td => td.classList.remove('selected'));
+    document
+      .querySelectorAll(`#${id}-menu td`)
+      .forEach(td => td.classList.remove('selected'));
     e.target.classList.add('selected');
 
     setSelectedMonth(e.target.dataset.month);
@@ -184,7 +182,6 @@ export const DatePicker = ({ id, onChange, options }) => {
             <button onClick={() => handleClick(-1)} className="datepicker-prev"><ArrowLeft /></button>
             <button onClick={handleClickToday} className="datepicker-today"><Home /></button>
 
-            {/* {<div className="datepicker-month">{months[selectedMonth]}<SmallArrow /></div>} */}
             <select 
               className="datepicker-month" 
               value={selectedMonth} 
@@ -193,7 +190,6 @@ export const DatePicker = ({ id, onChange, options }) => {
                 { months.map((_, i) => <option key={months[i]} value={i}>{months[i]}</option>) }
             </select>
 
-            {/* {<div className="datepicker-year">{selectedYear}<SmallArrow /></div>} */}
             <select 
               className="datepicker-year" 
               value={selectedYear} 
