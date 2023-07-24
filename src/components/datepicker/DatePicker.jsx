@@ -1,15 +1,9 @@
 import { createContext, useEffect, useRef, useState } from "react";
 import { ArrowLeft, ArrowRight, Home, Calendar } from "./assets/Icons";
+import { internationalization as i18n } from "./internationalization";
+import { daysCount, range, weekCount } from "./utils";
 import { TimePicker } from "./TimePicker";
-import { range } from "./utils";
-import { i18n } from "./default_options";
 import "./index.css";
-
-const daysCount = (year, month) => new Date(year, month + 1, 0).getDate();
-
-const weekCount = (daysCount) => {
-  return Math.ceil(daysCount / 7);
-}
 
 const dataBuilder = (date) => {
 
