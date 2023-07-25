@@ -55,7 +55,10 @@ const selectClass = (sDate, tdDate, arrayOfDates) => {
     className.push('greyed');
   }
 
-  if(Date.parse(sDate) === Date.parse(tdDate)) {
+  let now = new Date(Date.now());
+  let nowTimeless = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  if(Date.parse(nowTimeless) === Date.parse(tdDate)) {
+    console.log('found');
     className.push('today');
   }
 
@@ -369,8 +372,6 @@ const getHighlightedPeriod = (hlPeriods) => {
         dates.push(highlightedDate);
       }
     });
-    console.log(dates);
-
     return dates;
   }
 }
