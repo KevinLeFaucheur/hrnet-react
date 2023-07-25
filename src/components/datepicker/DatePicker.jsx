@@ -78,11 +78,15 @@ export const DatePicker = ({ id, onChange, options }) => {
    * @property {string} locale - your age.
    * }
    */
-  let saveSelected = options?.save ?? false;
-  let timepicker = options?.timepicker ?? false;
-  let locale = options?.locale ?? document.documentElement.lang;
-  let weekdays = i18n[locale].dayOfWeekShort;
-  let months = i18n[locale].months;
+  const default_options = {
+    saveSelected: false,
+    timepicker: false,
+    locale: document.documentElement.lang,  
+
+    highlightedDates: [],
+    highlightedPeriods: [],
+  }
+
 
   useEffect(() => {
     const date = new Date(selectedYear, selectedMonth, selectedDay);
@@ -164,6 +168,14 @@ export const DatePicker = ({ id, onChange, options }) => {
 
     setShowDatePicker(!showDatePicker);
   }
+
+  /* Initializing variables with options if not null or default_options */
+  const locale = options?.locale ?? default_options.locale;
+  const timepicker = options?.timepicker ?? default_options.timepicker;
+  const saveSelected = options?.saveSelected ?? default_options.saveSelected;
+  const weekdays = options?.dayOfWeekShort ?? i18n[locale].dayOfWeekShort;
+  const months = options?.months ?? i18n[locale].months;
+  /*  */
 
   return (
     <div id={`${id}-container`} className="datepicker-container" ref={datepickerRef}>  

@@ -103,6 +103,10 @@
   padding-right: 5px;
 }
 
+.datepicker-menu td.today {
+  color: #33aaff;
+}
+
 .datepicker-menu td.greyed {
   opacity: 0.5;
 }
@@ -110,6 +114,12 @@
 .datepicker-menu td.selected {
   background-color: #0099ff;
   color: #fff;
+}
+
+.datepicker-menu td.highlighted {
+  background: #ffe9d2;
+  box-shadow: #ffb871 0 1px 4px 0 inset;
+  color: #000;
 }
 
 .datepicker-menu td:hover {
