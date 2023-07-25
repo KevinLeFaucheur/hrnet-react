@@ -87,7 +87,19 @@ export const Home = () => {
           <DatePicker 
             id='start'
             onChange={(value) => setStartValue(value)} 
-            options={{ locale: 'fr', timepicker: true }}
+            options={{ 
+              locale: 'fr', 
+              timepicker: true, 
+              highlightedDates: [
+                '06/30/2023, Test',
+                '07/2/2023, Birthday',
+                '07/7/2023, Exam',
+                '07/18/2023, Another Test, hlCyan',
+              ],
+              highlightedPeriods: [
+                '06/1/2023, 06/18/2023, holidays, hlGreen'
+              ]
+            }}
           />
 
           <fieldset className="address">

@@ -35,15 +35,44 @@ const dataBuilder = (date) => {
   return calendar;
 }
 
-const selectClass = (date1, date2) => {
-  if (date1.getFullYear() === date2.getFullYear()
-    && date1.getMonth() === date2.getMonth()
-    && date1.getDate() === date2.getDate()) {
-    return 'selected';
+/**
+ * Adds the corresponding CSS class for :
+ *  selected, greyed out, today and hightlighted dates
+ * @param {Date} sDate  // current selected Date by user
+ * @param {Date} tdDate // td Date to display in calendar
+ * @returns 
+ */
+const selectClass = (sDate, tdDate, arrayOfDates) => {
+  let className = [];
+
+  if (sDate.getFullYear() === tdDate.getFullYear()
+    && sDate.getMonth() === tdDate.getMonth()
+    && sDate.getDate() === tdDate.getDate()) {
+      className.push('selected');
   }
-  if(date1.getMonth() !== date2.getMonth()) {
-    return 'greyed';
+
+  if(sDate.getMonth() !== tdDate.getMonth()) {
+    className.push('greyed');
   }
+
+  if(Date.parse(sDate) === Date.parse(tdDate)) {
+    className.push('today');
+  }
+
+  let dateFound = arrayOfDates.find(date => date.timestamp === Date.parse(tdDate));
+  if (dateFound) {
+    className.push(dateFound.style ?? 'highlighted');
+  }
+
+  return className.join(' ');
+}
+
+const selectTitle = (tdDate, arrayOfDates) => {
+  let dateFound = arrayOfDates.find(date => date.timestamp === Date.parse(tdDate));
+  if (dateFound) {
+    return dateFound.desc;
+  }
+  return '';
 }
 
 /**
@@ -175,6 +204,9 @@ export const DatePicker = ({ id, onChange, options }) => {
   const saveSelected = options?.saveSelected ?? default_options.saveSelected;
   const weekdays = options?.dayOfWeekShort ?? i18n[locale].dayOfWeekShort;
   const months = options?.months ?? i18n[locale].months;
+  const highlightedDates = getHighlightedDates(options?.highlightedDates) || [];
+  const highlightedPeriods = getHighlightedPeriod(options?.highlightedPeriods) || [];
+  const highlightedDays = [highlightedDates, highlightedPeriods].flat();
   /*  */
 
   return (
@@ -226,10 +258,11 @@ export const DatePicker = ({ id, onChange, options }) => {
                     { week.map(date => 
                       
                       <td 
-                        className={selectClass(new Date(selectedYear, selectedMonth, selectedDay), date)}
+                        className={selectClass(new Date(selectedYear, selectedMonth, selectedDay), date, highlightedDays)}
                         data-year={date.getFullYear()} data-month={date.getMonth()} data-day={date.getDate()} 
                         key={date.toLocaleDateString()} 
                         onClick={(e) => handleDateChange(e)}
+                        title={selectTitle(date, highlightedDays)}
                         >
                           {date.getDate()}
                       </td>) }
@@ -250,4 +283,94 @@ export const DatePicker = ({ id, onChange, options }) => {
       </div>}
     </div>
   )
+}
+
+const getHighlightedDates = (hlDates) => {
+  let dates = [];
+
+  if (hlDates && Array.isArray(hlDates) && hlDates.length) {
+
+    hlDates.forEach(date => {
+      let dateStruct = date.split(',').map(value => value.trim());
+      let highlightedDate = {
+        timestamp: Date.parse(dateStruct[0]),
+        desc: dateStruct[1],
+        style: dateStruct[2],
+      }
+
+    // hDate = new HighlightedDate(dateHelper.parseDate(splitData[0], options.formatDate), splitData[1], splitData[2]), // date, desc, style
+    // keyDate = dateHelper.formatDate(hDate.date, options.formatDate);
+    // if (highlightedDates[keyDate] !== undefined) {
+    //   exDesc = highlightedDates[keyDate].desc;
+    //   if (exDesc && exDesc.length && hDate.desc && hDate.desc.length) {
+    //     highlightedDates[keyDate].desc = exDesc + "\n" + hDate.desc;
+    //   }
+    // } else {
+    //   highlightedDates[keyDate] = hDate;
+    // }
+
+      dates.push(highlightedDate);
+    })
+  }
+  return dates;
+}
+
+
+const getHighlightedPeriod = (hlPeriods) => {
+  let dates = [];
+
+  if (hlPeriods && Array.isArray(hlPeriods) && hlPeriods.length) {
+
+    // highlightedDates = $.extend(true, [], options.highlightedDates);
+
+    hlPeriods.forEach(period => {
+      let start; // start date
+      let end;
+      let desc;
+      let hDate;
+      let keyDate;
+      let exDesc;
+      let style;
+      if (Array.isArray(period)) {
+        start = period[0];
+        end = period[1];
+        desc = period[2];
+        style = period[3];
+      }
+      else {
+        let periodStruct = period.split(',').map(value => value.trim());
+        start = Date.parse(periodStruct[0]) /*dateHelper.parseDate(periodStruct[0], options.formatDate)*/;
+        end = Date.parse(periodStruct[1]) /*dateHelper.parseDate(periodStruct[1], options.formatDate)*/;
+        desc = periodStruct[2];
+        style = periodStruct[3];
+      }
+
+      while (start <= end) {
+        // hDate = new HighlightedDate(start, desc, style);
+        let highlightedDate = {
+          timestamp: start,
+          desc: desc,
+          style: style,
+        }
+        // keyDate = dateHelper.formatDate(start, options.formatDate);
+        // start.setDate(start.getDate() + 1);
+        // start = (new Date(start)).getDate() + 1; 
+        let startDate = new Date(start);
+        start = startDate.setDate(startDate.getDate() + 1);
+
+        // if (highlightedDates[keyDate] !== undefined) {
+        //   exDesc = highlightedDates[keyDate].desc;
+        //   if (exDesc && exDesc.length && hDate.desc && hDate.desc.length) {
+        //     highlightedDates[keyDate].desc = exDesc + "\n" + hDate.desc;
+        //   }
+        // } else {
+        //   highlightedDates[keyDate] = hDate;
+        // }
+        dates.push(highlightedDate);
+      }
+    });
+    console.log(dates);
+
+    return dates;
+  }
 }
