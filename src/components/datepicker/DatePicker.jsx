@@ -95,10 +95,6 @@ export const DatePicker = ({ id, onChange, options }) => {
     day: new Date(Date.now()).getDate(),
     time: new Date(Date.now()).getHours(),
   });
-  // const [selectedDay, setSelectedDay] = useState(new Date(Date.now()).getDate());
-  // const [selectedMonth, setSelectedMonth] = useState(new Date(Date.now()).getMonth());
-  // const [selectedYear, setSelectedYear] = useState(new Date(Date.now()).getFullYear());
-  // const [selectedTime, setSelectedTime] = useState(new Date(Date.now()).getHours());
   const [isScrolling, setIsScrolling] = useState(false);
   const [data, setData] = useState([]);
 
@@ -144,27 +140,15 @@ export const DatePicker = ({ id, onChange, options }) => {
     return () => window.removeEventListener('click', close);
   }, [isScrolling])
 
-  const handleClick = (i) => {
+  const handleMonthClick = (i) => {
+    let month = selectedDate.month;
+    let year =selectedDate.year;
 
-    let newYear, newMonth;
-    if (parseInt(selectedDate.month) + i < 0) {
-      newMonth = 11;
-      newYear = parseInt(selectedDate.year) - 1;
-      
-    } else if(parseInt(selectedDate.month) + i > 11) {
-      newMonth = 0;
-      newYear = parseInt(selectedDate.year) + 1;
-      
-    } else {
-      newMonth = parseInt(selectedDate.month) + i;
-      newYear = selectedDate.year;
-    }
     setSelectedDate(o => ({
       ...o,
-      year : newYear,
-      month: newMonth
+      year : month + i < 0 ? year - 1 : month + i > 11 ? year + 1 : year ,
+      month: month + i < 0 ? 11 : month + i > 11 ? 0 : month + i
     }));
-    // setSelectedDate(new Date(newYear, newMonth, selectedDay));
   }
 
   const handleMonthChange = (e) => {
@@ -172,7 +156,6 @@ export const DatePicker = ({ id, onChange, options }) => {
       ...o,
       month: e.target.value
     }));
-    // setSelectedDate(new Date(selectedYear, selectedMonth, selectedDay));
   }
 
   const handleYearChange = (e) => {
@@ -180,7 +163,6 @@ export const DatePicker = ({ id, onChange, options }) => {
       ...o,
       year : e.target.value,
     }));
-    // setSelectedDate(new Date(selectedYear, selectedMonth, selectedDay));
   }
 
   const handleClickToday = () => {
@@ -190,7 +172,6 @@ export const DatePicker = ({ id, onChange, options }) => {
       month: new Date(Date.now()).getMonth(),
       day: new Date(Date.now()).getDate()
     }));
-    // setSelectedDate(today);
   }
 
   const handleSaveSelected = () => {
@@ -216,8 +197,6 @@ export const DatePicker = ({ id, onChange, options }) => {
       month: e.target.dataset.month,
       day: e.target.dataset.day
     }));
-    // setSelectedDate(new Date(selectedYear, selectedMonth, selectedDay));
-
     setShowDatePicker(!showDatePicker);
   }
 
@@ -246,7 +225,7 @@ export const DatePicker = ({ id, onChange, options }) => {
       {showDatePicker && <div id={`${id}-menu`} className="datepicker-menu">
         <div className="datepicker-calendar">
           <nav className="datepicker-nav">
-            <button onClick={() => handleClick(-1)} className="datepicker-prev"><ArrowLeft /></button>
+            <button onClick={() => handleMonthClick(-1)} className="datepicker-prev"><ArrowLeft /></button>
             <button onClick={handleClickToday} className="datepicker-today"><Home /></button>
 
             <select 
@@ -265,7 +244,7 @@ export const DatePicker = ({ id, onChange, options }) => {
                 { yearsRange.map(year => <option key={year} value={year}>{year}</option>) }
             </select>
 
-            <button onClick={() => handleClick(1)} className="datepicker-next"><ArrowRight /></button>
+            <button onClick={() => handleMonthClick(1)} className="datepicker-next"><ArrowRight /></button>
           </nav>
 
           <div className="datepicker-body">
