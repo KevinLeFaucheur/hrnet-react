@@ -17,16 +17,16 @@ export const Scrollbar = ({ scroller, setMargin, scrollPercent }) => {
   const handleCanScroll = (value) => setCanScroll(value);
   const handleMouseDown = () => setCanScroll(true);
   const handleWheelScroll = (e) => {
-    let multiplier = 0.1;
-    let deltaSCroll = e.deltaY * multiplier;
+    let multiplier = 12.5;
+    let deltaSCroll = clamp(e.deltaY,  -1, 1) * multiplier;
     
     let trackTop = trackRef.current.getBoundingClientRect().top;
     let thumbTopY = thumbRef.current.getBoundingClientRect().top;
     let scrollableHeight = trackRef.current.clientHeight - thumbRef.current.clientHeight;
     let offset = thumbTopY - trackTop + deltaSCroll;
     offset = clamp(offset, 0, scrollableHeight);
-    thumbRef.current.style.marginTop = offset + 'px';
 
+    thumbRef.current.style.marginTop = offset + 'px';
     let scrollPercent = (thumbTopY - trackTop) / scrollableHeight;
     setMargin(-scrollPercent * (scroller.current.clientHeight - trackRef.current.clientHeight));
   };
@@ -55,12 +55,14 @@ export const Scrollbar = ({ scroller, setMargin, scrollPercent }) => {
         let thumbTopY = thumbRef.current.getBoundingClientRect().top;  
         let trackTop = trackRef.current.getBoundingClientRect().top;
         let scrollableHeight = trackRef.current.clientHeight - thumbRef.current.clientHeight;
-        let offset = clamp(mousePosY - trackTop - thumbHalfHeight, 0, scrollableHeight);
+        
+        let offset = mousePosY - trackTop - thumbHalfHeight;
+        offset = clamp(offset, 0, scrollableHeight);
 
         thumbRef.current.style.marginTop = offset + 'px';
         let scrollPercent = (thumbTopY - trackTop) / scrollableHeight;
+        setMargin(-scrollPercent * (scroller.current.clientHeight - trackRef.current.clientHeight));
 
-        setMargin(-(scrollPercent * (scroller.current.clientHeight - trackRef.current.clientHeight)) );
       } else {
         setIsScrolling(false);
       }
