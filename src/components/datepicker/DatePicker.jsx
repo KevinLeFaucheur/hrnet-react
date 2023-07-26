@@ -13,6 +13,7 @@ const dataBuilder = (date) => {
   let prevMonthYear = date.getMonth() === 0 ? date.getFullYear() - 1 : date.getFullYear();
   let prevMonth = date.getMonth() === 0 ? 11 : date.getMonth() - 1;
   let nextMonth = date.getMonth() === 11 ? 0 : date.getMonth() + 1;
+  let nextMonthYear = date.getMonth() === 11 ? date.getFullYear() + 1 : date.getFullYear();
   let prevMonthDaysCount = daysCount(prevMonthYear, prevMonth, 0);
   let weeks = weekCount(start + days);
   let length = weeks * 7;
@@ -24,7 +25,7 @@ const dataBuilder = (date) => {
     } else if(i < end) {
       cells[i] = new Date(date.getFullYear(), date.getMonth(), i - start + 1);
     } else {
-      cells[i] = new Date(date.getFullYear(), nextMonth, i - days - start + 1);
+      cells[i] = new Date(nextMonthYear, nextMonth, i - days - start + 1);
     }
   }
 
@@ -87,11 +88,17 @@ export const ScrollingContext = createContext(null);
 
 export const DatePicker = ({ id, onChange, options }) => {
   const [showDatePicker, setShowDatePicker] = useState(false);
-  // const [selectedDate, setSelectedDate] = useState(new Date(Date.now()));
-  const [selectedDay, setSelectedDay] = useState(new Date(Date.now()).getDate());
-  const [selectedMonth, setSelectedMonth] = useState(new Date(Date.now()).getMonth());
-  const [selectedYear, setSelectedYear] = useState(new Date(Date.now()).getFullYear());
-  const [selectedTime, setSelectedTime] = useState(new Date(Date.now()).getHours());
+  const [selectedDate, setSelectedDate] = useState({
+    date: new Date(Date.now()),
+    year: new Date(Date.now()).getFullYear(),
+    month: new Date(Date.now()).getMonth(),
+    day: new Date(Date.now()).getDate(),
+    time: new Date(Date.now()).getHours(),
+  });
+  // const [selectedDay, setSelectedDay] = useState(new Date(Date.now()).getDate());
+  // const [selectedMonth, setSelectedMonth] = useState(new Date(Date.now()).getMonth());
+  // const [selectedYear, setSelectedYear] = useState(new Date(Date.now()).getFullYear());
+  // const [selectedTime, setSelectedTime] = useState(new Date(Date.now()).getHours());
   const [isScrolling, setIsScrolling] = useState(false);
   const [data, setData] = useState([]);
 
@@ -120,12 +127,12 @@ export const DatePicker = ({ id, onChange, options }) => {
 
 
   useEffect(() => {
-    const date = new Date(selectedYear, selectedMonth, selectedDay);
+    const date = new Date(selectedDate.year, selectedDate.month, selectedDate.day);
     setData(dataBuilder(date));
     placeholderRef.current.innerText = date.toLocaleDateString();   
     onChange(date.toLocaleDateString());
 
-  }, [onChange, selectedDay, selectedMonth, selectedYear]);
+  }, [onChange, selectedDate.day, selectedDate.month, selectedDate.year]);
 
   useEffect(() => {
     const close = (e) => {
@@ -140,39 +147,49 @@ export const DatePicker = ({ id, onChange, options }) => {
   const handleClick = (i) => {
 
     let newYear, newMonth;
-    if (parseInt(selectedMonth) + i < 0) {
+    if (parseInt(selectedDate.month) + i < 0) {
       newMonth = 11;
-      newYear = parseInt(selectedYear) - 1;
+      newYear = parseInt(selectedDate.year) - 1;
       
-    } else if(parseInt(selectedMonth) + i > 11) {
+    } else if(parseInt(selectedDate.month) + i > 11) {
       newMonth = 0;
-      newYear = parseInt(selectedYear) + 1;
+      newYear = parseInt(selectedDate.year) + 1;
       
     } else {
-      newMonth = parseInt(selectedMonth) + i;
-      newYear = selectedYear;
+      newMonth = parseInt(selectedDate.month) + i;
+      newYear = selectedDate.year;
     }
-    
-    setSelectedYear(newYear);
-    setSelectedMonth(newMonth);
+    setSelectedDate(o => ({
+      ...o,
+      year : newYear,
+      month: newMonth
+    }));
     // setSelectedDate(new Date(newYear, newMonth, selectedDay));
   }
 
   const handleMonthChange = (e) => {
-    setSelectedMonth(e.target.value);
+    setSelectedDate(o => ({
+      ...o,
+      month: e.target.value
+    }));
     // setSelectedDate(new Date(selectedYear, selectedMonth, selectedDay));
   }
 
   const handleYearChange = (e) => {
-    setSelectedYear(e.target.value);
+    setSelectedDate(o => ({
+      ...o,
+      year : e.target.value,
+    }));
     // setSelectedDate(new Date(selectedYear, selectedMonth, selectedDay));
   }
 
   const handleClickToday = () => {
-    const today = new Date(Date.now());
-    setSelectedMonth(today.getMonth());
-    setSelectedYear(today.getFullYear());
-    setSelectedDay(today.getDate());
+    setSelectedDate(o => ({
+      ...o,
+      year : new Date(Date.now()).getFullYear(),
+      month: new Date(Date.now()).getMonth(),
+      day: new Date(Date.now()).getDate()
+    }));
     // setSelectedDate(today);
   }
 
@@ -193,9 +210,12 @@ export const DatePicker = ({ id, onChange, options }) => {
       .forEach(td => td.classList.remove('selected'));
     e.target.classList.add('selected');
 
-    setSelectedMonth(e.target.dataset.month);
-    setSelectedYear(e.target.dataset.year);
-    setSelectedDay(e.target.dataset.day);
+    setSelectedDate(o => ({
+      ...o,
+      year : e.target.dataset.year,
+      month: e.target.dataset.month,
+      day: e.target.dataset.day
+    }));
     // setSelectedDate(new Date(selectedYear, selectedMonth, selectedDay));
 
     setShowDatePicker(!showDatePicker);
@@ -231,7 +251,7 @@ export const DatePicker = ({ id, onChange, options }) => {
 
             <select 
               className="datepicker-month" 
-              value={selectedMonth} 
+              value={selectedDate.month} 
               onChange={handleMonthChange}
               >
                 { months.map((_, i) => <option key={months[i]} value={i}>{months[i]}</option>) }
@@ -239,7 +259,7 @@ export const DatePicker = ({ id, onChange, options }) => {
 
             <select 
               className="datepicker-year" 
-              value={selectedYear} 
+              value={selectedDate.year} 
               onChange={handleYearChange}
               >
                 { yearsRange.map(year => <option key={year} value={year}>{year}</option>) }
@@ -261,7 +281,7 @@ export const DatePicker = ({ id, onChange, options }) => {
                     { week.map(date => 
                       
                       <td 
-                        className={selectClass(new Date(selectedYear, selectedMonth, selectedDay), date, highlightedDays)}
+                        className={selectClass(new Date(selectedDate.year, selectedDate.month, selectedDate.day), date, highlightedDays)}
                         data-year={date.getFullYear()} data-month={date.getMonth()} data-day={date.getDate()} 
                         key={date.toLocaleDateString()} 
                         onClick={(e) => handleDateChange(e)}
@@ -281,7 +301,7 @@ export const DatePicker = ({ id, onChange, options }) => {
         </div> 
         {timepicker && 
           <ScrollingContext.Provider value={setIsScrolling}>
-            <TimePicker setSelectedTime={setSelectedTime} />
+            <TimePicker setSelectedTime={selectedDate.time} />
           </ScrollingContext.Provider>}
       </div>}
     </div>
