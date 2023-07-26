@@ -9,13 +9,23 @@ import { clamp } from "./utils";
 export const Scrollbar = ({ scroller, setMargin, scrollPercent }) => {
   const setIsScrolling = useContext(ScrollingContext);
   const [canScroll, setCanScroll] = useState(false);
-  const [mousePosY, setMousePosY] = useState(0);
   const trackRef = useRef(); 
   const thumbRef = useRef();   
   
-  const handleMouseMove = (event) => setMousePosY(event.clientY);
   const handleCanScroll = (value) => setCanScroll(value);
   const handleMouseDown = () => setCanScroll(true);
+
+  useEffect(() => {
+    ['mouseup', 'touchup'].forEach(event => window.addEventListener(event, () => handleCanScroll(false)));
+    scroller?.current.addEventListener('wheel', handleWheelScroll);
+    let scroll = scroller?.current;
+
+    return () => { 
+      ['mouseup', 'touchup'].forEach(event => window.removeEventListener(event, () => handleCanScroll(false)));
+      scroll.removeEventListener('wheel', handleWheelScroll);
+    };
+  }, []);
+
   const handleWheelScroll = (e) => {
     let multiplier = 12.5;
     let deltaSCroll = clamp(e.deltaY,  -1, 1) * multiplier;
@@ -23,6 +33,7 @@ export const Scrollbar = ({ scroller, setMargin, scrollPercent }) => {
     let trackTop = trackRef.current.getBoundingClientRect().top;
     let thumbTopY = thumbRef.current.getBoundingClientRect().top;
     let scrollableHeight = trackRef.current.clientHeight - thumbRef.current.clientHeight;
+
     let offset = thumbTopY - trackTop + deltaSCroll;
     offset = clamp(offset, 0, scrollableHeight);
 
@@ -32,31 +43,19 @@ export const Scrollbar = ({ scroller, setMargin, scrollPercent }) => {
   };
 
   useEffect(() => {
-    ['mousemove', 'touchmove'].forEach(event => window.addEventListener(event, handleMouseMove));
-    ['mouseup', 'touchup'].forEach(event => window.addEventListener(event, () => handleCanScroll(false)));
-    scroller?.current.addEventListener('wheel', handleWheelScroll);
-    let scroll = scroller?.current;
 
-    return () => { 
-      ['mousemove', 'touchmove'].forEach(event => window.removeEventListener(event, handleMouseMove));
-      ['mouseup', 'touchup'].forEach(event => window.removeEventListener(event, () => handleCanScroll(false)));
-      scroll.removeEventListener('wheel', handleWheelScroll);
-    };
-  }, []);
-
-  useEffect(() => {
-
-    const handleScrolling = (e) => { 
-      
+    const handleScrolling = (e) => {    
       if(canScroll) {
         setIsScrolling(true);
+        // console.log(struct);
 
         let thumbHalfHeight = thumbRef.current.clientHeight / 2;
+
         let thumbTopY = thumbRef.current.getBoundingClientRect().top;  
         let trackTop = trackRef.current.getBoundingClientRect().top;
         let scrollableHeight = trackRef.current.clientHeight - thumbRef.current.clientHeight;
         
-        let offset = mousePosY - trackTop - thumbHalfHeight;
+        let offset = e.clientY - trackTop - thumbHalfHeight;
         offset = clamp(offset, 0, scrollableHeight);
 
         thumbRef.current.style.marginTop = offset + 'px';
@@ -70,7 +69,7 @@ export const Scrollbar = ({ scroller, setMargin, scrollPercent }) => {
 
     ['mousemove', 'touchmove'].forEach(event => window.addEventListener(event, handleScrolling));
     return () => ['mousemove', 'touchmove'].forEach(event => window.removeEventListener(event, handleScrolling));
-  }, [canScroll, mousePosY, scroller, setIsScrolling, setMargin])
+  }, [canScroll, scroller, setIsScrolling, setMargin])
 
   useEffect(() => {
     let margin = (trackRef.current.clientHeight - thumbRef.current.clientHeight) * scrollPercent;
@@ -81,7 +80,6 @@ export const Scrollbar = ({ scroller, setMargin, scrollPercent }) => {
     <div ref={trackRef} className="scrollbar">
       <div 
         onMouseDown={handleMouseDown} 
-        onWheel={handleWheelScroll}
         className="thumb"
         ref={thumbRef}
       >&nbsp;</div>
