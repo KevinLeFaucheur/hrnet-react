@@ -58,7 +58,6 @@ const selectClass = (sDate, tdDate, arrayOfDates) => {
   let now = new Date(Date.now());
   let nowTimeless = new Date(now.getFullYear(), now.getMonth(), now.getDate());
   if(Date.parse(nowTimeless) === Date.parse(tdDate)) {
-    console.log('found');
     className.push('today');
   }
 
@@ -88,11 +87,11 @@ export const ScrollingContext = createContext(null);
 
 export const DatePicker = ({ id, onChange, options }) => {
   const [showDatePicker, setShowDatePicker] = useState(false);
-  const [selectedDate, setSelectedDate] = useState(new Date(Date.now()));
-  const [selectedDay, setSelectedDay] = useState(selectedDate.getDate());
-  const [selectedMonth, setSelectedMonth] = useState(selectedDate.getMonth());
-  const [selectedYear, setSelectedYear] = useState(selectedDate.getFullYear());
-  const [selectedTime, setSelectedTime] = useState(selectedDate.getHours());
+  // const [selectedDate, setSelectedDate] = useState(new Date(Date.now()));
+  const [selectedDay, setSelectedDay] = useState(new Date(Date.now()).getDate());
+  const [selectedMonth, setSelectedMonth] = useState(new Date(Date.now()).getMonth());
+  const [selectedYear, setSelectedYear] = useState(new Date(Date.now()).getFullYear());
+  const [selectedTime, setSelectedTime] = useState(new Date(Date.now()).getHours());
   const [isScrolling, setIsScrolling] = useState(false);
   const [data, setData] = useState([]);
 
@@ -156,17 +155,17 @@ export const DatePicker = ({ id, onChange, options }) => {
     
     setSelectedYear(newYear);
     setSelectedMonth(newMonth);
-    setSelectedDate(new Date(newYear, newMonth, selectedDay));
+    // setSelectedDate(new Date(newYear, newMonth, selectedDay));
   }
 
   const handleMonthChange = (e) => {
     setSelectedMonth(e.target.value);
-    setSelectedDate(new Date(selectedYear, selectedMonth, selectedDay));
+    // setSelectedDate(new Date(selectedYear, selectedMonth, selectedDay));
   }
 
   const handleYearChange = (e) => {
     setSelectedYear(e.target.value);
-    setSelectedDate(new Date(selectedYear, selectedMonth, selectedDay));
+    // setSelectedDate(new Date(selectedYear, selectedMonth, selectedDay));
   }
 
   const handleClickToday = () => {
@@ -174,11 +173,12 @@ export const DatePicker = ({ id, onChange, options }) => {
     setSelectedMonth(today.getMonth());
     setSelectedYear(today.getFullYear());
     setSelectedDay(today.getDate());
-    setSelectedDate(today);
+    // setSelectedDate(today);
   }
 
   const handleSaveSelected = () => {
-    localStorage.setItem('date', selectedDate);
+    // localStorage.setItem('date', selectedDate);
+
     // e.preventDefault();
     // datetimepicker.data('changed', true);
     // _xdsoft_datetime.setCurrentTime(getCurrentValue());
@@ -196,7 +196,7 @@ export const DatePicker = ({ id, onChange, options }) => {
     setSelectedMonth(e.target.dataset.month);
     setSelectedYear(e.target.dataset.year);
     setSelectedDay(e.target.dataset.day);
-    setSelectedDate(new Date(selectedYear, selectedMonth, selectedDay));
+    // setSelectedDate(new Date(selectedYear, selectedMonth, selectedDay));
 
     setShowDatePicker(!showDatePicker);
   }
