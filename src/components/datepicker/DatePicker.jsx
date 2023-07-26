@@ -123,6 +123,7 @@ export const DatePicker = ({ id, onChange, options }) => {
 
 
   useEffect(() => {
+    console.log(selectedDate.year, selectedDate.month, selectedDate.day);
     const date = new Date(selectedDate.year, selectedDate.month, selectedDate.day);
     setData(dataBuilder(date));
     placeholderRef.current.innerText = date.toLocaleDateString();   
@@ -142,7 +143,9 @@ export const DatePicker = ({ id, onChange, options }) => {
 
   const handleMonthClick = (i) => {
     let month = selectedDate.month;
-    let year =selectedDate.year;
+    let year = selectedDate.year;
+
+    console.log(typeof month);
 
     setSelectedDate(o => ({
       ...o,
@@ -193,9 +196,9 @@ export const DatePicker = ({ id, onChange, options }) => {
 
     setSelectedDate(o => ({
       ...o,
-      year : e.target.dataset.year,
-      month: e.target.dataset.month,
-      day: e.target.dataset.day
+      year : parseInt(e.target.dataset.year),
+      month: parseInt(e.target.dataset.month),
+      day: parseInt(e.target.dataset.day)
     }));
     setShowDatePicker(!showDatePicker);
   }
