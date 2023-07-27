@@ -5,6 +5,11 @@ import { daysCount, range, weekCount } from "./utils";
 import { TimePicker } from "./TimePicker";
 import "./index.css";
 
+/**
+ * 
+ * @param {*} date 
+ * @returns 
+ */
 const dataBuilder = (date) => {
 
   let days = daysCount(date.getFullYear(), date.getMonth(), 0);
@@ -70,6 +75,12 @@ const selectClass = (sDate, tdDate, arrayOfDates) => {
   return className.join(' ');
 }
 
+/**
+ * 
+ * @param {*} tdDate 
+ * @param {*} arrayOfDates 
+ * @returns 
+ */
 const selectTitle = (tdDate, arrayOfDates) => {
   let dateFound = arrayOfDates.find(date => date.timestamp === Date.parse(tdDate));
   if (dateFound) {
@@ -121,22 +132,25 @@ export const DatePicker = ({ id, onChange, options }) => {
     highlightedPeriods: [],
   }
 
-
+  //
   useEffect(() => {
-    console.log(selectedDate.year, selectedDate.month, selectedDate.day);
     const date = new Date(selectedDate.year, selectedDate.month, selectedDate.day);
     setData(dataBuilder(date));
     placeholderRef.current.innerText = date.toLocaleDateString();   
-    onChange(date.toLocaleDateString());
+    if(onChange) onChange(date.toLocaleDateString());
+    // console.log('1st', id);
 
-  }, [onChange, selectedDate.day, selectedDate.month, selectedDate.year]);
+  }, [onChange, selectedDate]);
 
+  //
   useEffect(() => {
     const close = (e) => {
       if (datepickerRef.current && !datepickerRef.current.contains(e.target) && !isScrolling) {
         setShowDatePicker(false);
       }
     }    
+    // console.log('2nd', id);
+
     window.addEventListener('click', close);
     return () => window.removeEventListener('click', close);
   }, [isScrolling])
@@ -144,8 +158,6 @@ export const DatePicker = ({ id, onChange, options }) => {
   const handleMonthClick = (i) => {
     let month = selectedDate.month;
     let year = selectedDate.year;
-
-    console.log(typeof month);
 
     setSelectedDate(o => ({
       ...o,
@@ -157,14 +169,14 @@ export const DatePicker = ({ id, onChange, options }) => {
   const handleMonthChange = (e) => {
     setSelectedDate(o => ({
       ...o,
-      month: e.target.value
+      month: parseInt(e.target.value)
     }));
   }
 
   const handleYearChange = (e) => {
     setSelectedDate(o => ({
       ...o,
-      year : e.target.value,
+      year : parseInt(e.target.value)
     }));
   }
 
@@ -175,16 +187,6 @@ export const DatePicker = ({ id, onChange, options }) => {
       month: new Date(Date.now()).getMonth(),
       day: new Date(Date.now()).getDate()
     }));
-  }
-
-  const handleSaveSelected = () => {
-    // localStorage.setItem('date', selectedDate);
-
-    // e.preventDefault();
-    // datetimepicker.data('changed', true);
-    // _xdsoft_datetime.setCurrentTime(getCurrentValue());
-    // input.val(_xdsoft_datetime.str());
-    // datetimepicker.trigger('close.xdsoft');
   }
 
   const handleDateChange = (e) => {
@@ -203,7 +205,19 @@ export const DatePicker = ({ id, onChange, options }) => {
     setShowDatePicker(!showDatePicker);
   }
 
-  /* Initializing variables with options if not null or default_options */
+  const handleSaveSelected = () => {
+    // localStorage.setItem('date', selectedDate);
+
+    // e.preventDefault();
+    // datetimepicker.data('changed', true);
+    // _xdsoft_datetime.setCurrentTime(getCurrentValue());
+    // input.val(_xdsoft_datetime.str());
+    // datetimepicker.trigger('close.xdsoft');
+  }
+
+  /**
+   * Initializing variables with options if not null or default_options
+   */
   const locale = options?.locale ?? default_options.locale;
   const timepicker = options?.timepicker ?? default_options.timepicker;
   const saveSelected = options?.saveSelected ?? default_options.saveSelected;
@@ -215,8 +229,8 @@ export const DatePicker = ({ id, onChange, options }) => {
   /*  */
 
   return (
-    <div id={`${id}-container`} className="datepicker-container" ref={datepickerRef}>  
-      <div className="datepicker-input" onClick={handleInputClick}>
+    <div id={`${id}-container`} className="datepicker-container" ref={datepickerRef} data-date={new Date(selectedDate.year, selectedDate.month, selectedDate.day)}>  
+      <div className="datepicker-input" onClick={handleInputClick} >
         <div ref={placeholderRef} className="select-selected-value">DD/MM/YY</div>
         <div className="select-tools">
           <div className="select-tool">
@@ -283,13 +297,18 @@ export const DatePicker = ({ id, onChange, options }) => {
         </div> 
         {timepicker && 
           <ScrollingContext.Provider value={setIsScrolling}>
-            <TimePicker setSelectedTime={selectedDate.time} />
+            <TimePicker setSelectedTime={time => setSelectedDate(o => ({ ...o, time }))} />
           </ScrollingContext.Provider>}
       </div>}
     </div>
   )
 }
 
+ /**
+  * 
+  * @param {*} hlDates 
+  * @returns 
+  */
 const getHighlightedDates = (hlDates) => {
   let dates = [];
 
@@ -320,7 +339,11 @@ const getHighlightedDates = (hlDates) => {
   return dates;
 }
 
-
+/**
+ * 
+ * @param {*} hlPeriods 
+ * @returns 
+ */
 const getHighlightedPeriod = (hlPeriods) => {
   let dates = [];
 

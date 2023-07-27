@@ -22,7 +22,7 @@ export const TimePicker = ({ setSelectedTime }) => {
       .querySelectorAll('.timepicker_time')
       .forEach(hour => hour.classList.remove('selected'));
     e.target.classList.add('selected');
-    setSelectedTime(e.target);
+    setSelectedTime(e.target.dataset.hour + ':' + e.target.dataset.minute);
   }
 
   const handleScrollButton = (n) => {  
