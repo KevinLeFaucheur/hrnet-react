@@ -97,7 +97,8 @@ export const Home = () => {
                 '07/18/2023, Another Test, hlCyan',
               ],
               highlightedPeriods: [
-                '06/1/2023, 06/18/2023, holidays, hlGreen'
+                '06/1/2023, 06/18/2023, holidays, hlGreen',
+                ['12/1/2023', '12/18/2023', 'winter', 'hlCyan']
               ]
             }}
           />

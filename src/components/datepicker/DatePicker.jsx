@@ -355,13 +355,13 @@ const getHighlightedPeriod = (hlPeriods) => {
       let start; // start date
       let end;
       let desc;
-      let hDate;
-      let keyDate;
-      let exDesc;
+      // let hDate;
+      // let keyDate;
+      // let exDesc;
       let style;
       if (Array.isArray(period)) {
-        start = period[0];
-        end = period[1];
+        start = Date.parse(period[0]);
+        end = Date.parse(period[1]);
         desc = period[2];
         style = period[3];
       }
