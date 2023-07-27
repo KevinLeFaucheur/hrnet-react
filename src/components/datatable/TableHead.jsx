@@ -36,23 +36,15 @@ export const TableHead = ({ columns }) => {
   console.log(data);
   const sortByCtx = useContext(SortingContext);
 
-  /** Get Max Length String for a single column */
-  // const getMaxLengthString = (columnData) => {
-  //   return data.reduce((acc, data) => Math.max(acc, data[columnData].split('').length), -1);
-  // }
-
   const getLongestString = (columnData) => {
     return data.sort((row1, row2) => row2[columnData].length - row1[columnData].length)[0][columnData];
   }
-
-  // console.log(data.reduce((acc, row) => Math.max(acc, row['street'].length), -1));
 
   const getStringLengthInPixels = (string) => {
     let textSpan = document.createElement('span');
     textSpan.textContent = string;
     textSpan.id = 'text';
     document.body.appendChild(textSpan);
-    // let width = document.getElementById('text').clientWidth;
     let width = Math.ceil(textSpan.getClientRects()[0].width);
     document.body.removeChild(textSpan);
 
@@ -85,7 +77,6 @@ export const TableHead = ({ columns }) => {
         {columns.map(column => {
           return  <TH key={column.data} 
                       id={`th-${column.data}`} 
-                      // className={sorting === 'down' ? 'sorting-desc' : sorting === 'up' ? 'sorting-asc' : 'sorting'}
                       width={getStringLengthInPixels(getLongestString(column.data))}
                       tabIndex={0} 
                       onKeyDown={(e) => toggleSortKeyboard(column.data, e)}

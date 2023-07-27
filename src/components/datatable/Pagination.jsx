@@ -45,6 +45,25 @@ const TableNavButton = styled.button`
 
   }
   padding: 0.5em 1em;
+
+  /** Alternative CSS */
+  border: 1px solid #99A1B1;
+  border-radius: 5px;
+  margin-right: 3px;
+  color: #67718B;
+
+  &.current {
+    background: #2C71E1;
+    color: #FFF;
+    border: 1px transparent #979797;
+  }
+    
+  &:not(.current):hover {
+    background: #FF6B62;
+    color: #FFF;
+    border: 1px transparent #979797;
+  }
+
 `
 
 /**

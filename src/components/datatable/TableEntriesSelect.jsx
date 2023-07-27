@@ -9,8 +9,6 @@ const Select = styled.div`
 
 /**
  * TODO:
- * - Update on search if out of bounds
- * - (filtered from 300 total entries)
 */
 
 /**

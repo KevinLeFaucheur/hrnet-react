@@ -53,3 +53,27 @@ export const Calendar = () => {
     </svg>
   )
 }
+
+export const ThinLeft = () => {
+  return (
+    <svg className="thin-arrow-left" width="10" height="10" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle className="thin-arrow-left" cx="9" cy="16.0711" r="1" transform="rotate(45 9 16.0711)" fill="black"/>
+      <line className="thin-arrow-left" x1="1.92894" y1="9" x2="9.00001" y2="16.0711" fill="black" strokeWidth="3"/>
+      <circle className="thin-arrow-left" cx="9" cy="1.92893" r="1" transform="rotate(-45 9 1.92893)" fill="black"/>
+      <circle className="thin-arrow-left" cx="1.92892" cy="9" r="1" transform="rotate(-45 1.92892 9)" fill="black"/>
+      <line className="thin-arrow-left" x1="1.92891" y1="9" x2="8.99998" y2="1.92893" fill="black" strokeWidth="3"/>
+    </svg>
+  )
+}
+
+export const ThinRight = () => {
+  return (
+    <svg className="thin-arrow-right" width="10" height="10" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle className="thin-arrow-right" cx="9" cy="1.92893" r="1" transform="rotate(-135 9 1.92893)" fill="black"/>
+      <line className="thin-arrow-right" x1="16.0711" y1="9" x2="8.99999" y2="1.92893" fill="black" strokeWidth="3"/>
+      <circle className="thin-arrow-right" cx="9" cy="16.0711" r="1" transform="rotate(135 9 16.0711)" fill="black"/>
+      <circle className="thin-arrow-right" cx="16.0711" cy="9" r="1" transform="rotate(135 16.0711 9)" fill="black"/>
+      <line className="thin-arrow-right" x1="16.0711" y1="9" x2="9.00002" y2="16.0711" fill="black" strokeWidth="3"/>
+    </svg>
+  )
+}

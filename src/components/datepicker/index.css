@@ -34,7 +34,6 @@
   overflow: auto;
   background-color: #fff;
   z-index: 2;
-  /* overflow-y: hidden; */
 }
 
 .datepicker-menu nav{
@@ -100,7 +99,7 @@
   background: #f5f5f5;
   border: 1px solid #ddd;
   text-align: right;
-  padding-right: 5px;
+  /* padding-right: 5px; */
 }
 
 .datepicker-menu td.today {
@@ -234,4 +233,94 @@
 }
 .thumb:hover {
   background-color: #FF8000;
+}
+
+/**
+* DatePicker alternative CSS
+*/
+.datepicker-menu {
+  padding: 15px 10px;
+}
+
+.datepicker-menu nav {
+  padding: 0 5px;
+}
+
+.datepicker-menu th {
+  background: none;
+  border: none;
+  color: #2C71E1;
+  text-align: center;
+}
+
+.datepicker-menu td {
+  position: relative;
+  background: none;
+  border: none;
+  font-weight: 700;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.datepicker-menu td.today {
+  color: #33aaff;
+}
+
+.datepicker-menu td.greyed {
+  opacity: 0.5;
+}
+
+.datepicker-menu td.selected {
+  background-color: #0099ff;
+  color: #fff;
+}
+
+.datepicker-menu td.highlighted {
+  background: #ffe9d2;
+  box-shadow: #ffb871 0 1px 4px 0 inset;
+  color: #000;
+}
+
+.datepicker-menu td.hlCyan {
+  background: #d2feff;
+  box-shadow: #71eeff 0 1px 4px 0 inset;
+  color: #000;
+}
+
+.datepicker-menu td.hlGreen {
+  background: #d2fff0;
+  box-shadow: #71ffac 0 1px 4px 0 inset;
+  color: #000;
+}
+
+/* .datepicker-menu td[title]:hover::after {
+  content: attr(title);
+  position: absolute;
+  background: #0099ff;
+  padding: 10px;
+  z-index: 10;
+  border-radius: 10px;
+  top: -190%;
+  right: 0;
+} */
+
+.datepicker-menu td:hover {
+  cursor: default;
+  background-color: #FF8000;
+  color: #fff;
+}
+
+.datepicker-today path {
+  fill: #2C71E1;
+  stroke: #2C71E1;
+  stroke-width: 1;
+}
+
+.datepicker-nav button {
+  opacity: 1;
+}
+
+.thin-arrow-left, .thin-arrow-right {
+  fill: #2C71E1;
+  stroke: #2C71E1;
 }
