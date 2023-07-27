@@ -1,9 +1,10 @@
 import { createContext, useEffect, useRef, useState } from "react";
-import { ArrowLeft, ArrowRight, Home, Calendar } from "./assets/Icons";
+import { ArrowLeft, ArrowRight, Home, Calendar, ThinLeft, ThinRight } from "./assets/Icons";
 import { internationalization as i18n } from "./internationalization";
 import { daysCount, range, weekCount } from "./utils";
 import { TimePicker } from "./TimePicker";
 import "./index.css";
+import { render } from "react-dom";
 
 /**
  * 
@@ -11,14 +12,16 @@ import "./index.css";
  * @returns 
  */
 const dataBuilder = (date) => {
+  const month = date.getMonth();
+  const year = date.getFullYear();
 
-  let days = daysCount(date.getFullYear(), date.getMonth(), 0);
-  let start = new Date(date.getFullYear(), date.getMonth()).getDay();
+  let days = daysCount(year, month, 0);
+  let start = new Date(year, month).getDay();
   let end = start + days;
-  let prevMonthYear = date.getMonth() === 0 ? date.getFullYear() - 1 : date.getFullYear();
-  let prevMonth = date.getMonth() === 0 ? 11 : date.getMonth() - 1;
-  let nextMonth = date.getMonth() === 11 ? 0 : date.getMonth() + 1;
-  let nextMonthYear = date.getMonth() === 11 ? date.getFullYear() + 1 : date.getFullYear();
+  let prevMonthYear = month === 0 ? year - 1 : year;
+  let prevMonth = month === 0 ? 11 : month - 1;
+  let nextMonth = month === 11 ? 0 : month + 1;
+  let nextMonthYear = month === 11 ? year + 1 : year;
   let prevMonthDaysCount = daysCount(prevMonthYear, prevMonth, 0);
   let weeks = weekCount(start + days);
   let length = weeks * 7;
@@ -28,7 +31,7 @@ const dataBuilder = (date) => {
     if(i < start) {
       cells[i] = new Date(prevMonthYear, prevMonth, prevMonthDaysCount - start + i + 1);
     } else if(i < end) {
-      cells[i] = new Date(date.getFullYear(), date.getMonth(), i - start + 1);
+      cells[i] = new Date(year, month, i - start + 1);
     } else {
       cells[i] = new Date(nextMonthYear, nextMonth, i - days - start + 1);
     }
@@ -40,6 +43,49 @@ const dataBuilder = (date) => {
   }
   return calendar;
 }
+
+// const calendarBuilder = (calendar, selectedDate, highlightedDays) => {
+//   let tbody = document.createElement('tbody');
+
+//   // For each week
+//   for (let i = 0; i < calendar.length; i++) {
+//     let tr = document.createElement('tr');
+    
+//     // For each day
+//     for (let j = 0; j < calendar[i].length; j++) {
+//       let date = calendar[i][j];
+//       let td = document.createElement('td');
+//       td.className = selectClass(new Date(selectedDate.year, selectedDate.month, selectedDate.day), date, highlightedDays);
+//       td.dataset.year = date.getFullYear();
+//       td.dataset.month = date.getMonth();
+//       td.dataset.day = date.getDate();
+//       td.key = date.toLocaleDateString();
+//       td.setAttribute('onclick', '(e) => handleDateChange(e)');
+//       td.title = selectTitle(date, highlightedDays);
+//       td.innerText = date.getDate();
+//       tr.appendChild(td);
+//     }
+
+//     tbody.appendChild(tr);
+//   }
+//   return tbody;
+// }
+
+// { data.map((week, i) => 
+//   <tr key={`Week-${i + 1}`}>
+//     { week.map(date => 
+      
+//       <td 
+//         className={selectClass(new Date(selectedDate.year, selectedDate.month, selectedDate.day), date, highlightedDays)}
+//         data-year={date.getFullYear()} data-month={date.getMonth()} data-day={date.getDate()} 
+//         key={date.toLocaleDateString()} 
+//         onClick={(e) => handleDateChange(e)}
+//         title={selectTitle(date, highlightedDays)}
+//         >
+//           {date.getDate()}
+//       </td>) }
+//   </tr>
+// )}
 
 /**
  * Adds the corresponding CSS class for :
@@ -206,8 +252,13 @@ export const DatePicker = ({ id, onChange, options }) => {
   }
 
   const handleSaveSelected = () => {
-    // localStorage.setItem('date', selectedDate);
 
+    const date = new Date(selectedDate.year, selectedDate.month, selectedDate.day);
+    setData(dataBuilder(date));
+    placeholderRef.current.innerText = date.toLocaleDateString();   
+    if(onChange) onChange(date.toLocaleDateString());
+
+    // localStorage.setItem('date', selectedDate);
     // e.preventDefault();
     // datetimepicker.data('changed', true);
     // _xdsoft_datetime.setCurrentTime(getCurrentValue());
@@ -242,7 +293,7 @@ export const DatePicker = ({ id, onChange, options }) => {
       {showDatePicker && <div id={`${id}-menu`} className="datepicker-menu">
         <div className="datepicker-calendar">
           <nav className="datepicker-nav">
-            <button onClick={() => handleMonthClick(-1)} className="datepicker-prev"><ArrowLeft /></button>
+            <button onClick={() => handleMonthClick(-1)} className="datepicker-prev"><ThinLeft /></button>
             <button onClick={handleClickToday} className="datepicker-today"><Home /></button>
 
             <select 
@@ -261,11 +312,11 @@ export const DatePicker = ({ id, onChange, options }) => {
                 { yearsRange.map(year => <option key={year} value={year}>{year}</option>) }
             </select>
 
-            <button onClick={() => handleMonthClick(1)} className="datepicker-next"><ArrowRight /></button>
+            <button onClick={() => handleMonthClick(1)} className="datepicker-next"><ThinRight /></button>
           </nav>
 
           <div className="datepicker-body">
-            <table>
+            <table id={`${id}-table`}>
               <thead>
                 <tr>
                   { weekdays.map(day => <th key={day} >{day.slice(0, 3)}</th>) }

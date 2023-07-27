@@ -15,8 +15,6 @@ const HomeWrapper = styled.main`
 
 /**
  * TODO:
- *  - When modal opens, selects are not occluded
- *  - When modal opens, isolate modal accessibility (tabindex) 
  */
 export const Home = () => {
   const employees = useContext(DataContext);
@@ -28,21 +26,18 @@ export const Home = () => {
     const city = document.getElementById('city');
     const zipCode = document.getElementById('zip-code');
 
-    // const employees = JSON.parse(localStorage.getItem('employees')) || [];
     const employee = {
         firstName: firstName.value,
         lastName: lastName.value,
-        dateOfBirth: birthValue /*dateOfBirth.value*/,
-        startDate: startValue /*startDate.value*/,
-        department: departmentValue /*department.value*/,
+        dateOfBirth: birthValue,
+        startDate: startValue,
+        department: departmentValue,
         street: street.value,
         city: city.value,
-        state: stateValue /*state.value*/,
+        state: stateValue,
         zipCode: zipCode.value
     };
     employees.push(employee);
-    // localStorage.setItem('employees', JSON.stringify(employees));
-    // document.getElementById('confirmation').showModal();
     setShow(true);
   }
 
@@ -76,14 +71,12 @@ export const Home = () => {
           <input type="text" id="last-name" />
 
           <label htmlFor="date-of-birth">Date of Birth</label>
-          {/* {<input id="date-of-birth" type="text" onFocus={(e) => e.target.type='date'} onBlur={(e) => e.target.type='text'} />} */}
           <DatePicker 
             id='birth' 
             onChange={(value) => setBirthValue(value)}
           />
 
           <label htmlFor="start-date">Start Date</label>
-          {/* <input id="start-date" type="text" onFocus={(e) => e.target.type='date'} onBlur={(e) => e.target.type='text'} />*/}
           <DatePicker 
             id='start'
             onChange={(value) => setStartValue(value)} 
@@ -131,7 +124,7 @@ export const Home = () => {
 
         <button className="save" onClick={() => saveEmployee()}>Save</button>
       </div>
-      <Modal /*header='Hello World' footer={<button onClick={() => setShow(false)}>Close</button>}*/ onClose={() => setShow(false)} show={show}>
+      <Modal onClose={() => setShow(false)} show={show}>
         Employee Created!
       </Modal>
 
