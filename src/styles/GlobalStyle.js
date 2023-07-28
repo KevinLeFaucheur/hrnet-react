@@ -67,4 +67,16 @@ export default createGlobalStyle`
 
   #confirmation {
   }
+
+  /* Alternative CSS */
+  a, a:link, a:visited, a:focus, a:hover, a:active {
+    text-decoration: none;
+    font-weight: 500;
+    color: #2C71E1;
+  }
+
+  a:hover {
+    cursor: pointer;
+    text-decoration: underline;
+  }
 `

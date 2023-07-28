@@ -57,11 +57,11 @@ export const Home = () => {
 
   return (
     <HomeWrapper>
-      <div className="title">
+      {/* <div className="title">
           <h1>HRnet</h1>
-      </div>
+      </div> */}
       <div className="container">
-        <Link to='/employees'>View Current Employees</Link>
+        {/* <Link to='/employees'>View Current Employees</Link> */}
         <h2>Create Employee</h2>
         <form action="#" id="create-employee">
           <label htmlFor="first-name">First Name</label>
@@ -87,11 +87,13 @@ export const Home = () => {
                 '06/30/2023, Test',
                 '07/2/2023, Birthday',
                 '07/7/2023, Exam',
+                '07/7/2023, Party',
                 '07/18/2023, Another Test, hlCyan',
               ],
               highlightedPeriods: [
                 '06/1/2023, 06/18/2023, holidays, hlGreen',
-                ['12/1/2023', '12/18/2023', 'winter', 'hlCyan']
+                '07/1/2023, 07/8/2023, practice, hlGreen',
+                ['12/1/2023', '12/18/2023', 'winter', 'hlCyanPlain']
               ]
             }}
           />

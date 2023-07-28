@@ -3,6 +3,7 @@ import { Employees } from "./pages/Employees";
 import { Home } from "./pages/Home";
 import { createContext } from "react";
 import dataMocks from "./employees.json"
+import { Layout } from "./layout/Layout";
 
 export const DataContext = createContext(null);
 
@@ -13,8 +14,10 @@ export const App = () => {
   return (
     <DataContext.Provider value={employees}>
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/employees" element={<Employees />} />
+        <Route path="/" element={<Layout />}>
+          <Route path="/" element={<Home />} />
+          <Route path="/employees" element={<Employees />} />
+        </Route>
       </Routes>      
     </DataContext.Provider>
   );

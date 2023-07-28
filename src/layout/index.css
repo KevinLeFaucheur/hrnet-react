@@ -1,0 +1,30 @@
+#layout-title {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 100px;
+  background-color: rgb(189, 202, 198);
+}
+
+#layout-title > h1 {
+  font-size: 50px;
+}
+
+#layout-logo {
+  height: 150px;
+}
+
+#layout-nav {
+  height: 30px;
+  background-color: rgb(88, 97, 97);
+}
+
+#layout-nav > a {
+}
+
+a, a:link, a:visited, a:focus, a:hover, a:active {
+  margin-left: 10px;
+  line-height: 30px;
+  text-decoration: none;
+  font-weight: 500;
+  color: #ffffff;
+}
