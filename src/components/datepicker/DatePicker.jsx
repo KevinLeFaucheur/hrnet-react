@@ -1,10 +1,9 @@
 import { createContext, useEffect, useRef, useState } from "react";
-import { ArrowLeft, ArrowRight, Home, Calendar, ThinLeft, ThinRight } from "./assets/Icons";
+import { Home, Calendar, ThinLeft, ThinRight } from "./assets/Icons";
 import { internationalization as i18n } from "./internationalization";
 import { daysCount, range, weekCount } from "./utils";
 import { TimePicker } from "./TimePicker";
 import "./index.css";
-import { render } from "react-dom";
 
 /**
  * 
@@ -184,8 +183,6 @@ export const DatePicker = ({ id, onChange, options }) => {
     setData(dataBuilder(date));
     placeholderRef.current.innerText = date.toLocaleDateString();   
     if(onChange) onChange(date.toLocaleDateString());
-    // console.log('1st', id);
-
   }, [onChange, selectedDate]);
 
   //
@@ -194,9 +191,7 @@ export const DatePicker = ({ id, onChange, options }) => {
       if (datepickerRef.current && !datepickerRef.current.contains(e.target) && !isScrolling) {
         setShowDatePicker(false);
       }
-    }    
-    // console.log('2nd', id);
-
+    }
     window.addEventListener('click', close);
     return () => window.removeEventListener('click', close);
   }, [isScrolling])
@@ -275,7 +270,7 @@ export const DatePicker = ({ id, onChange, options }) => {
   const weekdays = options?.dayOfWeekShort ?? i18n[locale].dayOfWeekShort;
   const months = options?.months ?? i18n[locale].months;
   const highlightedDates = getHighlightedDates(options?.highlightedDates) || [];
-  const highlightedPeriods = getHighlightedPeriod(options?.highlightedPeriods) || [];
+  const highlightedPeriods = getHighlightedPeriod(options?.highlightedPeriods, highlightedDates) || [];
   const highlightedDays = [highlightedDates, highlightedPeriods].flat();
   /*  */
 
@@ -368,23 +363,23 @@ const getHighlightedDates = (hlDates) => {
     hlDates.forEach(date => {
       let dateStruct = date.split(',').map(value => value.trim());
       let highlightedDate = {
+        key: dateStruct[0],
         timestamp: Date.parse(dateStruct[0]),
         desc: dateStruct[1],
         style: dateStruct[2],
       }
+      let existingDate = dates.find(date => date.key === highlightedDate.key);
+      if(existingDate !== undefined) {
 
-    // hDate = new HighlightedDate(dateHelper.parseDate(splitData[0], options.formatDate), splitData[1], splitData[2]), // date, desc, style
-    // keyDate = dateHelper.formatDate(hDate.date, options.formatDate);
-    // if (highlightedDates[keyDate] !== undefined) {
-    //   exDesc = highlightedDates[keyDate].desc;
-    //   if (exDesc && exDesc.length && hDate.desc && hDate.desc.length) {
-    //     highlightedDates[keyDate].desc = exDesc + "\n" + hDate.desc;
-    //   }
-    // } else {
-    //   highlightedDates[keyDate] = hDate;
-    // }
+        let hasDescription = existingDate.desc && existingDate.desc.length;
+        let hasAlsoDescritpion = highlightedDate.desc && highlightedDate.desc.length;
 
-      dates.push(highlightedDate);
+        if(hasDescription && hasAlsoDescritpion) {
+          existingDate.desc += "\n" + highlightedDate.desc;
+        }
+      } else {
+        dates.push(highlightedDate);
+      }
     })
   }
   return dates;
@@ -393,24 +388,22 @@ const getHighlightedDates = (hlDates) => {
 /**
  * 
  * @param {*} hlPeriods 
+ * @param {*} hlDates 
  * @returns 
  */
-const getHighlightedPeriod = (hlPeriods) => {
-  let dates = [];
+const getHighlightedPeriod = (hlPeriods, hlDates) => {
+  let dates = hlDates;
 
   if (hlPeriods && Array.isArray(hlPeriods) && hlPeriods.length) {
-
-    // highlightedDates = $.extend(true, [], options.highlightedDates);
 
     hlPeriods.forEach(period => {
       let start; // start date
       let end;
+      let key; // Should be MM/DD/YYYY
       let desc;
-      // let hDate;
-      // let keyDate;
-      // let exDesc;
       let style;
       if (Array.isArray(period)) {
+        key = period[0];
         start = Date.parse(period[0]);
         end = Date.parse(period[1]);
         desc = period[2];
@@ -418,36 +411,42 @@ const getHighlightedPeriod = (hlPeriods) => {
       }
       else {
         let periodStruct = period.split(',').map(value => value.trim());
-        start = Date.parse(periodStruct[0]) /*dateHelper.parseDate(periodStruct[0], options.formatDate)*/;
-        end = Date.parse(periodStruct[1]) /*dateHelper.parseDate(periodStruct[1], options.formatDate)*/;
+        key = periodStruct[0];
+        start = Date.parse(periodStruct[0]);
+        end = Date.parse(periodStruct[1]);
         desc = periodStruct[2];
         style = periodStruct[3];
       }
 
       while (start <= end) {
-        // hDate = new HighlightedDate(start, desc, style);
+
         let highlightedDate = {
+          key: key,
           timestamp: start,
           desc: desc,
           style: style,
         }
-        // keyDate = dateHelper.formatDate(start, options.formatDate);
-        // start.setDate(start.getDate() + 1);
-        // start = (new Date(start)).getDate() + 1; 
+
         let startDate = new Date(start);
         start = startDate.setDate(startDate.getDate() + 1);
+        let nextDate = new Date(start);
+        key = (nextDate.getMonth() + 1) + '/' + nextDate.getDate() + '/' + nextDate.getFullYear();
 
-        // if (highlightedDates[keyDate] !== undefined) {
-        //   exDesc = highlightedDates[keyDate].desc;
-        //   if (exDesc && exDesc.length && hDate.desc && hDate.desc.length) {
-        //     highlightedDates[keyDate].desc = exDesc + "\n" + hDate.desc;
-        //   }
-        // } else {
-        //   highlightedDates[keyDate] = hDate;
-        // }
-        dates.push(highlightedDate);
+        let existingDate = dates.find(date => date.key === highlightedDate.key);
+        if(existingDate !== undefined) {
+
+          let hasDescription = existingDate.desc && existingDate.desc.length;
+          let hasAlsoDescritpion = highlightedDate.desc && highlightedDate.desc.length;
+
+          if(hasDescription && hasAlsoDescritpion) {
+            existingDate.desc += "\n" + highlightedDate.desc;
+          }
+        } else {
+          dates.push(highlightedDate);
+        }
       }
     });
+    console.log(dates);
     return dates;
   }
 }
