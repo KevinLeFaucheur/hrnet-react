@@ -127,6 +127,12 @@
   color: #000;
 }
 
+.datepicker-menu td.hlCyanPlain {
+  background: #d2feff;
+  border-bottom: 1px solid white;
+  color: #000;
+}
+
 .datepicker-menu td.hlGreen {
   background: #d2fff0;
   box-shadow: #71ffac 0 1px 4px 0 inset;
@@ -242,6 +248,10 @@
   padding: 15px 10px;
 }
 
+.datepicker-input:focus {
+  border: #2C71E1;
+}
+
 .datepicker-menu nav {
   padding: 0 5px;
 }
@@ -258,7 +268,7 @@
   background: none;
   border: none;
   font-weight: 700;
-  border-radius: 5px;
+  /* border-radius: 5px; */
   text-align: center;
 }
 
@@ -279,13 +289,24 @@
   background: #ffe9d2;
   box-shadow: #ffb871 0 1px 4px 0 inset;
   color: #000;
+  border-radius: 0px;
 }
 
-.datepicker-menu td.hlCyan {
+.datepicker-menu td.hlFirst {
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+}
+
+.datepicker-menu td.hlEnd {
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+/* .datepicker-menu td.hlCyan {
   background: #d2feff;
   box-shadow: #71eeff 0 1px 4px 0 inset;
   color: #000;
-}
+} */
 
 .datepicker-menu td.hlGreen {
   background: #d2fff0;

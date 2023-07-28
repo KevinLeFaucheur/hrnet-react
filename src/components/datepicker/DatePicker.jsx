@@ -114,7 +114,10 @@ const selectClass = (sDate, tdDate, arrayOfDates) => {
 
   let dateFound = arrayOfDates.find(date => date.timestamp === Date.parse(tdDate));
   if (dateFound) {
-    className.push(dateFound.style ?? 'highlighted');
+    if(dateFound.style) {
+      dateFound.style.split(',').forEach(style => className.push(style));
+    }
+    else className.push('highlighted');
   }
 
   return className.join(' ');
@@ -363,7 +366,7 @@ const getHighlightedDates = (hlDates) => {
     hlDates.forEach(date => {
       let dateStruct = date.split(',').map(value => value.trim());
       let highlightedDate = {
-        key: dateStruct[0],
+        key: formatDate(dateStruct[0]),
         timestamp: Date.parse(dateStruct[0]),
         desc: dateStruct[1],
         style: dateStruct[2],
@@ -402,8 +405,9 @@ const getHighlightedPeriod = (hlPeriods, hlDates) => {
       let key; // Should be MM/DD/YYYY
       let desc;
       let style;
+      let first = true;
       if (Array.isArray(period)) {
-        key = period[0];
+        key = formatDate(period[0]);
         start = Date.parse(period[0]);
         end = Date.parse(period[1]);
         desc = period[2];
@@ -411,7 +415,7 @@ const getHighlightedPeriod = (hlPeriods, hlDates) => {
       }
       else {
         let periodStruct = period.split(',').map(value => value.trim());
-        key = periodStruct[0];
+        key = formatDate(periodStruct[0]);
         start = Date.parse(periodStruct[0]);
         end = Date.parse(periodStruct[1]);
         desc = periodStruct[2];
@@ -419,6 +423,10 @@ const getHighlightedPeriod = (hlPeriods, hlDates) => {
       }
 
       while (start <= end) {
+        if(first) {
+          first = false;
+          style += ',hlFirst';
+        } 
 
         let highlightedDate = {
           key: key,
@@ -430,7 +438,7 @@ const getHighlightedPeriod = (hlPeriods, hlDates) => {
         let startDate = new Date(start);
         start = startDate.setDate(startDate.getDate() + 1);
         let nextDate = new Date(start);
-        key = (nextDate.getMonth() + 1) + '/' + nextDate.getDate() + '/' + nextDate.getFullYear();
+        key = formatDate((nextDate.getMonth() + 1) + '/' + nextDate.getDate() + '/' + nextDate.getFullYear());
 
         let existingDate = dates.find(date => date.key === highlightedDate.key);
         if(existingDate !== undefined) {
@@ -444,9 +452,23 @@ const getHighlightedPeriod = (hlPeriods, hlDates) => {
         } else {
           dates.push(highlightedDate);
         }
+        
+        style = style.split(',')[0];
+        if(start === end){
+          style += ',hlEnd';
+        }
       }
     });
     console.log(dates);
     return dates;
   }
+}
+
+const formatDate = (string) => {
+  return string 
+          .split('/')
+          .map(number => {
+              return Number(number).toLocaleString('en-EN', { minimumIntegerDigits: 2, useGrouping: false })
+            })
+          .join('/');
 }
