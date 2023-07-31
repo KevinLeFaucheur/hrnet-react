@@ -1,8 +1,7 @@
 .datepicker-container {
   text-align: left;
-  border: 1px solid #858585;
+  /* border: 1px solid #858585; */
   position: relative;
-  border-radius: 3px;
   font-size: 0.8rem;
 
   /* TODO: better solution */
@@ -15,6 +14,18 @@
   align-items: center;
   justify-content: space-between;
   user-select: none;
+  
+  background-color: #F8F9FD;
+  border-radius: 3px;
+  height: 30px;
+}
+
+.datepicker-input:focus {
+  outline: 2px solid #1ebaf7;
+}
+
+.datepicker-input path {
+  fill: #2C71E1;
 }
 
 .select-tool {
@@ -237,6 +248,7 @@
   border-radius: 4px;
   background: #ccc;
 }
+
 .thumb:hover {
   background-color: #FF8000;
 }
@@ -248,9 +260,9 @@
   padding: 15px 10px;
 }
 
-.datepicker-input:focus {
+/* .datepicker-input:focus {
   border: #2C71E1;
-}
+} */
 
 .datepicker-menu nav {
   padding: 0 5px;

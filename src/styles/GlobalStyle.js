@@ -6,7 +6,7 @@ export default createGlobalStyle`
   }
 
   html {
-    font-family: Avenir, Helvetica, Arial, sans-serif;
+    font-family: Avenir, Helvetica, Arial, sans-serif, 'Signika Negative', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     /* text-align: center; */
@@ -55,17 +55,6 @@ export default createGlobalStyle`
       background: #f6f6f6;
       color: #454545;
     }
-  }
-
-  #create-employee {
-    width: 300px;
-
-    input {
-      /* width: 100%; */
-    }
-  }
-
-  #confirmation {
   }
 
   /* Alternative CSS */

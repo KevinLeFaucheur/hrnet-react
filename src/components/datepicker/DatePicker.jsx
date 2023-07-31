@@ -158,10 +158,15 @@ export const DatePicker = ({ id, onChange, options }) => {
   const [data, setData] = useState([]);
 
   const placeholderRef = useRef();
+  const inputRef = useRef();
   const datepickerRef = useRef();
   const yearsRange = range(1950, 2050);
 
-  const handleInputClick = () => setShowDatePicker(!showDatePicker);
+  const handleInputClick = () => { 
+    inputRef.current.focus({ focusVisible: true });
+    console.log(inputRef.current);
+    setShowDatePicker(!showDatePicker)
+  };
 
   /**
    * Passing datepicker options as object
@@ -279,7 +284,7 @@ export const DatePicker = ({ id, onChange, options }) => {
 
   return (
     <div id={`${id}-container`} className="datepicker-container" ref={datepickerRef} data-date={new Date(selectedDate.year, selectedDate.month, selectedDate.day)}>  
-      <div className="datepicker-input" onClick={handleInputClick} >
+      <div  ref={inputRef} tabIndex={1} className="datepicker-input" onClick={handleInputClick} >
         <div ref={placeholderRef} className="select-selected-value">DD/MM/YY</div>
         <div className="select-tools">
           <div className="select-tool">

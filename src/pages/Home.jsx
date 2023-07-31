@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom"
 import { styled } from "styled-components"
 import { states } from "../data/States"
 import { Modal } from "../components/modal/Modal"
@@ -8,9 +7,57 @@ import { DatePicker } from "../components/datepicker/DatePicker"
 import { DataContext } from "../App"
 
 const HomeWrapper = styled.main`
-  .save {
-    margin-top: 1rem;
+  font-family: 'Signika Negative', sans-serif;
+
+  input {
+    background-color: #F8F9FD;
+    border: none;
+    border-radius: 3px;
+    height: 30px;
   }
+  input:focus {
+    outline: 2px solid #1ebaf7;
+  }
+  
+`
+
+const Form = styled.form`
+  width: 80%;
+
+  fieldset
+  {
+    /* background-color:#CCC;
+    max-width: 500px; */
+    padding: 16px;	
+    border-radius: 10px;
+    border: 1px solid #2C71E1;
+  }
+  legend
+  {
+    margin-left: 80%;
+  }
+`
+
+const InputWrapper = styled.div`
+`
+
+const InputsRow = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 30px;
+  margin-bottom: 2.5rem;
+`
+
+const SaveButton = styled.button`
+  margin: 1rem 0 10%;;
+  appearance: none;
+  border-radius: 25px;
+  border: none;
+  background-color: #2C71E1;
+  color: #fff;
+  padding: 10px;
+  width: 120px;
 `
 
 /**
@@ -63,49 +110,67 @@ export const Home = () => {
       <div className="container">
         {/* <Link to='/employees'>View Current Employees</Link> */}
         <h2>Create Employee</h2>
-        <form action="#" id="create-employee">
-          <label htmlFor="first-name">First Name</label>
-          <input type="text" id="first-name" />
+        <Form action="#" id="create-employee">
+        <InputsRow>
+          <InputWrapper>
+            <label htmlFor="first-name">First Name</label>
+            <input type="text" id="first-name" />
+          </InputWrapper>
 
-          <label htmlFor="last-name">Last Name</label>
-          <input type="text" id="last-name" />
+          <InputWrapper>
+            <label htmlFor="last-name">Last Name</label>
+            <input type="text" id="last-name" />
+          </InputWrapper>
+        </InputsRow>
 
-          <label htmlFor="date-of-birth">Date of Birth</label>
-          <DatePicker 
-            id='birth' 
-            onChange={(value) => setBirthValue(value)}
-          />
-
-          <label htmlFor="start-date">Start Date</label>
-          <DatePicker 
-            id='start'
-            onChange={(value) => setStartValue(value)} 
-            options={{ 
-              locale: 'fr', 
-              timepicker: true, 
-              highlightedDates: [
-                '06/30/2023, Test',
-                '07/2/2023, Birthday',
-                '07/7/2023, Exam',
-                '07/7/2023, Party',
-                '07/18/2023, Another Test, hlCyan',
-              ],
-              highlightedPeriods: [
-                '06/1/2023, 06/18/2023, holidays, hlGreen',
-                '07/1/2023, 07/8/2023, practice, hlGreen',
-                ['12/1/2023', '12/18/2023', 'winter', 'hlCyanPlain']
-              ]
-            }}
-          />
+          <InputsRow>
+            <InputWrapper>              
+              <label htmlFor="date-of-birth">Date of Birth</label>
+              <DatePicker 
+                id='birth' 
+                onChange={(value) => setBirthValue(value)}
+              />
+            </InputWrapper>
+            <InputWrapper>
+              <label htmlFor="start-date">Start Date</label>
+              <DatePicker 
+                id='start'
+                onChange={(value) => setStartValue(value)} 
+                options={{ 
+                  locale: 'fr', 
+                  timepicker: true, 
+                  highlightedDates: [
+                    '06/30/2023, Test',
+                    '07/2/2023, Birthday',
+                    '07/7/2023, Exam',
+                    '07/7/2023, Party',
+                    '07/18/2023, Another Test, hlCyan',
+                  ],
+                  highlightedPeriods: [
+                    '06/1/2023, 06/18/2023, holidays, hlGreen',
+                    '07/1/2023, 07/8/2023, practice, hlGreen',
+                    ['12/1/2023', '12/18/2023', 'winter', 'hlCyanPlain']
+                  ]
+                }}
+              />
+            </InputWrapper>
+          </InputsRow>
+ 
 
           <fieldset className="address">
             <legend>Address</legend>
+          {/* <InputsRow></InputsRow> */}
+          {/* <InputWrapper></InputWrapper> */}
 
-            <label htmlFor="street">Street</label>
-            <input id="street" type="text" />
-
-            <label htmlFor="city">City</label>
-            <input id="city" type="text" />
+            <InputsRow>
+              <InputWrapper>
+                <label htmlFor="street">Street</label>
+                <input id="street" type="text" />
+              </InputWrapper>
+              <InputWrapper><label htmlFor="city">City</label>
+                <input id="city" type="text" />
+              </InputWrapper>
+            </InputsRow>
 
             <label htmlFor="state">State</label>
             <Select
@@ -122,9 +187,9 @@ export const Home = () => {
             options={options} 
             onChange={(value) => setDepartmentValue(value)}
           />
-        </form>
+        </Form>
 
-        <button className="save" onClick={() => saveEmployee()}>Save</button>
+        <SaveButton className="save" onClick={() => saveEmployee()}>Save</SaveButton>
       </div>
       <Modal onClose={() => setShow(false)} show={show}>
         Employee Created!

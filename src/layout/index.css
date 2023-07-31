@@ -18,10 +18,8 @@
   background-color: rgb(88, 97, 97);
 }
 
-#layout-nav > a {
-}
-
-a, a:link, a:visited, a:focus, a:hover, a:active {
+#layout-nav > a, #layout-nav > a:link, #layout-nav > a:visited, 
+#layout-nav > a:focus, #layout-nav > a:hover, #layout-nav > a:active {
   margin-left: 10px;
   line-height: 30px;
   text-decoration: none;
