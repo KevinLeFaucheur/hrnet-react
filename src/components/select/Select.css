@@ -1,17 +1,21 @@
 .select-container {
   text-align: left;
-  border: 1px solid #ccc;
   position: relative;
-  border-radius: 5px;
+  border: none;
 }
 
 .select-input {
   padding: 5px;
-  background-color: #f6f6f6;
   display: flex;
   align-items: center;
   justify-content: space-between;
   user-select: none;
+  background-color: #F8F9FD;
+  border-radius: 5px;
+}
+
+.select-input path {
+  fill: #2C71E1;
 }
 
 .select-menu {

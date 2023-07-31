@@ -26,8 +26,6 @@ const Form = styled.form`
 
   fieldset
   {
-    /* background-color:#CCC;
-    max-width: 500px; */
     padding: 16px;	
     border-radius: 10px;
     border: 1px solid #2C71E1;
