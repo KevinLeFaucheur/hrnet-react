@@ -13,12 +13,13 @@ const Search = styled.div`
   input {
     background-color: #F8F9FD;
     box-sizing: border-box;
-    padding-left: 18px;
+    padding-left: 26px;
     border: none;
     border-radius: 5px;
-    height: 24px;
+    height: 30px;
     margin-left: 0.5rem;
   }
+
   input:focus {
     outline-color: #2C71E1;
   }
@@ -42,11 +43,12 @@ const Search = styled.div`
   }
 
   .search-icon {
-    height: 12px;
+    height: 14px;
     font-weight: bold;
     position: absolute;
-    right: 174px;
-    top: 7px;
+    left: 70px;
+    top: 8px;
+    opacity: 0.3;
   }
 `
 
@@ -67,8 +69,9 @@ export const TableSearch = ({ onChange }) => {
 
   return (
     <Search>
-      <label>Search:&nbsp;<input ref={inputRef} onChange={(e) => onChange(search(data, e.target.value))} />
+      <label>Search:&nbsp;
         <img src={magnifier} className='search-icon' alt='Search' />
+        <input ref={inputRef} onChange={(e) => onChange(search(data, e.target.value))} />
         <img src={clear} alt='Clear' className={inputRef.current.value ? 'close' : 'none'} onClick={handleClearInput} />
       </label>
     </Search>

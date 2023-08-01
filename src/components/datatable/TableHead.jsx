@@ -1,8 +1,11 @@
 import { styled } from "styled-components"
 import { useContext, useState } from "react"
-import sortUp from "./assets/sort-up.svg"
-import sortDown from "./assets/sort-down.svg"
-import sortNone from "./assets/sort-none.svg"
+// import sortUp from "./assets/sort-up.svg"
+// import sortDown from "./assets/sort-down.svg"
+import sortUp from "./assets/sortUp.svg"
+import sortDown from "./assets/sortDown.svg"
+// import sortNone from "./assets/sort-none.svg"
+import sortNone from "./assets/sortNone.svg"
 import { SortingContext, TableContext } from "./DataTable"
 
 const TR = styled.tr`
@@ -13,7 +16,7 @@ const TR = styled.tr`
 `
 
 const TH = styled.th`
-  color: #67718B;
+  color: rgba(103, 113, 139, 0.5);
   box-sizing: content-box;
   /* border-bottom: 1px solid #2C71E1; */
   position: relative;
@@ -34,7 +37,6 @@ export const TableHead = ({ columns }) => {
   const [sorting, setSorting] = useState('none');
 
   const data = useContext(TableContext);
-  console.log(data);
   const sortByCtx = useContext(SortingContext);
 
   const getLongestString = (columnData) => {

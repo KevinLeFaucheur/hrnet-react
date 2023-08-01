@@ -15,6 +15,7 @@ const TableHeader = styled.header`
   display: flex;
   justify-content: space-between;
   height: 30px;
+  margin-bottom: 0.5rem;
 
   label, p {
     margin: 0;
