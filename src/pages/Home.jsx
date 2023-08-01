@@ -8,6 +8,10 @@ import { DataContext } from "../App"
 
 const HomeWrapper = styled.main`
   font-family: 'Signika Negative', sans-serif;
+  
+  h1 {
+    color: rgba(103, 113, 139, 1);
+  }
 
   input {
     background-color: #F8F9FD;
@@ -113,7 +117,7 @@ export const Home = () => {
       </div> */}
       <div className="container">
         {/* <Link to='/employees'>View Current Employees</Link> */}
-        <h2>Create Employee</h2>
+        <h1>Create Employee</h1>
         <Form action="#" id="create-employee">
         <InputsRow>
           <InputWrapper>

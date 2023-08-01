@@ -5,6 +5,7 @@ import { EntriesContext } from "./DataTable"
 const Select = styled.div`
   display: flex;
   justify-content: space-between;
+  color: rgba(103, 113, 139, 1);
 `
 
 /**

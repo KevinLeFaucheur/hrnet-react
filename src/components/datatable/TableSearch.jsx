@@ -38,6 +38,10 @@ const Search = styled.div`
     height: 21px;
   }
 
+  label {
+    color: rgba(103, 113, 139, 1);
+  }
+
   label:hover > .close {
     display: block;
   }

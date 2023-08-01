@@ -7,6 +7,10 @@ import { styled } from "styled-components";
 const Main = styled.main`
   font-family: 'Signika Negative', sans-serif;
   margin-bottom: 2rem;
+
+  h1 {
+    color: rgba(103, 113, 139, 1);
+  }
 `
 
 export const Employees = () => {
