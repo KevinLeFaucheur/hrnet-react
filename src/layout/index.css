@@ -15,14 +15,13 @@
 }
 
 #layout-nav {
-  height: 30px;
   background-color: rgb(88, 97, 97);
 }
 
 #layout-nav > a, #layout-nav > a:link, #layout-nav > a:visited, 
 #layout-nav > a:focus, #layout-nav > a:hover, #layout-nav > a:active {
   margin-left: 10px;
-  line-height: 30px;
+  line-height: 45px;
   text-decoration: none;
   font-weight: 500;
   color: #ffffff;

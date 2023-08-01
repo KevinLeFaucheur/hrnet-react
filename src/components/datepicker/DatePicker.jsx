@@ -164,7 +164,6 @@ export const DatePicker = ({ id, onChange, options }) => {
 
   const handleInputClick = () => { 
     inputRef.current.focus({ focusVisible: true });
-    console.log(inputRef.current);
     setShowDatePicker(!showDatePicker)
   };
 
@@ -464,7 +463,7 @@ const getHighlightedPeriod = (hlPeriods, hlDates) => {
         }
       }
     });
-    console.log(dates);
+    // console.log(dates);
     return dates;
   }
 }

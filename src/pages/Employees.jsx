@@ -2,6 +2,11 @@ import { Link } from "react-router-dom"
 import { useContext } from "react";
 import { DataTable } from "../components/datatable/DataTable";
 import { DataContext } from "../App";
+import { styled } from "styled-components";
+
+const Main = styled.main`
+  font-family: 'Signika Negative', sans-serif;
+`
 
 export const Employees = () => {
   const employees = useContext(DataContext);
@@ -22,7 +27,7 @@ export const Employees = () => {
   };
 
   return (
-    <main>
+    <Main>
       <div id="employee-div" className="container">
         <h1>Current Employees</h1>
 
@@ -30,6 +35,6 @@ export const Employees = () => {
 
         <Link to='/'>Home</Link>
       </div>
-    </main>
+    </Main>
   )
 }

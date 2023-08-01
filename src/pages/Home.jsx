@@ -23,15 +23,22 @@ const HomeWrapper = styled.main`
 
 const Form = styled.form`
   width: 80%;
+  max-width: 400px;
 
+  label {
+    margin: 14px 0 8px;
+  }
   fieldset
   {
     padding: 16px;	
     border-radius: 10px;
     border: 1px solid #2C71E1;
+    // border-left-width: 0;
+    // border-right-width: 0;
   }
   legend
   {
+    color: #2C71E1;
     margin-left: 80%;
   }
 `
@@ -43,8 +50,7 @@ const InputsRow = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 30px;
-  margin-bottom: 2.5rem;
+  // padding: 0 17px;
 `
 
 const SaveButton = styled.button`
@@ -170,21 +176,28 @@ export const Home = () => {
               </InputWrapper>
             </InputsRow>
 
-            <label htmlFor="state">State</label>
-            <Select
-              options={states} 
-              onChange={(value) => setStateValue(value)}
-            />
-
-            <label htmlFor="zip-code">Zip Code</label>
-            <input id="zip-code" type="number" />
+            <InputsRow>              
+              <InputWrapper>
+                <label htmlFor="state">State</label>
+                <Select
+                  options={states} 
+                  onChange={(value) => setStateValue(value)}
+                />      
+                </InputWrapper>
+                <InputWrapper>
+                <label htmlFor="zip-code">Zip Code</label>
+                <input id="zip-code" type="number" />
+              </InputWrapper>
+            </InputsRow>
           </fieldset>
-
-          <label htmlFor="department">Department</label>
-          <Select
-            options={options} 
-            onChange={(value) => setDepartmentValue(value)}
-          />
+        
+          <InputsRow>
+            <label htmlFor="department">Department</label>
+            <Select
+              options={options} 
+              onChange={(value) => setDepartmentValue(value)}
+            />
+          </InputsRow>
         </Form>
 
         <SaveButton className="save" onClick={() => saveEmployee()}>Save</SaveButton>

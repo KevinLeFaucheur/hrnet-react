@@ -3,11 +3,25 @@ import { styled } from "styled-components"
 import { TableContext } from "./DataTable"
 import { search } from './utils/search'
 import clear from './assets/clear.svg'
+import magnifier from './assets/magnifier.svg'
 
 const Search = styled.div`
   display: flex;
   justify-content: space-between;
   position: relative;
+
+  input {
+    background-color: #F8F9FD;
+    box-sizing: border-box;
+    padding-left: 18px;
+    border: none;
+    border-radius: 5px;
+    height: 24px;
+    margin-left: 0.5rem;
+  }
+  input:focus {
+    outline-color: #2C71E1;
+  }
 
   .none {
     display: none;
@@ -25,6 +39,14 @@ const Search = styled.div`
 
   label:hover > .close {
     display: block;
+  }
+
+  .search-icon {
+    height: 12px;
+    font-weight: bold;
+    position: absolute;
+    right: 174px;
+    top: 7px;
   }
 `
 
@@ -46,7 +68,8 @@ export const TableSearch = ({ onChange }) => {
   return (
     <Search>
       <label>Search:&nbsp;<input ref={inputRef} onChange={(e) => onChange(search(data, e.target.value))} />
-        <img src={clear} alt='Clear Input' className={inputRef.current.value ? 'close' : 'none'} onClick={handleClearInput} />
+        <img src={magnifier} className='search-icon' alt='Search' />
+        <img src={clear} alt='Clear' className={inputRef.current.value ? 'close' : 'none'} onClick={handleClearInput} />
       </label>
     </Search>
   )
