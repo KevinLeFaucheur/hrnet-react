@@ -6,6 +6,7 @@ import { styled } from "styled-components";
 
 const Main = styled.main`
   font-family: 'Signika Negative', sans-serif;
+  margin-bottom: 2rem;
 `
 
 export const Employees = () => {
@@ -33,7 +34,7 @@ export const Employees = () => {
 
         <DataTable table={table} />
 
-        <Link to='/'>Home</Link>
+        {/* <Link to='/'>Home</Link> */}
       </div>
     </Main>
   )

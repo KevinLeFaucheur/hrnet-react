@@ -7,14 +7,15 @@ import { SortingContext, TableContext } from "./DataTable"
 
 const TR = styled.tr`
   cursor: pointer;
-  background: #FFF;
+  background: #F8F9FD;
   height: 34px;
   font-weight: bold;
 `
 
 const TH = styled.th`
+  color: #67718B;
   box-sizing: content-box;
-  border-bottom: 1px solid #111;
+  /* border-bottom: 1px solid #2C71E1; */
   position: relative;
   padding: 10px 18px;
   user-select: none;

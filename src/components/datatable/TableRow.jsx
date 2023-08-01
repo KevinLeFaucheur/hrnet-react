@@ -10,7 +10,7 @@ const TR = styled.tr`
   }
   
   &:nth-child(odd) {
-    background: #f9f9f9;
+    /* background: #f9f9f9; */
     
     .selected {
       background: #f1f1f1;
@@ -30,8 +30,9 @@ const TR = styled.tr`
 `
 
 const TD = styled.td`
-  border-bottom: 1px solid #DDD;
+  border-bottom: 2px solid #F8F9FD;
   padding: 8px 8px;
+  user-select: none;
 `
 
 export const TableRow = ({ rowData, columns }) => {
