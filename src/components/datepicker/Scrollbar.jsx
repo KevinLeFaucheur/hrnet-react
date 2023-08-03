@@ -3,8 +3,13 @@ import { ScrollingContext } from "./DatePicker";
 import { clamp } from "./utils";
 
 /**
+ * Scroll Bar Component
+ * @param {  } scroller 
+ * @param { Callback } setMargin 
+ * @param { } scrollPercent 
+ * @returns 
+ * 
  * TODO:
- * - Min and Max pos // Clamp marginTop instead
  */
 export const Scrollbar = ({ scroller, setMargin, scrollPercent }) => {
   const setIsScrolling = useContext(ScrollingContext);
@@ -26,6 +31,9 @@ export const Scrollbar = ({ scroller, setMargin, scrollPercent }) => {
     };
   }, []);
 
+  /**
+   * Handles and calculates mouse wheel scrolling
+   */
   const handleWheelScroll = (e) => {
     let multiplier = 12.5;
     let deltaSCroll = clamp(e.deltaY,  -1, 1) * multiplier;
@@ -42,12 +50,14 @@ export const Scrollbar = ({ scroller, setMargin, scrollPercent }) => {
     setMargin(-scrollPercent * (scroller.current.clientHeight - trackRef.current.clientHeight));
   };
 
+  /**
+   * Handles and calculates mouse down scrolling
+   */
   useEffect(() => {
 
     const handleScrolling = (e) => {    
       if(canScroll) {
         setIsScrolling(true);
-        // console.log(struct);
 
         let thumbHalfHeight = thumbRef.current.clientHeight / 2;
 
@@ -71,6 +81,10 @@ export const Scrollbar = ({ scroller, setMargin, scrollPercent }) => {
     return () => ['mousemove', 'touchmove'].forEach(event => window.removeEventListener(event, handleScrolling));
   }, [canScroll, scroller, setIsScrolling, setMargin])
 
+  /**
+   * Updates the scrolling percent 
+   * for timepicker can calculate its own margin to offset
+   */
   useEffect(() => {
     let margin = (trackRef.current.clientHeight - thumbRef.current.clientHeight) * scrollPercent;
     thumbRef.current.style.marginTop = margin + 'px';

@@ -43,49 +43,6 @@ const dataBuilder = (date) => {
   return calendar;
 }
 
-// const calendarBuilder = (calendar, selectedDate, highlightedDays) => {
-//   let tbody = document.createElement('tbody');
-
-//   // For each week
-//   for (let i = 0; i < calendar.length; i++) {
-//     let tr = document.createElement('tr');
-    
-//     // For each day
-//     for (let j = 0; j < calendar[i].length; j++) {
-//       let date = calendar[i][j];
-//       let td = document.createElement('td');
-//       td.className = selectClass(new Date(selectedDate.year, selectedDate.month, selectedDate.day), date, highlightedDays);
-//       td.dataset.year = date.getFullYear();
-//       td.dataset.month = date.getMonth();
-//       td.dataset.day = date.getDate();
-//       td.key = date.toLocaleDateString();
-//       td.setAttribute('onclick', '(e) => handleDateChange(e)');
-//       td.title = selectTitle(date, highlightedDays);
-//       td.innerText = date.getDate();
-//       tr.appendChild(td);
-//     }
-
-//     tbody.appendChild(tr);
-//   }
-//   return tbody;
-// }
-
-// { data.map((week, i) => 
-//   <tr key={`Week-${i + 1}`}>
-//     { week.map(date => 
-      
-//       <td 
-//         className={selectClass(new Date(selectedDate.year, selectedDate.month, selectedDate.day), date, highlightedDays)}
-//         data-year={date.getFullYear()} data-month={date.getMonth()} data-day={date.getDate()} 
-//         key={date.toLocaleDateString()} 
-//         onClick={(e) => handleDateChange(e)}
-//         title={selectTitle(date, highlightedDays)}
-//         >
-//           {date.getDate()}
-//       </td>) }
-//   </tr>
-// )}
-
 /**
  * Adds the corresponding CSS class for :
  *  selected, greyed out, today and hightlighted dates
@@ -125,9 +82,9 @@ const selectClass = (sDate, tdDate, arrayOfDates) => {
 
 /**
  * 
- * @param {*} tdDate 
- * @param {*} arrayOfDates 
- * @returns 
+ * @param {Date} tdDate                           - Date Object to check if a title exists for it
+ * @param {Array.<HighlightedDate>} arrayOfDates  - All Highlighted Dates to check upon
+ * @returns {string}                              - Description added to the title attribute
  */
 const selectTitle = (tdDate, arrayOfDates) => {
   let dateFound = arrayOfDates.find(date => date.timestamp === Date.parse(tdDate));
@@ -148,6 +105,9 @@ const selectTitle = (tdDate, arrayOfDates) => {
  */
 export const ScrollingContext = createContext(null);
 
+/**
+ * 
+ */
 export const DatePicker = ({ id, onChange, options }) => {
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [selectedDate, setSelectedDate] = useState({
@@ -172,10 +132,10 @@ export const DatePicker = ({ id, onChange, options }) => {
 
   /**
    * Passing datepicker options as object
-   * @type {object} options {
-   * @property {boolean} save - your age.
-   * @property {boolean} timepicker - your age.
-   * @property {string} locale - your age.
+   * @type {Object} options
+   * @property {boolean} save       - Should or not use a save button to confirm the selected date.
+   * @property {boolean} timepicker - Should or not add a selection of hours.
+   * @property {string} locale      - Localization for the datepicker, defaults to lang attribute.
    * }
    */
   const default_options = {
@@ -187,7 +147,9 @@ export const DatePicker = ({ id, onChange, options }) => {
     highlightedPeriods: [],
   }
 
-  //
+  /**
+   * 
+   */
   useEffect(() => {
     const date = new Date(selectedDate.year, selectedDate.month, selectedDate.day);
     setData(dataBuilder(date));
@@ -195,7 +157,7 @@ export const DatePicker = ({ id, onChange, options }) => {
     if(onChange) onChange(date.toLocaleDateString());
   }, [onChange, selectedDate]);
 
-  //
+  // 
   useEffect(() => {
     const close = (e) => {
       if (datepickerRef.current && !datepickerRef.current.contains(e.target) && !isScrolling) {
@@ -206,6 +168,7 @@ export const DatePicker = ({ id, onChange, options }) => {
     return () => window.removeEventListener('click', close);
   }, [isScrolling])
 
+  //
   const handleMonthClick = (i) => {
     let month = selectedDate.month;
     let year = selectedDate.year;
@@ -217,6 +180,7 @@ export const DatePicker = ({ id, onChange, options }) => {
     }));
   }
 
+  //
   const handleMonthChange = (e) => {
     setSelectedDate(o => ({
       ...o,
@@ -224,6 +188,7 @@ export const DatePicker = ({ id, onChange, options }) => {
     }));
   }
 
+  //
   const handleYearChange = (e) => {
     setSelectedDate(o => ({
       ...o,
@@ -231,6 +196,7 @@ export const DatePicker = ({ id, onChange, options }) => {
     }));
   }
 
+  // Set selected date to today's
   const handleClickToday = () => {
     setSelectedDate(o => ({
       ...o,
@@ -240,6 +206,7 @@ export const DatePicker = ({ id, onChange, options }) => {
     }));
   }
 
+  // 
   const handleDateChange = (e) => {
 
     document
@@ -256,6 +223,7 @@ export const DatePicker = ({ id, onChange, options }) => {
     setShowDatePicker(!showDatePicker);
   }
 
+  // 
   const handleSaveSelected = () => {
 
     const date = new Date(selectedDate.year, selectedDate.month, selectedDate.day);
@@ -360,10 +328,18 @@ export const DatePicker = ({ id, onChange, options }) => {
   )
 }
 
+/**
+ * @typedef {Object} HighlightedDate
+ * @property {string} desc      - Description set in title attribute
+ * @property {string} key       - Highlighted Date in MM/DD/YYYY format
+ * @property {string} className - Custom CSS class, use a default one if left empty
+ * @property {string} timestamp - Highlighted Date as timestamp in ms
+ */
+
  /**
   * 
-  * @param {*} hlDates 
-  * @returns 
+  * @param {Array.<string>} hlDates     - string of valid date, optional desc and optional className
+  * @returns {Array.<HighlightedDate>}  - Highlighted Dates, to be compared with Periods then used in Calendar
   */
 const getHighlightedDates = (hlDates) => {
   let dates = [];
@@ -396,10 +372,11 @@ const getHighlightedDates = (hlDates) => {
 }
 
 /**
- * 
- * @param {*} hlPeriods 
- * @param {*} hlDates 
- * @returns 
+ * Builds an array of HighlightedDate for a period,
+ * Checking if each period day overlaps with an already highlighted day
+ * @param {string|Array.<string>} hlPeriods - string, or array of string of valid date, optional desc and optional className
+ * @param {Array.<HighlightedDate>} hlDates - Highlighted Dates to find overlaps
+ * @returns {Array.<HighlightedDate>}       - Complete array of Highlighted Dates including overlaps
  */
 const getHighlightedPeriod = (hlPeriods, hlDates) => {
   let dates = hlDates;
@@ -410,7 +387,7 @@ const getHighlightedPeriod = (hlPeriods, hlDates) => {
       let start; // start date
       let end;
       let key; // Should be MM/DD/YYYY
-      let desc;
+      let desc; 
       let style;
       let first = true;
       if (Array.isArray(period)) {
@@ -466,11 +443,15 @@ const getHighlightedPeriod = (hlPeriods, hlDates) => {
         }
       }
     });
-    // console.log(dates);
     return dates;
   }
 }
 
+/**
+ * Makes sure date format is minimum 2 integer digits
+ * @param {string} dateString - 
+ * @returns {string}          - formatted date string as MM/DD/YYYY
+ */
 const formatDate = (string) => {
   return string 
           .split('/')

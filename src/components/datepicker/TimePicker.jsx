@@ -17,6 +17,9 @@ export const TimePicker = ({ setSelectedTime }) => {
   const [scrollPercent, setScrollPercent] = useState(0);
   let maxMargin;
 
+  /**
+   * 
+   */
   const handleHourSelected = (e) => {
     timerpickerRef.current
       .querySelectorAll('.timepicker_time')
@@ -25,6 +28,9 @@ export const TimePicker = ({ setSelectedTime }) => {
     setSelectedTime(e.target.dataset.hour + ':' + e.target.dataset.minute);
   }
 
+  /**
+   * 
+   */
   const handleScrollButton = (n) => {  
     maxMargin = - (timerpickerRef.current.clientHeight - timeScrollerRef.current.clientHeight);
     let offset = clamp(margin + (n * unitRef.current.offsetHeight), maxMargin, 0);
@@ -32,6 +38,9 @@ export const TimePicker = ({ setSelectedTime }) => {
     setScrollPercent(margin / maxMargin);
   }
   
+  /**
+   * 
+   */
   useEffect(() => {
     timerpickerRef.current.style.marginTop = margin + 'px';
   }, [margin])
