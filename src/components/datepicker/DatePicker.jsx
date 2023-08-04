@@ -6,9 +6,10 @@ import { TimePicker } from "./TimePicker";
 import "./index.css";
 
 /**
- * 
- * @param {*} date 
- * @returns 
+ * Fills the calendar with an array for each week for each date visible
+ * Includes previous and next month days if needed to be seen
+ * @param {Date} date        - 
+ * @returns {Array.<Date[]>} - 
  */
 const dataBuilder = (date) => {
   const month = date.getMonth();
@@ -76,12 +77,11 @@ const selectClass = (sDate, tdDate, arrayOfDates) => {
     }
     else className.push('highlighted');
   }
-
   return className.join(' ');
 }
 
 /**
- * 
+ * Finds if a date has a description within the Highlighted Dates array
  * @param {Date} tdDate                           - Date Object to check if a title exists for it
  * @param {Array.<HighlightedDate>} arrayOfDates  - All Highlighted Dates to check upon
  * @returns {string}                              - Description added to the title attribute
@@ -266,8 +266,8 @@ export const DatePicker = ({ id, onChange, options }) => {
       {showDatePicker && <div id={`${id}-menu`} className="datepicker-menu">
         <div className="datepicker-calendar">
           <nav className="datepicker-nav">
-            <button onClick={() => handleMonthClick(-1)} className="datepicker-prev"><ThinLeft /></button>
-            <button onClick={handleClickToday} className="datepicker-today"><Home /></button>
+            <button type="button" onClick={() => handleMonthClick(-1)} className="datepicker-prev"><ThinLeft /></button>
+            <button type="button" onClick={handleClickToday} className="datepicker-today"><Home /></button>
 
             <select 
               className="datepicker-month" 
@@ -285,7 +285,7 @@ export const DatePicker = ({ id, onChange, options }) => {
                 { yearsRange.map(year => <option key={year} value={year}>{year}</option>) }
             </select>
 
-            <button onClick={() => handleMonthClick(1)} className="datepicker-next"><ThinRight /></button>
+            <button type="button" onClick={() => handleMonthClick(1)} className="datepicker-next"><ThinRight /></button>
           </nav>
 
           <div className="datepicker-body">
