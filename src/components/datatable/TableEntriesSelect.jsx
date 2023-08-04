@@ -6,6 +6,20 @@ const Select = styled.div`
   display: flex;
   justify-content: space-between;
   color: rgba(103, 113, 139, 1);
+
+  select {
+    background-color: #F8F9FD;
+    color: rgba(103, 113, 139, 1);
+    box-sizing: border-box;
+    padding-left: 26px;
+    border: none;
+    border-radius: 5px;
+    height: 24px;
+  }
+
+  select:focus {
+    outline-color: #2C71E1;
+  }
 `
 
 /**

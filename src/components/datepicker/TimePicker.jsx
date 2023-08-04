@@ -29,7 +29,8 @@ export const TimePicker = ({ setSelectedTime }) => {
   }
 
   /**
-   * 
+   * Calculates and sets margin for moving hours up or down with buttons
+   * @param {number} offset - Should be -1 to move up and 1 to move down 
    */
   const handleScrollButton = (n) => {  
     maxMargin = - (timerpickerRef.current.clientHeight - timeScrollerRef.current.clientHeight);
@@ -39,7 +40,7 @@ export const TimePicker = ({ setSelectedTime }) => {
   }
   
   /**
-   * 
+   * Updates margin top as value changes
    */
   useEffect(() => {
     timerpickerRef.current.style.marginTop = margin + 'px';

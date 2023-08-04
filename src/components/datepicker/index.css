@@ -57,6 +57,10 @@
   width: 100px;
 }
 
+.datepicker-year {
+  width: 44px;
+}
+
 .datepicker-nav button {
   cursor: pointer;
   border: none;
@@ -91,6 +95,7 @@
 
 .datepicker-menu table {
   border-spacing: 0 0;
+  margin: 0 auto;
 }
 
 .datepicker-menu th, td {

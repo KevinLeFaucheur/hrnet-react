@@ -9,6 +9,8 @@ import { createContext, useEffect, useState } from "react"
 
 const TableContainer = styled.div`
   font-size: 16px;
+  align-self: start;
+  width: 100%;
 `
 
 const TableHeader = styled.header`
@@ -21,11 +23,25 @@ const TableHeader = styled.header`
     margin: 0;
   }  
 `
+const TableScrollContainer = styled.div`
+  overflow-x: scroll;
+`
 
 const Table = styled.table`
   border-spacing: 0 0;
   table-layout: fixed;
   border-collapse: collapse;
+
+  /* display: block;
+  overflow-x: auto;
+  white-space: nowrap;
+  width: max-content; */
+  position: sticky;
+  top: 0;
+  width: 100%;
+
+  tbody {
+  }
 `
 
 export const TableContext = createContext(null);
@@ -79,13 +95,15 @@ export const DataTable = ({ table }) => {
                 <TableSearch onChange={setDisplayData} />
               </TableHeader>
 
-              <Table>
-                <TableHead columns={columns} />
+              <TableScrollContainer>
+                <Table>
+                  <TableHead columns={columns} />
 
-                <tbody>
-                  { selected?.map((rowData, index) => <TableRow key={`row-${index}`} rowData={rowData} columns={columns} />)}
-                </tbody>
-              </Table>
+                  <tbody>
+                    { selected?.map((rowData, index) => <TableRow key={`row-${index}`} rowData={rowData} columns={columns} />)}
+                  </tbody>
+                </Table>                
+              </TableScrollContainer>
 
               <Separator />
 

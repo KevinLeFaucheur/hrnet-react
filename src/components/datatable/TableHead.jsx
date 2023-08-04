@@ -20,8 +20,9 @@ const TH = styled.th`
   box-sizing: content-box;
   /* border-bottom: 1px solid #2C71E1; */
   position: relative;
-  padding: 10px 18px;
+  padding: 10px 24px 10px 8px;
   user-select: none;
+  text-align: left;
   width: ${props => props.width + 'px'};
   background-image: url(${sortNone});
   background-repeat: no-repeat;
@@ -39,8 +40,9 @@ export const TableHead = ({ columns }) => {
   const data = useContext(TableContext);
   const sortByCtx = useContext(SortingContext);
 
-  const getLongestString = (columnData) => {
-    return data.sort((row1, row2) => row2[columnData].length - row1[columnData].length)[0][columnData];
+  const getLongestString = (columnData, columnTitle) => {
+    let longest = data.sort((row1, row2) => row2[columnData].length - row1[columnData].length)[0][columnData];
+    return longest.length > columnTitle?.length ? longest : columnTitle;
   }
 
   const getStringLengthInPixels = (string) => {
@@ -50,8 +52,8 @@ export const TableHead = ({ columns }) => {
     document.body.appendChild(textSpan);
     let width = Math.ceil(textSpan.getClientRects()[0].width);
     document.body.removeChild(textSpan);
-
-    return width;
+    let iconWidth = 24;
+    return width + iconWidth;
   }
 
   const toggleSort = (name) => {
@@ -80,7 +82,7 @@ export const TableHead = ({ columns }) => {
         {columns.map(column => {
           return  <TH key={column.data} 
                       id={`th-${column.data}`} 
-                      width={getStringLengthInPixels(getLongestString(column.data))}
+                      width={getStringLengthInPixels(getLongestString(column.data, column.title))}
                       tabIndex={0} 
                       onKeyDown={(e) => toggleSortKeyboard(column.data, e)}
                       onClick={() => toggleSort(column.data)}>

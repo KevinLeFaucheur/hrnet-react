@@ -13,7 +13,7 @@ const TR = styled.tr`
     /* background: #f9f9f9; */
     
     .selected {
-      background: #f1f1f1;
+      /* background: #f1f1f1; */
     }
   }
 
@@ -22,7 +22,10 @@ const TR = styled.tr`
   }
 
   &:hover {
-    background-color: #f6f6f6;
+    transform: scale(1);
+    background-color: #F8F9FD;
+    box-shadow: rgba(143, 158, 189, 0.7) 0px 1px 3px 0px;
+    
     .selected {
       background-color: #eaeaea;
     }
