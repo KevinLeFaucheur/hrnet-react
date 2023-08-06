@@ -1,12 +1,12 @@
 import { styled } from "styled-components"
-import { states } from "../data/States"
 import { Modal } from "../components/modal/Modal"
 import { useContext, useState } from "react"
 import { Select } from "../components/select/Select"
 import { DatePicker } from "../components/datepicker/DatePicker"
 import { DataContext } from "../App"
+import { states } from "../data/States"
 
-const HomeWrapper = styled.main`
+const PageWrapper = styled.main`
   font-family: 'Signika Negative', sans-serif;
   
   h1 {
@@ -71,7 +71,7 @@ const SaveButton = styled.button`
 /**
  * TODO:
  */
-export const Home = () => {
+export const CreateEmployee = () => {
   const employees = useContext(DataContext);
 
   const saveEmployee = () => {
@@ -111,7 +111,7 @@ export const Home = () => {
   ]
 
   return (
-    <HomeWrapper>
+    <PageWrapper>
       {/* <div className="title">
           <h1>HRnet</h1>
       </div> */}
@@ -210,6 +210,6 @@ export const Home = () => {
         Employee Created!
       </Modal>
 
-    </HomeWrapper>
+    </PageWrapper>
   )
 }

@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom"
 import { useContext } from "react";
 import { DataTable } from "../components/datatable/DataTable";
 import { DataContext } from "../App";
@@ -35,10 +34,7 @@ export const Employees = () => {
     <Main>
       <div id="employee-div" className="container">
         <h1>Current Employees</h1>
-
         <DataTable table={table} />
-
-        {/* <Link to='/'>Home</Link> */}
       </div>
     </Main>
   )

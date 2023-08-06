@@ -5,9 +5,13 @@
   background-color: #F8F9FD;
 }
 
-#layout-title > h1 {
+#layout-title h1 {
   font-size: 50px;
   color: #BDC2D2;
+}
+
+#layout-title a:hover {
+  text-decoration: none;
 }
 
 #layout-logo {
@@ -25,4 +29,8 @@
   text-decoration: none;
   font-weight: 500;
   color: #ffffff;
+}
+
+#layout-nav > a:hover {
+  color: #BDC2D2;
 }

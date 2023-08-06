@@ -7,11 +7,11 @@ export const Layout = () => {
   return (
     <>
       <div id="layout-title">
-        <h1>HRnet</h1>
+        <Link to='/'><h1>HRnet</h1></Link>
         <img id='layout-logo'  src={logo} alt='Wealth Health' />
       </div>
       <nav id='layout-nav'>
-        <Link to='/'>Home</Link>
+        <Link to='/'>Create Employee</Link>
         <Link to='/employees'>Employees</Link>
       </nav>
       <Outlet />

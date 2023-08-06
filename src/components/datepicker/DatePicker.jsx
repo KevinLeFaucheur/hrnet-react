@@ -96,12 +96,8 @@ const selectTitle = (tdDate, arrayOfDates) => {
 
 /**
  * TODO:
- * - Accessibility
- * - Tab focus (has only input focusable now and selects)
  * - max-heigth of options within datepicker
  * - Let user choose if single day or period has priority in overlapping
- * - Wondering if navigating should really change selected date, 
- *   until you click it or save it 
  */
 export const ScrollingContext = createContext(null);
 
