@@ -1,6 +1,6 @@
 import { useContext, useEffect, useRef, useState } from "react";
-import { ScrollingContext } from "./DatePicker";
 import { clamp } from "./utils";
+import { ScrollingContext } from "./ScrollingContext";
 
 /**
  * Scroll Bar Component
