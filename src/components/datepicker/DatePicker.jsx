@@ -155,7 +155,8 @@ export const DatePicker = ({ id, onChange, options }) => {
 
   return (
     <div id={`${id}-container`} className="datepicker-container" ref={datepickerRef} data-date={new Date(selectedDate.year, selectedDate.month, selectedDate.day)}>  
-      <div ref={inputRef} role="menu" tabIndex={0} className="datepicker-input" onClick={handleInputClick} >
+      <div ref={inputRef} tabIndex={0} className="datepicker-input" onClick={handleInputClick} 
+      role="combobox" aria-expanded="false" aria-haspopup="dialog" aria-controls="cb-dialog-1" aria-label={`${id}-date`}>
         <div ref={placeholderRef} className="select-selected-value">DD/MM/YY</div>
         <div className="select-tools">
           <div className="select-tool">
@@ -207,6 +208,8 @@ export const DatePicker = ({ id, onChange, options }) => {
                         key={date.toLocaleDateString()} 
                         onClick={(e) => handleDateChange(e)}
                         title={selectTitle(date, highlightedDays)}
+                        tabIndex={0}
+                        role="menuitem"
                         >
                           {date.getDate()}
                       </td>) }
