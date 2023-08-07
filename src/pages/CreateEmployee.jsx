@@ -6,68 +6,6 @@ import { DatePicker } from "../components/datepicker/DatePicker"
 import { DataContext } from "../App"
 import { states } from "../data/States"
 
-const PageWrapper = styled.main`
-  font-family: 'Signika Negative', sans-serif;
-  
-  h1 {
-    color: rgba(103, 113, 139, 1);
-  }
-
-  input {
-    background-color: #F8F9FD;
-    border: none;
-    border-radius: 3px;
-    height: 30px;
-  }
-  input:focus {
-    outline: 2px solid #1ebaf7;
-  }
-  
-`
-
-const Form = styled.form`
-  width: 80%;
-  max-width: 400px;
-
-  label {
-    margin: 14px 0 8px;
-  }
-  fieldset
-  {
-    padding: 16px;	
-    border-radius: 10px;
-    border: 1px solid #2C71E1;
-    // border-left-width: 0;
-    // border-right-width: 0;
-  }
-  legend
-  {
-    color: #2C71E1;
-    margin-left: 80%;
-  }
-`
-
-const InputWrapper = styled.div`
-`
-
-const InputsRow = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  // padding: 0 17px;
-`
-
-const SaveButton = styled.button`
-  margin: 1rem 0 10%;;
-  appearance: none;
-  border-radius: 25px;
-  border: none;
-  background-color: #2C71E1;
-  color: #fff;
-  padding: 10px;
-  width: 120px;
-`
-
 /**
  * TODO:
  */
@@ -112,11 +50,7 @@ export const CreateEmployee = () => {
 
   return (
     <PageWrapper>
-      {/* <div className="title">
-          <h1>HRnet</h1>
-      </div> */}
       <div className="container">
-        {/* <Link to='/employees'>View Current Employees</Link> */}
         <h1>Create Employee</h1>
         <Form action="#" id="create-employee">
         <InputsRow>
@@ -167,8 +101,6 @@ export const CreateEmployee = () => {
 
           <fieldset className="address">
             <legend>Address</legend>
-          {/* <InputsRow></InputsRow> */}
-          {/* <InputWrapper></InputWrapper> */}
 
             <InputsRow>
               <InputWrapper>
@@ -213,3 +145,66 @@ export const CreateEmployee = () => {
     </PageWrapper>
   )
 }
+
+
+/**
+ * Styled Components
+ */
+const PageWrapper = styled.main`
+  font-family: 'Signika Negative', sans-serif;
+  
+  h1 {
+    color: rgba(103, 113, 139, 1);
+  }
+
+  input {
+    background-color: #F8F9FD;
+    border: none;
+    border-radius: 3px;
+    height: 30px;
+  }
+  input:focus {
+    outline: 2px solid #1ebaf7;
+  }
+  
+`
+
+const Form = styled.form`
+  width: 80%;
+  max-width: 400px;
+
+  label {
+    margin: 14px 0 8px;
+  }
+  fieldset
+  {
+    padding: 16px;	
+    border-radius: 10px;
+    border: 1px solid #2C71E1;
+  }
+  legend
+  {
+    color: #2C71E1;
+    margin-left: 80%;
+  }
+`
+
+const InputWrapper = styled.div`
+`
+
+const InputsRow = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`
+
+const SaveButton = styled.button`
+  margin: 1rem 0 10%;;
+  appearance: none;
+  border-radius: 25px;
+  border: none;
+  background-color: #2C71E1;
+  color: #fff;
+  padding: 10px;
+  width: 120px;
+`

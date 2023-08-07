@@ -7,43 +7,6 @@ import { Separator } from "./Separator"
 import { TableHead } from "./TableHead"
 import { createContext, useEffect, useState } from "react"
 
-const TableContainer = styled.div`
-  font-size: 16px;
-  align-self: start;
-  width: 100%;
-`
-
-const TableHeader = styled.header`
-  display: flex;
-  justify-content: space-between;
-  height: 30px;
-  margin-bottom: 0.5rem;
-
-  label, p {
-    margin: 0;
-  }  
-`
-const TableScrollContainer = styled.div`
-  overflow-x: scroll;
-`
-
-const Table = styled.table`
-  border-spacing: 0 0;
-  table-layout: fixed;
-  border-collapse: collapse;
-
-  /* display: block;
-  overflow-x: auto;
-  white-space: nowrap;
-  width: max-content; */
-  position: sticky;
-  top: 0;
-  width: 100%;
-
-  tbody {
-  }
-`
-
 export const TableContext = createContext(null);
 export const SortingContext = createContext(null);
 export const EntriesContext = createContext(10);
@@ -60,12 +23,11 @@ export const DataTable = ({ table }) => {
 
   /**
    * TODO:
-   * - CSS
    */
   useEffect(() => {
     setDisplayData(displayData ? displayData : data);
     
-    /** */
+    /** Sorting Rows to Display */
     if(sortBy) {
       let desc = sortBy.desc ? -1 : 1;
       displayData.sort((a, b) => { 
@@ -74,10 +36,9 @@ export const DataTable = ({ table }) => {
       });
     }
 
-    /** */
+    /** Selecting Rows by Page Index and Number of entries */
     setSelected(displayData.slice((pageIndex) * entries, pageIndex * entries + entries));
 
-    /** */
     setPageCount(Math.ceil(displayData.length / entries));
     
   }, [data, displayData, entries, pageIndex, sortBy]);
@@ -117,3 +78,36 @@ export const DataTable = ({ table }) => {
     </TableContext.Provider>
   )
 }
+
+
+/**
+ * Styled Components
+ */
+const TableContainer = styled.div`
+  font-size: 16px;
+  align-self: start;
+  width: 100%;
+`
+
+const TableHeader = styled.header`
+  display: flex;
+  justify-content: space-between;
+  height: 30px;
+  margin-bottom: 0.5rem;
+
+  label, p {
+    margin: 0;
+  }  
+`
+const TableScrollContainer = styled.div`
+  overflow-x: scroll;
+`
+
+const Table = styled.table`
+  border-spacing: 0 0;
+  table-layout: fixed;
+  border-collapse: collapse;
+  position: sticky;
+  top: 0;
+  width: 100%;
+`

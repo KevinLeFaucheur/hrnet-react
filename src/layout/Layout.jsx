@@ -1,5 +1,5 @@
 import React from 'react'
-import logo from '../assets/logo.png'
+import logo from '../assets/logo.webp'
 import { Link, Outlet } from 'react-router-dom'
 import './index.css'
 

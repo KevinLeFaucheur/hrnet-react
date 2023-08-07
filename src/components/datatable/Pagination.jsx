@@ -30,6 +30,28 @@ export const Pagination = ({ pageIndex, pageCount, setPageIndex }) => {
   )
 }
 
+/**
+ * Determinate all possible cases for pagination elements
+ * @param {number} i    - Page Index
+ * @param {number} max  - Page Count
+ * @returns {Array}     - indices or dots to render in pagination
+ */
+const buildPagination = (i, max) => {
+  let pagination = [];
+
+  if(max > 2) pagination[0] = (i < 5) ? 2  : (i > (max - 5)) ? '...'    : '...';
+  if(max > 3) pagination[1] = (i < 5) ? 3  : (i > (max - 5)) ? max - 4 : i; 
+  if(max > 4) pagination[2] = (i < 5) ? 4  : (i > (max - 5)) ? max - 3 : i + 1;
+  if(max > 5) pagination[3] = (i < 5) ? 5  : (i > (max - 5)) ? max - 2 : i + 2;
+  if(max > 6) pagination[4] = (i < 5) ? '...' : (i > (max - 5)) ? max - 1 : '...';
+
+  return pagination;
+};
+
+
+/**
+ * Style Components
+ */
 const TableNavButton = styled.button`
   background: none;
   border: none;
@@ -65,21 +87,3 @@ const TableNavButton = styled.button`
   }
 
 `
-
-/**
- * 
- * @param {*} i     // Page Index
- * @param {*} max   // Page Count
- * @returns 
- */
-const buildPagination = (i, max) => {
-  let pagination = [];
-
-  if(max > 2) pagination[0] = (i < 5) ? 2  : (i > (max - 5)) ? '...'    : '...';
-  if(max > 3) pagination[1] = (i < 5) ? 3  : (i > (max - 5)) ? max - 4 : i; 
-  if(max > 4) pagination[2] = (i < 5) ? 4  : (i > (max - 5)) ? max - 3 : i + 1;
-  if(max > 5) pagination[3] = (i < 5) ? 5  : (i > (max - 5)) ? max - 2 : i + 2;
-  if(max > 6) pagination[4] = (i < 5) ? '...' : (i > (max - 5)) ? max - 1 : '...';
-
-  return pagination;
-};

@@ -5,6 +5,36 @@ import { search } from './utils/search'
 import clear from './assets/clear.svg'
 import magnifier from './assets/magnifier.svg'
 
+/**
+ * Search:
+ * - Send a regex to SearchContexts
+ */
+export const TableSearch = ({ onChange }) => {
+  const data = useContext(TableContext);
+  const inputRef = useRef('');
+  
+  const event = new Event("clear");
+  const handleClearInput = () => {
+    inputRef.current.value = '';
+    inputRef.current.dispatchEvent(event);
+    onChange(search(data, inputRef.current.value))
+  }
+
+  return (
+    <Search>
+      <label>Search:&nbsp;
+        <img src={magnifier} className='search-icon' alt='Search' />
+        <input ref={inputRef} onChange={(e) => onChange(search(data, e.target.value))} />
+        <img src={clear} alt='Clear' className={inputRef.current.value ? 'close' : 'none'} onClick={handleClearInput} />
+      </label>
+    </Search>
+  )
+}
+
+
+/**
+ * Styled Components
+ */
 const Search = styled.div`
   display: flex;
   justify-content: space-between;
@@ -55,29 +85,3 @@ const Search = styled.div`
     opacity: 0.3;
   }
 `
-
-/**
- * Search:
- * - Send a regex to SearchContexts
- */
-export const TableSearch = ({ onChange }) => {
-  const data = useContext(TableContext);
-  const inputRef = useRef('');
-  
-  const event = new Event("clear");
-  const handleClearInput = () => {
-    inputRef.current.value = '';
-    inputRef.current.dispatchEvent(event);
-    onChange(search(data, inputRef.current.value))
-  }
-
-  return (
-    <Search>
-      <label>Search:&nbsp;
-        <img src={magnifier} className='search-icon' alt='Search' />
-        <input ref={inputRef} onChange={(e) => onChange(search(data, e.target.value))} />
-        <img src={clear} alt='Clear' className={inputRef.current.value ? 'close' : 'none'} onClick={handleClearInput} />
-      </label>
-    </Search>
-  )
-}
