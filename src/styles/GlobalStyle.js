@@ -1,13 +1,20 @@
 import { createGlobalStyle } from "styled-components";
+import SignikaNegativeRegular from './fonts/SignikaNegative-Regular.ttf'
 
 export default createGlobalStyle`
+
+  @font-face {
+    font-family: 'Signika Negative';
+    src: url(${SignikaNegativeRegular});
+  }
+
   * {
     box-sizing: content-box;
     /* box-sizing: border-box; */
   }
 
   html {
-    font-family: Avenir, Helvetica, Arial, sans-serif, 'Signika Negative', sans-serif;
+    font-family: Avenir, Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     /* text-align: center; */
