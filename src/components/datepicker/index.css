@@ -1,10 +1,7 @@
 .datepicker-container {
   text-align: left;
-  /* border: 1px solid #858585; */
   position: relative;
   font-size: 0.8rem;
-
-  /* TODO: better solution */
   width: 173px;
 }
 
@@ -45,6 +42,12 @@
   overflow: auto;
   background-color: #fff;
   z-index: 2;
+}
+
+.inline-menu {
+  position: static;
+	/* display: inline-block;
+	box-shadow: none; */
 }
 
 .datepicker-menu nav{

@@ -41,24 +41,35 @@ export const DatePicker = ({ id, onChange, options }) => {
    */
   const default_options = {
     saveSelected: false,
+    datepicker: true,
     timepicker: false,
-    locale: document.documentElement.lang,  
-
+    locale: document.documentElement.lang, 
     highlightedDates: [],
-    highlightedPeriods: [],
+    highlightedPeriods: [], 
+  }
+
+  const timepicker_defaults = {
+    scrollbar: true,
+    allowTimes: [],
   }
 
   /**
    * Initializing variables with options if not null or default_options
    */
   const locale = options?.locale ?? default_options.locale;
-  const timepicker = options?.timepicker ?? default_options.timepicker;
-  const saveSelected = options?.saveSelected ?? default_options.saveSelected;
   const weekdays = options?.dayOfWeekShort ?? i18n[locale].dayOfWeekShort;
   const months = options?.months ?? i18n[locale].months;
+  const datepicker = options?.datepicker ?? default_options.datepicker;
+  const timepicker = options?.timepicker ?? default_options.timepicker;
+  const saveSelected = options?.saveSelected ?? default_options.saveSelected;
   const highlightedDates = getHighlightedDates(options?.highlightedDates) || [];
   const highlightedPeriods = getHighlightedPeriod(options?.highlightedPeriods, highlightedDates) || [];
   const highlightedDays = [highlightedDates, highlightedPeriods].flat();
+
+  const timepicker_options = {
+    scrollbar: options?.timepickerScrollbar ?? timepicker_defaults.scrollbar,
+    allowTimes: options?.allowTimes ?? timepicker_defaults.allowTimes,
+  }
 
   /**
    * 
@@ -225,7 +236,7 @@ export const DatePicker = ({ id, onChange, options }) => {
         </div> 
         {timepicker && 
           <ScrollingContext.Provider value={setIsScrolling}>
-            <TimePicker setSelectedTime={time => setSelectedDate(o => ({ ...o, time }))} />
+            <TimePicker setSelectedTime={time => setSelectedDate(o => ({ ...o, time }))} options={timepicker_options} />
           </ScrollingContext.Provider>}
       </div>}
     </div>

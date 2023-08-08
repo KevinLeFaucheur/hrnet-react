@@ -65,7 +65,8 @@ const Search = styled.div`
     right: 0;
     top: calc(50% - 12px);
     padding: 5px;
-    height: 21px;
+    height: 12px;
+    opacity: 0.75;
   }
 
   label {

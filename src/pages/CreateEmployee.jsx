@@ -24,10 +24,10 @@ export const CreateEmployee = () => {
         lastName: lastName.value,
         dateOfBirth: birthValue,
         startDate: startValue,
-        department: departmentValue,
+        department: departmentValue ?? '-',
         street: street.value,
         city: city.value,
-        state: stateValue,
+        state: stateValue ?? '-',
         zipCode: zipCode.value
     };
     employees.push(employee);
@@ -35,10 +35,10 @@ export const CreateEmployee = () => {
   }
 
   const [show, setShow] = useState(false);
-  const [departmentValue, setDepartmentValue] = useState(null);
-  const [stateValue, setStateValue] = useState(null);
-  const [birthValue, setBirthValue] = useState(null);
-  const [startValue, setStartValue] = useState(null);
+  const [departmentValue, setDepartmentValue] = useState('-');
+  const [stateValue, setStateValue] = useState('-');
+  const [birthValue, setBirthValue] = useState('-');
+  const [startValue, setStartValue] = useState('-');
 
   const options = [
     { value: 'Sales', label: 'Sales' },
@@ -92,7 +92,8 @@ export const CreateEmployee = () => {
                     '06/1/2023, 06/18/2023, holidays, hlGreen',
                     '07/1/2023, 07/8/2023, practice, hlGreen',
                     ['12/1/2023', '12/18/2023', 'winter', 'hlCyanPlain']
-                  ]
+                  ],
+                  allowTimes: ['21:26','10:05','11:00','13:06']
                 }}
               />
             </InputWrapper>

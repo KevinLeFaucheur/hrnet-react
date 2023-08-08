@@ -8,15 +8,21 @@ import "./index.css";
  * TimerPicker renders a range of hours to select,
  * Returns the selected time through 'setSelectedTime' 
  */
-export const TimePicker = ({ setSelectedTime }) => {
+export const TimePicker = ({ setSelectedTime, options }) => {
   const timeScrollerRef = useRef();
   const timerpickerRef = useRef();
   const unitRef = useRef();
-  const hoursRange = range(0, 23);
   const [margin, setMargin] = useState(0);
   const [scrollPercent, setScrollPercent] = useState(0);
   let maxMargin;
-
+  
+  /* Processing options */
+  let timesRange = range(0, 23).map(hour => hour + ':00');
+  const scrollbar = options.scrollbar;
+  if (options.allowTimes && Array.isArray(options.allowTimes) && options.allowTimes.length) {
+    options.allowTimes.sort();
+    timesRange = options.allowTimes;
+  }
   /**
    * 
    */
@@ -51,17 +57,17 @@ export const TimePicker = ({ setSelectedTime }) => {
       <button type="button" className="timepicker_prev" onClick={() => handleScrollButton(1)}><ArrowUp /></button>
         <div ref={timeScrollerRef} className="time_box time_scroller">
           <div ref={timerpickerRef} className="timepicker-time-container">
-            { hoursRange.map(hour => 
+            { timesRange.map(time => 
               <div 
-                key={hour} 
+                key={time} 
                 ref={unitRef} 
                 className="timepicker_time" 
                 onClick={(e) => handleHourSelected(e)}
-                data-hour={hour} 
-                data-minute={0}
-              >{hour + ':00'}</div>) }
+                data-hour={time.split(':')[0]} 
+                data-minute={time.split(':')[1]}
+              >{time}</div>) }
           </div>
-          <Scrollbar scroller={timerpickerRef} setMargin={setMargin} scrollPercent={scrollPercent} />
+          {scrollbar && <Scrollbar scroller={timerpickerRef} setMargin={setMargin} scrollPercent={scrollPercent} />}
         </div>
       <button type="button" className="timepicker_next" onClick={() => handleScrollButton(-1)}><ArrowDown /></button>
     </div>

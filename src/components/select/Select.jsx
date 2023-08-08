@@ -12,7 +12,7 @@ import { Icon } from "./assets/Icon";
 
 export const Select = ({ placeHolder, options, onChange }) => {
   const [showMenu, setShowMenu] = useState(false);
-  const [selectedValue, setSelectedValue] = useState(null);
+  const [selectedValue, setSelectedValue] = useState({ label: options[0].label ?? '-', value: options[0].value ?? '-'});
   const [upwards, setUpwards] = useState(false);
   const [focus, setFocus] = useState(0);
   const inputRef = useRef();
