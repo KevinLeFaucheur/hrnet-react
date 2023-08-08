@@ -18,11 +18,16 @@ export const TimePicker = ({ setSelectedTime, options }) => {
   
   /* Processing options */
   let timesRange = range(0, 23).map(hour => hour + ':00');
+
   const scrollbar = options.scrollbar;
   if (options.allowTimes && Array.isArray(options.allowTimes) && options.allowTimes.length) {
     options.allowTimes.sort();
     timesRange = options.allowTimes;
   }
+
+  const prev = options?.inverseButton ? -1 : 1;
+  const next = options?.inverseButton ? 1 : -1;
+
   /**
    * 
    */
@@ -54,7 +59,7 @@ export const TimePicker = ({ setSelectedTime, options }) => {
 
   return (
     <div className="timepicker" >
-      <button type="button" className="timepicker_prev" onClick={() => handleScrollButton(1)}><ArrowUp /></button>
+      <button type="button" className="timepicker_prev" onClick={() => handleScrollButton(prev)}><ArrowUp /></button>
         <div ref={timeScrollerRef} className="time_box time_scroller">
           <div ref={timerpickerRef} className="timepicker-time-container">
             { timesRange.map(time => 
@@ -69,7 +74,7 @@ export const TimePicker = ({ setSelectedTime, options }) => {
           </div>
           {scrollbar && <Scrollbar scroller={timerpickerRef} setMargin={setMargin} scrollPercent={scrollPercent} />}
         </div>
-      <button type="button" className="timepicker_next" onClick={() => handleScrollButton(-1)}><ArrowDown /></button>
+      <button type="button" className="timepicker_next" onClick={() => handleScrollButton(next)}><ArrowDown /></button>
     </div>
   )
 }

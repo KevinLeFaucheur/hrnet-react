@@ -93,10 +93,11 @@ export const CreateEmployee = () => {
                     '07/1/2023, 07/8/2023, practice, hlGreen',
                     ['12/1/2023', '12/18/2023', 'winter', 'hlCyanPlain']
                   ],
-                  allowTimes: ['21:26','10:05','11:00','13:06'],
+                  // allowTimes: ['21:26','10:05','11:00','13:06'],
                   yearStart: 1970,
                   yearEnd: 2030,
-                  timepickerScrollbar: false
+                  timepickerScrollbar: false,
+                  inverseButton: true
                 }}
               />
             </InputWrapper>

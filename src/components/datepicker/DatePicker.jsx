@@ -39,10 +39,12 @@ export const DatePicker = ({ id, onChange, options }) => {
    * }
    */
   const default_options = {
+    locale: document.documentElement.lang, 
+
     saveSelected: false,
     datepicker: true,
     timepicker: false,
-    locale: document.documentElement.lang, 
+
     highlightedDates: [],
     highlightedPeriods: [], 
   }
@@ -58,21 +60,30 @@ export const DatePicker = ({ id, onChange, options }) => {
   const years = [options?.yearStart ?? 1950, options?.yearEnd ?? 2050].sort();
   const yearsRange = range(years[0], years[1]);
 
+  // Localization
   const locale = options?.locale ?? default_options.locale;
   const weekdays = options?.dayOfWeekShort ?? i18n[locale].dayOfWeekShort;
   const months = options?.months ?? i18n[locale].months;
 
+  // Main features
   const datepicker = options?.datepicker ?? default_options.datepicker;
   const timepicker = options?.timepicker ?? default_options.timepicker;
   const saveSelected = options?.saveSelected ?? default_options.saveSelected;
 
+  // Controls
+  const prev = options?.inverseButton ? 1 : -1;
+  const next = options?.inverseButton ? -1 : 1;
+
+  // Special
   const highlightedDates = getHighlightedDates(options?.highlightedDates) || [];
   const highlightedPeriods = getHighlightedPeriod(options?.highlightedPeriods, highlightedDates) || [];
   const highlightedDays = [highlightedDates, highlightedPeriods].flat();
 
+  // TimePicker
   const timepicker_options = {
     scrollbar: options?.timepickerScrollbar ?? timepicker_defaults.scrollbar,
     allowTimes: options?.allowTimes ?? timepicker_defaults.allowTimes,
+    inverseButton: options?.inverseButton ?? false,
   }
 
   /**
@@ -183,7 +194,7 @@ export const DatePicker = ({ id, onChange, options }) => {
       {showDatePicker && <div id={`${id}-menu`} className="datepicker-menu">
         <div className="datepicker-calendar">
           <nav className="datepicker-nav">
-            <button type="button" onClick={() => handleMonthClick(-1)} className="datepicker-prev"><ThinLeft /></button>
+            <button type="button" onClick={() => handleMonthClick(prev)} className="datepicker-prev"><ThinLeft /></button>
             <button type="button" onClick={handleClickToday} className="datepicker-today"><Home /></button>
 
             <select 
@@ -202,7 +213,7 @@ export const DatePicker = ({ id, onChange, options }) => {
                 { yearsRange.map(year => <option key={year} value={year}>{year}</option>) }
             </select>
 
-            <button type="button" onClick={() => handleMonthClick(1)} className="datepicker-next"><ThinRight /></button>
+            <button type="button" onClick={() => handleMonthClick(next)} className="datepicker-next"><ThinRight /></button>
           </nav>
 
           <div className="datepicker-body">
