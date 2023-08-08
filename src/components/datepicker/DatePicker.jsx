@@ -88,16 +88,24 @@ export const DatePicker = ({ id, onChange, options }) => {
     scrollbar: options?.timepickerScrollbar ?? timepicker_defaults.scrollbar,
     allowTimes: options?.allowTimes ?? timepicker_defaults.allowTimes,
     inverseButton: options?.inverseButton ?? false,
+    hours12: options?.hours12 ?? false,
+    timepickerOnly: !datepicker,
   }
 
   /**
    * 
    */
   useEffect(() => {
+
+    if(datepicker){
+      
+    }
+
     const date = new Date(selectedDate.year, selectedDate.month, selectedDate.day);
     setCalendar(calendarBuilder(date));
-    placeholderRef.current.innerText = date.toLocaleDateString();   
+    placeholderRef.current.innerText = (datepicker ? date.toLocaleDateString() : '') + (timepicker ? ' ' + selectedDate.time : '');   
     if(onChange) onChange(date.toLocaleDateString());
+
   }, [onChange, selectedDate]);
 
   // 
@@ -171,7 +179,7 @@ export const DatePicker = ({ id, onChange, options }) => {
 
     const date = new Date(selectedDate.year, selectedDate.month, selectedDate.day);
     setCalendar(calendarBuilder(date));
-    placeholderRef.current.innerText = date.toLocaleDateString();   
+    placeholderRef.current.innerText = (datepicker ? date.toLocaleDateString() : '') + (timepicker ? ' ' + selectedDate.time : '');   
     if(onChange) onChange(date.toLocaleDateString());
 
     // localStorage.setItem('date', selectedDate);
@@ -195,8 +203,8 @@ export const DatePicker = ({ id, onChange, options }) => {
         </div>
       </div>  
       
-      {showDatePicker && <div id={`${id}-menu`} className="datepicker-menu">
-        <div className="datepicker-calendar">
+      {showDatePicker &&<div id={`${id}-menu`} className="datepicker-menu">
+        {datepicker && <div className="datepicker-calendar">
           <nav className="datepicker-nav">
             <button type="button" onClick={() => handleMonthClick(prev)} className="datepicker-prev"><ThinLeft /></button>
             <button type="button" onClick={handleClickToday} className={`datepicker-today ${!todayButton ? 'hidden' : ''}`}><Home /></button>
@@ -252,7 +260,7 @@ export const DatePicker = ({ id, onChange, options }) => {
           <footer className="datepicker-footer">
             {saveSelected && <button type="button" className="datepicker-save-selected" onClick={handleSaveSelected} >Save Selected</button>}
           </footer> 
-        </div> 
+        </div>}
         {timepicker && 
           <ScrollingContext.Provider value={setIsScrolling}>
             <TimePicker setSelectedTime={time => setSelectedDate(o => ({ ...o, time }))} options={timepicker_options} />
