@@ -101,7 +101,8 @@ export const CreateEmployee = () => {
                   // todayButton: false,
                   weekends: ['08/09/2023'],
                   // hours12: true
-                  datepicker: false,
+                  // datepicker: false,
+                  weeks: true,
                 }}
               />
             </InputWrapper>

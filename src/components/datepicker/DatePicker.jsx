@@ -48,6 +48,7 @@ export const DatePicker = ({ id, onChange, options }) => {
 
     highlightedDates: [],
     highlightedPeriods: [], 
+    weeks: false,
   }
 
   const timepicker_defaults = {
@@ -60,28 +61,30 @@ export const DatePicker = ({ id, onChange, options }) => {
    */
   const years = [options?.yearStart ?? 1950, options?.yearEnd ?? 2050].sort();
   const yearsRange = range(years[0], years[1]);
-
+  
   // Localization
   const locale = options?.locale ?? default_options.locale;
   const weekdays = options?.dayOfWeekShort ?? i18n[locale].dayOfWeekShort;
   const months = options?.months ?? i18n[locale].months;
-
+  
   // Main features
   const datepicker = options?.datepicker ?? default_options.datepicker;
   const timepicker = options?.timepicker ?? default_options.timepicker;
   const saveSelected = options?.saveSelected ?? default_options.saveSelected;
   const todayButton = options?.todayButton ?? default_options.todayButton;
-
+  
   // Controls
   const prev = options?.inverseButton ? 1 : -1;
   const next = options?.inverseButton ? -1 : 1;
-
+  
   // Special Days
   const highlightedDates = getHighlightedDates(options?.highlightedDates) || [];
   const highlightedPeriods = getHighlightedPeriod(options?.highlightedPeriods, highlightedDates) || [];
   const weekends = options?.weekends.map(weekend => Date.parse(weekend)) || [];
-
+  
   const highlightedDays = [highlightedDates, highlightedPeriods].flat();
+  
+  const weeks = options?.weeks ?? default_options.weeks;
 
   // TimePicker
   const timepicker_options = {
@@ -232,12 +235,14 @@ export const DatePicker = ({ id, onChange, options }) => {
             <table id={`${id}-table`}>
               <thead>
                 <tr>
+                  { weeks ? <th></th> : '' }
                   { weekdays.map(day => <th key={day} >{day.slice(0, 3)}</th>) }
                 </tr>
               </thead>
               <tbody>
                 { calendar.map((week, i) => 
                   <tr key={`Week-${i + 1}`}>
+                    { weeks ? <th>{getCurrentWeek(week[0]) + 1}</th> : '' }
                     { week.map(date => 
                       
                       <td 
@@ -487,6 +492,18 @@ const formatDate = (string) => {
               return Number(number).toLocaleString('en-EN', { minimumIntegerDigits: 2, useGrouping: false })
             })
           .join('/');
+}
+
+/**
+ * Calculates Week Number 
+ * @param {Date} currentDate - Which date
+ * @returns {number}         - Integer, Week Number
+ */
+const getCurrentWeek = (currentDate) => {
+  let startDate = new Date(currentDate.getFullYear(), 0, 1);
+  let days = Math.floor((currentDate - startDate) / (24 * 60 * 60 * 1000));
+   
+  return Math.ceil(days / 7);
 }
 
 /**
