@@ -97,7 +97,9 @@ export const CreateEmployee = () => {
                   yearStart: 1970,
                   yearEnd: 2030,
                   timepickerScrollbar: false,
-                  inverseButton: true
+                  inverseButton: true,
+                  // todayButton: false,
+                  weekends: ['08/09/2023']
                 }}
               />
             </InputWrapper>

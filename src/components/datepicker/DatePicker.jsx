@@ -44,6 +44,7 @@ export const DatePicker = ({ id, onChange, options }) => {
     saveSelected: false,
     datepicker: true,
     timepicker: false,
+    todayButton: true,
 
     highlightedDates: [],
     highlightedPeriods: [], 
@@ -69,14 +70,17 @@ export const DatePicker = ({ id, onChange, options }) => {
   const datepicker = options?.datepicker ?? default_options.datepicker;
   const timepicker = options?.timepicker ?? default_options.timepicker;
   const saveSelected = options?.saveSelected ?? default_options.saveSelected;
+  const todayButton = options?.todayButton ?? default_options.todayButton;
 
   // Controls
   const prev = options?.inverseButton ? 1 : -1;
   const next = options?.inverseButton ? -1 : 1;
 
-  // Special
+  // Special Days
   const highlightedDates = getHighlightedDates(options?.highlightedDates) || [];
   const highlightedPeriods = getHighlightedPeriod(options?.highlightedPeriods, highlightedDates) || [];
+  const weekends = options?.weekends.map(weekend => Date.parse(weekend)) || [];
+
   const highlightedDays = [highlightedDates, highlightedPeriods].flat();
 
   // TimePicker
@@ -195,7 +199,7 @@ export const DatePicker = ({ id, onChange, options }) => {
         <div className="datepicker-calendar">
           <nav className="datepicker-nav">
             <button type="button" onClick={() => handleMonthClick(prev)} className="datepicker-prev"><ThinLeft /></button>
-            <button type="button" onClick={handleClickToday} className="datepicker-today"><Home /></button>
+            <button type="button" onClick={handleClickToday} className={`datepicker-today ${!todayButton ? 'hidden' : ''}`}><Home /></button>
 
             <select 
               className="datepicker-month" 
@@ -229,7 +233,7 @@ export const DatePicker = ({ id, onChange, options }) => {
                     { week.map(date => 
                       
                       <td 
-                        className={selectClass(new Date(selectedDate.year, selectedDate.month, selectedDate.day), date, highlightedDays)}
+                        className={selectClass(new Date(selectedDate.year, selectedDate.month, selectedDate.day), date, highlightedDays, weekends)}
                         data-year={date.getFullYear()} data-month={date.getMonth()} data-day={date.getDate()} 
                         key={date.toLocaleDateString()} 
                         onClick={(e) => handleDateChange(e)}
@@ -305,7 +309,7 @@ const calendarBuilder = (date) => {
  * @param {Date} tdDate // td Date to display in calendar
  * @returns 
  */
-const selectClass = (sDate, tdDate, arrayOfDates) => {
+const selectClass = (sDate, tdDate, arrayOfDates, weekends) => {
   let className = [];
 
   if (sDate.getFullYear() === tdDate.getFullYear()
@@ -316,6 +320,10 @@ const selectClass = (sDate, tdDate, arrayOfDates) => {
 
   if(sDate.getMonth() !== tdDate.getMonth()) {
     className.push('greyed');
+  }
+
+  if(tdDate.getDay() === 0 || tdDate.getDay() === 6 || weekends.includes(Date.parse(tdDate))) {
+    className.push('weekend');
   }
 
   let now = new Date(Date.now());

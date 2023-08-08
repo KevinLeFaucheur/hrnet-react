@@ -177,6 +177,10 @@
   color: #454551;
 }
 
+.hidden {
+  visibility: hidden;
+}
+
 .timepicker {
   width: 58px;
   margin-top: 8px;
