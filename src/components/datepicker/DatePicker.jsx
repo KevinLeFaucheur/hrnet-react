@@ -24,7 +24,6 @@ export const DatePicker = ({ id, onChange, options }) => {
   const placeholderRef = useRef();
   const inputRef = useRef();
   const datepickerRef = useRef();
-  const yearsRange = range(1950, 2050);
 
   const handleInputClick = () => { 
     inputRef.current.focus({ focusVisible: true });
@@ -56,12 +55,17 @@ export const DatePicker = ({ id, onChange, options }) => {
   /**
    * Initializing variables with options if not null or default_options
    */
+  const years = [options?.yearStart ?? 1950, options?.yearEnd ?? 2050].sort();
+  const yearsRange = range(years[0], years[1]);
+
   const locale = options?.locale ?? default_options.locale;
   const weekdays = options?.dayOfWeekShort ?? i18n[locale].dayOfWeekShort;
   const months = options?.months ?? i18n[locale].months;
+
   const datepicker = options?.datepicker ?? default_options.datepicker;
   const timepicker = options?.timepicker ?? default_options.timepicker;
   const saveSelected = options?.saveSelected ?? default_options.saveSelected;
+
   const highlightedDates = getHighlightedDates(options?.highlightedDates) || [];
   const highlightedPeriods = getHighlightedPeriod(options?.highlightedPeriods, highlightedDates) || [];
   const highlightedDays = [highlightedDates, highlightedPeriods].flat();
