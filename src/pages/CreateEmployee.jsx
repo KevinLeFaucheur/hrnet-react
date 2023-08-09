@@ -99,7 +99,7 @@ export const CreateEmployee = () => {
                   timepickerScrollbar: false,
                   // inverseButton: true,
                   // todayButton: false,
-                  weekends: ['08/09/2023'],
+                  // weekends: ['08/09/2023'],
                   // hours12: true
                   // datepicker: false,
                   weeks: true,
@@ -111,7 +111,11 @@ export const CreateEmployee = () => {
                   defaultDate: '8/17/2023',
                   startDate: '8/15/2023',
                   step: 30,
-                  theme: 'dark',
+                  // theme: 'dark',
+                  // opened: true,
+                  disabledWeekDays: [0, 2, 5],
+                  disabledDates: ['08/23/2023'],
+                  // allowDates: ['8/8/2023', '8/16/2023'],
                 }}
               />
             </InputWrapper>
@@ -218,6 +222,7 @@ const InputsRow = styled.div`
 `
 
 const SaveButton = styled.button`
+  cursor: pointer;
   margin: 1rem 0 10%;;
   appearance: none;
   border-radius: 25px;
@@ -226,4 +231,9 @@ const SaveButton = styled.button`
   color: #fff;
   padding: 10px;
   width: 120px;
+
+  &:hover {
+    background-color: #6ca1f5;
+    box-shadow: 1px 1px 5px #8ba5cf;
+  }
 `

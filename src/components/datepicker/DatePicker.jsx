@@ -66,13 +66,24 @@ export const DatePicker = ({ id, onChange, options }) => {
   // const minDateTime = options?.minDateTime ?? false;
   // const maxDateTime = options?.maxDateTime ?? false;
   
-  // Special Days
+  // Select Class Dates
   const highlightedDates = getHighlightedDates(options?.highlightedDates) || [];
   const highlightedPeriods = getHighlightedPeriod(options?.highlightedPeriods, highlightedDates) || [];
-  const weekends = options?.weekends.map(weekend => Date.parse(weekend)) || [];
   const highlightedDays = [highlightedDates, highlightedPeriods].flat();
 
+  const selectClassesDates = {
+    highlightedDates: highlightedDates,
+    highlightedPeriods: highlightedPeriods,
+    highlightedDays: highlightedDays,
+    minMaxDates: [minDate, maxDate],
+    weekends: options?.weekends ? options.weekends.map(weekend => Date.parse(weekend)) : [],
+    disabledDates: options?.disabledDates ? options.disabledDates.map(date => Date.parse(date)) : [],
+    allowDates: options?.allowDates ? options.allowDates.map(date => Date.parse(date)) : [],
+    disabledWeekDays: options?.disabledWeekDays || [],
+  }
+
   const theme = options?.theme ?? false; // 'dark' is supported
+  const opened = options?.opened ?? false;
   
   /**
    * TimePicker Options
@@ -93,7 +104,7 @@ export const DatePicker = ({ id, onChange, options }) => {
     theme: options?.theme ?? false,
   }
 
-  const [showDatePicker, setShowDatePicker] = useState(false);
+  const [showDatePicker, setShowDatePicker] = useState(opened);
   const [selectedDate, setSelectedDate] = useState({
     date: new Date(startDate),
     year: new Date(startDate).getFullYear(),
@@ -266,7 +277,7 @@ export const DatePicker = ({ id, onChange, options }) => {
                     { week.map(date => 
                       
                       <td 
-                        className={selectClass(new Date(selectedDate.year, selectedDate.month, selectedDate.day), date, highlightedDays, weekends, [minDate, maxDate])}
+                        className={selectClass(new Date(selectedDate.year, selectedDate.month, selectedDate.day), date, selectClassesDates)}
                         data-year={date.getFullYear()} data-month={date.getMonth()} data-day={date.getDate()} 
                         key={date.toLocaleDateString()} 
                         onClick={(e) => handleDateChange(e)}
@@ -338,16 +349,14 @@ const calendarBuilder = (date) => {
 /**
  * Adds the corresponding CSS class for :
  *  selected, greyed out, today and hightlighted dates
- * @param {Date} sDate                - current selected Date by user
- * @param {Date} tdDate               - td Date to display in calendar
- * @param {Array.<Date>} arrayOfDates - td Date to display in calendar
- * @param {Array.<Date>} weekends     - td Date to display in calendar
- * @param {Array.<Date>} minMaxDate   - minDate and maxDate
- * @returns 
+ * @param {Date} sDate    - current selected Date by user
+ * @param {Date} tdDate   - td Date to display in calendar
+ * @param {Object} dates  - td Date to display in calendar
+ * @returns {string}      - classNames for this td
  */
-const selectClass = (sDate, tdDate, arrayOfDates, weekends, minMaxDate) => {
+const selectClass = (sDate, tdDate, dates) => {
   let className = [];
-  let [minDate, maxDate] = minMaxDate; 
+  let [minDate, maxDate] = dates.minMaxDates; 
   let minDateTimestamp = Date.parse(minDate);
   let maxDateTimestamp = Date.parse(maxDate);
 
@@ -361,14 +370,32 @@ const selectClass = (sDate, tdDate, arrayOfDates, weekends, minMaxDate) => {
     className.push('greyed');
   }
 
+  if(dates.disabledWeekDays.includes(tdDate.getDay())) {
+    className.push('disabled');
+  }
+
+  if(dates.disabledDates.includes(Date.parse(tdDate))) {
+    className.push('disabled');
+  }
+
   if(minDateTimestamp !== false && Date.parse(tdDate) < minDateTimestamp) {
     className.push('disabled');
   }
+
   if(maxDateTimestamp !== false && Date.parse(tdDate) > maxDateTimestamp) {
     className.push('disabled');
   }
 
-  if(tdDate.getDay() === 0 || tdDate.getDay() === 6 || weekends.includes(Date.parse(tdDate))) {
+  if(dates.allowDates.length > 0) {
+    if(dates.allowDates.includes(Date.parse(tdDate))) {
+      className = className.filter(className => className !== 'disabled');
+    }
+    else {
+      className.push('disabled');
+    } 
+  }
+
+  if(tdDate.getDay() === 0 || tdDate.getDay() === 6 || dates.weekends.includes(Date.parse(tdDate))) {
     className.push('weekend');
   }
 
@@ -378,7 +405,7 @@ const selectClass = (sDate, tdDate, arrayOfDates, weekends, minMaxDate) => {
     className.push('today');
   }
 
-  let dateFound = arrayOfDates.find(date => date.timestamp === Date.parse(tdDate));
+  let dateFound = dates.highlightedDates.find(date => date.timestamp === Date.parse(tdDate));
   if (dateFound) {
     if(dateFound.style) {
       dateFound.style.split(',').forEach(style => className.push(style));
