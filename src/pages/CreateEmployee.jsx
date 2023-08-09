@@ -103,6 +103,11 @@ export const CreateEmployee = () => {
                   // hours12: true
                   // datepicker: false,
                   weeks: true,
+                  minTime: '17',
+                  // maxTime: '21',
+                  defaultTime: '18',
+                  minDate: '8/8/2023',
+                  maxDate: '8/16/2023',
                 }}
               />
             </InputWrapper>

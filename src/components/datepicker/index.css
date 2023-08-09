@@ -118,7 +118,6 @@
   background: #f5f5f5;
   border: 1px solid #ddd;
   text-align: right;
-  /* padding-right: 5px; */
 }
 
 .datepicker-menu td.today {
@@ -127,6 +126,11 @@
 
 .datepicker-menu td.greyed {
   opacity: 0.5;
+}
+
+.datepicker-menu td.disabled {
+  opacity: 0.5;
+  cursor: default;
 }
 
 .datepicker-menu td.selected {
