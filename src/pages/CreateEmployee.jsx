@@ -106,8 +106,11 @@ export const CreateEmployee = () => {
                   minTime: '17',
                   // maxTime: '21',
                   defaultTime: '18',
-                  minDate: '8/8/2023',
-                  maxDate: '8/16/2023',
+                  // minDate: '8/8/2023',
+                  // maxDate: '8/16/2023',
+                  defaultDate: '8/17/2023',
+                  startDate: '8/15/2023',
+                  step: 30,
                 }}
               />
             </InputWrapper>

@@ -36,29 +36,9 @@ const timepicker_defaults = {
  * 
  */
 export const DatePicker = ({ id, onChange, options }) => {
-  const [showDatePicker, setShowDatePicker] = useState(false);
-  const [selectedDate, setSelectedDate] = useState({
-    date: new Date(Date.now()),
-    year: new Date(Date.now()).getFullYear(),
-    month: new Date(Date.now()).getMonth(),
-    day: new Date(Date.now()).getDate(),
-    time: new Date(Date.now()).getHours() + ':' + new Date(Date.now()).getMinutes(),
-  });
-  const [isScrolling, setIsScrolling] = useState(false);
-  const [calendar, setCalendar] = useState([]);
-
-  const placeholderRef = useRef();
-  const inputRef = useRef();
-  const datepickerRef = useRef();
-
-  const handleInputClick = () => { 
-    inputRef.current.focus({ focusVisible: true });
-    setShowDatePicker(!showDatePicker)
-  };
-
   /**
    * Initializing variables with options if not null or default_options
-   */
+  */
   const years = [options?.yearStart ?? 1950, options?.yearEnd ?? 2050].sort();
   const yearsRange = range(years[0], years[1]);
   
@@ -72,15 +52,15 @@ export const DatePicker = ({ id, onChange, options }) => {
   const todayButton = options?.todayButton ?? default_options.todayButton;
   const prev = options?.inverseButton ? 1 : -1;
   const next = options?.inverseButton ? -1 : 1;
-
+  
   // Main features
   const datepicker = options?.datepicker ?? default_options.datepicker;
   const timepicker = options?.timepicker ?? default_options.timepicker;
   const weeks = options?.weeks ?? default_options.weeks;
-
-  // Default and clamping Date and Time
-  const defaultDate = options?.defaultDate ?? false;	
-
+  
+  // Default and clamping Date and Time  
+  let defaultDate = options?.defaultDate ?? false;
+  const startDate = options?.startDate ?? Date.now();
   const minDate = options?.minDate ?? false;
   const maxDate = options?.maxDate ?? false;
   // const minDateTime = options?.minDateTime ?? false;
@@ -102,11 +82,32 @@ export const DatePicker = ({ id, onChange, options }) => {
     scrollbar: options?.timepickerScrollbar ?? timepicker_defaults.scrollbar,
 
     hours12: options?.hours12 ?? false,
+    step: options?.step ?? 60,
     allowTimes: options?.allowTimes ?? timepicker_defaults.allowTimes,
     defaultTime: options?.defaultTime ?? false,
     minTime: options?.minTime ?? false,
     maxTime: options?.maxTime ?? false,
   }
+
+  const [showDatePicker, setShowDatePicker] = useState(false);
+  const [selectedDate, setSelectedDate] = useState({
+    date: new Date(startDate),
+    year: new Date(startDate).getFullYear(),
+    month: new Date(startDate).getMonth(),
+    day: new Date(startDate).getDate(),
+    time: new Date(startDate).getHours() + ':' + new Date(startDate).getMinutes(),
+  });
+  const [isScrolling, setIsScrolling] = useState(false);
+  const [calendar, setCalendar] = useState([]);
+
+  const placeholderRef = useRef();
+  const inputRef = useRef();
+  const datepickerRef = useRef();
+
+  const handleInputClick = () => { 
+    inputRef.current.focus({ focusVisible: true });
+    setShowDatePicker(!showDatePicker)
+  };
 
   /**
    * 
@@ -118,11 +119,12 @@ export const DatePicker = ({ id, onChange, options }) => {
     }
 
     const date = new Date(selectedDate.year, selectedDate.month, selectedDate.day);
+
     setCalendar(calendarBuilder(date));
-    placeholderRef.current.innerText = (datepicker ? date.toLocaleDateString() : '') + (timepicker ? ' ' + selectedDate.time : '');   
+    placeholderRef.current.innerText = (datepicker ? date.toLocaleDateString() : '') + (timepicker ? ' ' + selectedDate.time : ''); 
     if(onChange) onChange(date.toLocaleDateString());
 
-  }, [onChange, selectedDate]);
+  }, [datepicker, onChange, selectedDate, timepicker])
 
   // 
   useEffect(() => {
@@ -212,7 +214,7 @@ export const DatePicker = ({ id, onChange, options }) => {
     <div id={`${id}-container`} className="datepicker-container" ref={datepickerRef} data-date={new Date(selectedDate.year, selectedDate.month, selectedDate.day)}>  
       <div ref={inputRef} tabIndex={0} className="datepicker-input" onClick={handleInputClick} 
       role="combobox" aria-expanded="false" aria-haspopup="dialog" aria-controls="cb-dialog-1" aria-label={`${id}-date`}>
-        <div ref={placeholderRef} className="select-selected-value">DD/MM/YY</div>
+        <div ref={placeholderRef} className="select-selected-value">{new Date(defaultDate).toLocaleDateString()}</div>
         <div className="select-tools">
           <div className="select-tool">
             <Calendar />

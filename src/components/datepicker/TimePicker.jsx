@@ -21,6 +21,21 @@ export const TimePicker = ({ setSelectedTime, options }) => {
    *  Processing TimePicker options
    */
   let timesRange = range(0, 23).map(hour => hour + ':00');
+  if(![0, false].includes(options.step) || options.step >= 60) {
+    timesRange = timesRange.map(time => {
+      let hoursRange = [];
+      let hour = time.split(':')[0];
+
+      for (let j = 0; j < 60; j += options.step) {
+        let minutes = hour * 60 + j;
+        let hours = (hour < 10 ? '0' : '') + hour;
+        minutes = (j < 10 ? '0' : '') + j;
+        hoursRange.push(hours + ':' + minutes);
+      }
+      return [...hoursRange];
+    });
+    timesRange = timesRange.flat();
+  }
 
   const timepickerOnly = options.timepickerOnly ?? false;
   const scrollbar = options.scrollbar;
