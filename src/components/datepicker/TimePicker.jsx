@@ -100,13 +100,13 @@ export const TimePicker = ({ setSelectedTime, options }) => {
   return (
     <div className={`timepicker ${timepickerOnly ? 'marginless' : ''}`}>
       <button type="button" className="timepicker_prev" onClick={() => handleScrollButton(prev)}><ArrowUp /></button>
-        <div ref={timeScrollerRef} className="time_box time_scroller">
+        <div ref={timeScrollerRef} className={`time_box time_scroller ${options.theme ? options.theme : ''}`}>
           <div ref={timerpickerRef} className="timepicker-time-container">
             { timesRange.map(time => 
               <div 
                 key={time} 
                 ref={unitRef} 
-                className={`timepicker_time ${setSelectedClass(timeToMinutes(time), selected)}`} 
+                className={`timepicker_time ${options.theme ? options.theme : ''} ${setSelectedClass(timeToMinutes(time), selected)}`} 
                 onClick={(e) => handleHourSelected(e)}
                 data-hour={time.split(':')[0]} 
                 data-minute={time.split(':')[1]}

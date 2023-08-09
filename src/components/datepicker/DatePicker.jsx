@@ -71,6 +71,8 @@ export const DatePicker = ({ id, onChange, options }) => {
   const highlightedPeriods = getHighlightedPeriod(options?.highlightedPeriods, highlightedDates) || [];
   const weekends = options?.weekends.map(weekend => Date.parse(weekend)) || [];
   const highlightedDays = [highlightedDates, highlightedPeriods].flat();
+
+  const theme = options?.theme ?? false; // 'dark' is supported
   
   /**
    * TimePicker Options
@@ -87,6 +89,8 @@ export const DatePicker = ({ id, onChange, options }) => {
     defaultTime: options?.defaultTime ?? false,
     minTime: options?.minTime ?? false,
     maxTime: options?.maxTime ?? false,
+
+    theme: options?.theme ?? false,
   }
 
   const [showDatePicker, setShowDatePicker] = useState(false);
@@ -222,14 +226,14 @@ export const DatePicker = ({ id, onChange, options }) => {
         </div>
       </div>  
       
-      {showDatePicker &&<div id={`${id}-menu`} className="datepicker-menu">
+      {showDatePicker &&<div id={`${id}-menu`} className={`datepicker-menu ${theme ? theme : ''}`}>
         {datepicker && <div className="datepicker-calendar">
           <nav className="datepicker-nav">
             <button type="button" onClick={() => handleMonthClick(prev)} className="datepicker-prev"><ThinLeft /></button>
             <button type="button" onClick={handleClickToday} className={`datepicker-today ${!todayButton ? 'hidden' : ''}`}><Home /></button>
 
             <select 
-              className="datepicker-month" 
+              className={`datepicker-month ${theme ? theme : ''}`} 
               value={selectedDate.month} 
               onChange={handleMonthChange}
               >
@@ -237,7 +241,7 @@ export const DatePicker = ({ id, onChange, options }) => {
             </select>
 
             <select 
-              className="datepicker-year" 
+              className={`datepicker-year ${theme ? theme : ''}`} 
               value={selectedDate.year} 
               onChange={handleYearChange}
               >

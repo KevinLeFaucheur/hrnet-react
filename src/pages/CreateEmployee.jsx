@@ -111,6 +111,7 @@ export const CreateEmployee = () => {
                   defaultDate: '8/17/2023',
                   startDate: '8/15/2023',
                   step: 30,
+                  theme: 'dark',
                 }}
               />
             </InputWrapper>

@@ -300,7 +300,6 @@
   background: none;
   border: none;
   font-weight: 700;
-  /* border-radius: 5px; */
   text-align: center;
 }
 
@@ -376,4 +375,68 @@
 .thin-arrow-left, .thin-arrow-right {
   fill: #2C71E1;
   stroke: #2C71E1;
+}
+
+/* 
+* Dark Theme
+*/
+.datepicker-menu.dark {
+  background-color: #38393C;
+}
+
+.datepicker-month.dark, .datepicker-year.dark {
+  background-color: #52473d;
+  color: #FFF;
+}
+
+.datepicker-menu.dark th {
+  color: #ffc477;
+  font-weight: 500;
+}
+
+.datepicker-menu.dark td {
+  background-color: #52473d;
+  color: #fff;
+  font-weight: 500;
+}
+
+.datepicker-menu.dark td:hover {
+  background-color: #FF8000;
+  color: #fff;
+}
+
+.datepicker-menu.dark td.selected {
+  background-color: #ffc387;
+  color: #252525;
+}
+
+.datepicker-menu.dark td.today {
+  color: #00ffd5;
+}
+
+.datepicker-menu.dark .thin-arrow-left, 
+.datepicker-menu.dark .thin-arrow-right,
+.datepicker-menu.dark path {
+  fill: #ffc477;
+  stroke: #ffc477;
+}
+
+.timepicker_time.dark {
+  background-color: #27282B;
+  border-color: #52473d;
+  color: #fff;
+}
+
+.timepicker_time:hover.dark {
+  background-color: #FF8000;
+  color: #fff;
+}
+
+.timepicker_time.dark.selected {
+  background-color: #ffc477;
+  color: #000;
+}
+
+.time_box.dark {
+  border-color: #52473d;
 }
