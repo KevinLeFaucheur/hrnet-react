@@ -68,10 +68,10 @@ export const CreateEmployee = () => {
           <InputsRow>
             <InputWrapper>              
               <label htmlFor="date-of-birth">Date of Birth</label>
-              <DatePicker 
+              {/* <DatePicker 
                 id='birth' 
                 onChange={(value) => setBirthValue(value)}
-              />
+              /> */}
             </InputWrapper>
             <InputWrapper>
               <label htmlFor="start-date">Start Date</label>
@@ -124,6 +124,7 @@ export const CreateEmployee = () => {
                   // onChangeDateTime: () => console.log('onChangeDateTime'),
                   // onShow: () => console.log('onShow'),
                   // onClose: () => console.log('onClose'),
+                  format: 'y\\m\\d' 
                 }}
               />
             </InputWrapper>
@@ -227,6 +228,7 @@ const InputsRow = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin: 1rem 0;
 `
 
 const SaveButton = styled.button`
