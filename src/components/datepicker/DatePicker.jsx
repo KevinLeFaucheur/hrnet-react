@@ -36,7 +36,6 @@ const timepicker_defaults = {
  * 
  */
 export const DatePicker = ({ id, onChange, options }) => {
-
   /**
    * Initializing variables with options if not null or default_options
   */
@@ -148,7 +147,8 @@ export const DatePicker = ({ id, onChange, options }) => {
     const date = new Date(selectedDate.year, selectedDate.month, selectedDate.day);
 
     setCalendar(calendarBuilder(date));
-    placeholderRef.current.innerText = (datepicker ? date.toLocaleDateString() : '') + (timepicker ? ' ' + selectedDate.time : ''); 
+    // placeholderRef.current.innerText = (datepicker ? date.toLocaleDateString() : '') + (timepicker ? ' ' + selectedDate.time : ''); 
+    inputRef.current.value = (datepicker ? date.toLocaleDateString() : '') + (timepicker ? ' ' + selectedDate.time : ''); 
     if(onChange) onChange(date.toLocaleDateString());
 
   }, [datepicker, onChange, selectedDate, timepicker])
@@ -161,6 +161,7 @@ export const DatePicker = ({ id, onChange, options }) => {
         if(onClose) onClose();
       }
     }
+     
     window.addEventListener('click', close);
     return () => window.removeEventListener('click', close);
   }, [isScrolling, onClose])
@@ -241,12 +242,36 @@ export const DatePicker = ({ id, onChange, options }) => {
     if(onSelectDate) onSelectDate();
   }
 
+  const handleInputOnChange = (value) => {
+    const date = new Date(value);
+    const y = date.getFullYear();
+    const m = date.getMonth();
+    const d = date.getDate();
+
+    // console.log(y.toString().length, m.toString().length, d.toString().length);
+
+    if(date instanceof Date 
+      && y.toString().length === 4 
+      && m.toString().length >= 1 
+      && d.toString().length >= 1) {
+
+      setSelectedDate(o => ({
+        ...o,
+        year : parseInt(y),
+        month: parseInt(m),
+        day: parseInt(d)
+      }));
+      setCalendar(calendarBuilder(date));
+    }
+  }
+
   // 
   const handleSaveSelected = () => {
 
     const date = new Date(selectedDate.year, selectedDate.month, selectedDate.day);
     setCalendar(calendarBuilder(date));
-    placeholderRef.current.innerText = (datepicker ? date.toLocaleDateString() : '') + (timepicker ? ' ' + selectedDate.time : '');   
+    // placeholderRef.current.innerText = (datepicker ? date.toLocaleDateString() : '') + (timepicker ? ' ' + selectedDate.time : ''); 
+    inputRef.current.value = (datepicker ? date.toLocaleDateString() : '') + (timepicker ? ' ' + selectedDate.time : ''); 
     if(onChange) onChange(date.toLocaleDateString());
     
     if(closeOnDateSelect) {
@@ -260,7 +285,8 @@ export const DatePicker = ({ id, onChange, options }) => {
   const handleValidateOnBlur = () => {
     if(validateOnBlur) {
       const date = new Date(selectedDate.year, selectedDate.month, selectedDate.day);
-      placeholderRef.current.innerText = (datepicker ? date.toLocaleDateString() : '') + (timepicker ? ' ' + selectedDate.time : '');   
+      // placeholderRef.current.innerText = (datepicker ? date.toLocaleDateString() : '') + (timepicker ? ' ' + selectedDate.time : ''); 
+      inputRef.current.value = (datepicker ? date.toLocaleDateString() : '') + (timepicker ? ' ' + selectedDate.time : '');   
       if(onChange) onChange(date.toLocaleDateString());
 
       if(onChangeDateTime) onChangeDateTime();
@@ -268,16 +294,16 @@ export const DatePicker = ({ id, onChange, options }) => {
   }
 
   return (
-    <div id={`${id}-container`} className="datepicker-container" ref={datepickerRef} data-date={new Date(selectedDate.year, selectedDate.month, selectedDate.day)}>  
-      <div ref={inputRef} tabIndex={0} className="datepicker-input" onClick={handleInputClick} 
+    <div id={`${id}-container`} className="datepicker-container" ref={datepickerRef} /*data-date={new Date(selectedDate.year, selectedDate.month, selectedDate.day)}*/>  
+      {/* <div ref={inputRef} tabIndex={0} className="datepicker-input" onClick={handleInputClick} 
       role="combobox" aria-expanded="false" aria-haspopup="dialog" aria-controls="cb-dialog-1" aria-label={`${id}-date`}>
-        <div ref={placeholderRef} className="select-selected-value">{new Date(defaultDate).toLocaleDateString()}</div>
-        <div className="select-tools">
-          <div className="select-tool">
-            <Calendar />
-          </div>
-        </div>
-      </div>  
+        <div ref={placeholderRef} className="select-selected-value">{new Date(defaultDate).toLocaleDateString()}</div> */}
+      <div tabIndex={0} className="datepicker-input">
+        <input ref={inputRef} onClick={handleInputClick} placeholder={new Date(defaultDate).toLocaleDateString()} onChange={(e) => handleInputOnChange(e.currentTarget.value)} /*onBlur={handleValidateOnBlur}*//>
+        <div className="datepicker-icon"><Calendar /></div>
+      </div>
+
+      {/* </div>   */}
       
       {showDatePicker &&<div id={`${id}-menu`} className={`datepicker-menu ${theme ? theme : ''}`} onBlur={handleValidateOnBlur}>
         {datepicker && <div className="datepicker-calendar">
