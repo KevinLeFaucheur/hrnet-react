@@ -36,6 +36,7 @@ const timepicker_defaults = {
  * 
  */
 export const DatePicker = ({ id, onChange, options }) => {
+
   /**
    * Initializing variables with options if not null or default_options
   */
@@ -52,6 +53,8 @@ export const DatePicker = ({ id, onChange, options }) => {
   const todayButton = options?.todayButton ?? default_options.todayButton;
   const prev = options?.inverseButton ? 1 : -1;
   const next = options?.inverseButton ? -1 : 1;
+  const scrollMonth = options?.scrollMonth ?? false;
+  const closeOnDateSelect = options?.closeOnDateSelect ?? false;
   
   // Main features
   const datepicker = options?.datepicker ?? default_options.datepicker;
@@ -84,6 +87,15 @@ export const DatePicker = ({ id, onChange, options }) => {
 
   const theme = options?.theme ?? false; // 'dark' is supported
   const opened = options?.opened ?? false;
+  const validateOnBlur = options?.validateOnBlur ?? true;
+
+  /** Callbacks */
+  const onSelectDate = options?.onSelectDate ?? false;
+  const onChangeMonth = options?.onChangeMonth ?? false;
+  const onChangeYear = options?.onChangeYear ?? false;
+  const onChangeDateTime = options?.onChangeDateTime ?? false;
+  const onShow = options?.onShow ?? false;
+  const onClose = options?.onClose ?? false;
   
   /**
    * TimePicker Options
@@ -102,6 +114,8 @@ export const DatePicker = ({ id, onChange, options }) => {
     maxTime: options?.maxTime ?? false,
 
     theme: options?.theme ?? false,
+
+    onSelectTime: options?.onSelectTime ?? false,
   }
 
   const [showDatePicker, setShowDatePicker] = useState(opened);
@@ -121,18 +135,16 @@ export const DatePicker = ({ id, onChange, options }) => {
 
   const handleInputClick = () => { 
     inputRef.current.focus({ focusVisible: true });
-    setShowDatePicker(!showDatePicker)
+    setShowDatePicker(!showDatePicker);
+
+    if(!showDatePicker && onShow) onShow(); 
+    if(showDatePicker && onClose) onClose(); 
   };
 
   /**
    * 
    */
   useEffect(() => {
-
-    if(datepicker){
-      
-    }
-
     const date = new Date(selectedDate.year, selectedDate.month, selectedDate.day);
 
     setCalendar(calendarBuilder(date));
@@ -146,11 +158,12 @@ export const DatePicker = ({ id, onChange, options }) => {
     const close = (e) => {
       if (datepickerRef.current && !datepickerRef.current.contains(e.target) && !isScrolling) {
         setShowDatePicker(false);
+        if(onClose) onClose();
       }
     }
     window.addEventListener('click', close);
     return () => window.removeEventListener('click', close);
-  }, [isScrolling])
+  }, [isScrolling, onClose])
 
   //
   const handleMonthClick = (i) => {
@@ -162,6 +175,19 @@ export const DatePicker = ({ id, onChange, options }) => {
       year : month + i < 0 ? year - 1 : month + i > 11 ? year + 1 : year ,
       month: month + i < 0 ? 11 : month + i > 11 ? 0 : month + i
     }));
+    if(onChangeMonth) onChangeMonth();
+  }
+
+  // Scrolling months with mouse wheel if scrollMonth is true
+  const handleMonthScrollWheel = (e) => {
+    if (!scrollMonth) return;
+
+    switch (Math.sign(e.deltaY)) {
+      case -1: handleMonthClick(-1); break;
+      case 1: handleMonthClick(1); break;
+      case 0: break;
+      default: break;
+    }
   }
 
   //
@@ -170,6 +196,7 @@ export const DatePicker = ({ id, onChange, options }) => {
       ...o,
       month: parseInt(e.target.value)
     }));
+    if(onChangeMonth) onChangeMonth();
   }
 
   //
@@ -178,6 +205,7 @@ export const DatePicker = ({ id, onChange, options }) => {
       ...o,
       year : parseInt(e.target.value)
     }));
+    if(onChangeYear) onChangeYear();
   }
 
   // Set selected date to today's
@@ -190,7 +218,7 @@ export const DatePicker = ({ id, onChange, options }) => {
     }));
   }
 
-  // 
+  // Selecting Date on clicking Calendar TD
   const handleDateChange = (e) => {
     if(e.target.classList.contains('disabled')) return;
 
@@ -205,7 +233,12 @@ export const DatePicker = ({ id, onChange, options }) => {
       month: parseInt(e.target.dataset.month),
       day: parseInt(e.target.dataset.day)
     }));
-    setShowDatePicker(!showDatePicker);
+
+    if(closeOnDateSelect) {
+      setShowDatePicker(!showDatePicker);
+      if(onClose) onClose();
+    }
+    if(onSelectDate) onSelectDate();
   }
 
   // 
@@ -215,15 +248,24 @@ export const DatePicker = ({ id, onChange, options }) => {
     setCalendar(calendarBuilder(date));
     placeholderRef.current.innerText = (datepicker ? date.toLocaleDateString() : '') + (timepicker ? ' ' + selectedDate.time : '');   
     if(onChange) onChange(date.toLocaleDateString());
-
-    // localStorage.setItem('date', selectedDate);
-    // e.preventDefault();
-    // datetimepicker.data('changed', true);
-    // _xdsoft_datetime.setCurrentTime(getCurrentValue());
-    // input.val(_xdsoft_datetime.str());
-    // datetimepicker.trigger('close.xdsoft');
+    
+    if(closeOnDateSelect) {
+      setShowDatePicker(!showDatePicker);
+      if(onClose) onClose();
+    }
+    if(onSelectDate) onSelectDate();
   }
 
+  // 
+  const handleValidateOnBlur = () => {
+    if(validateOnBlur) {
+      const date = new Date(selectedDate.year, selectedDate.month, selectedDate.day);
+      placeholderRef.current.innerText = (datepicker ? date.toLocaleDateString() : '') + (timepicker ? ' ' + selectedDate.time : '');   
+      if(onChange) onChange(date.toLocaleDateString());
+
+      if(onChangeDateTime) onChangeDateTime();
+    }
+  }
 
   return (
     <div id={`${id}-container`} className="datepicker-container" ref={datepickerRef} data-date={new Date(selectedDate.year, selectedDate.month, selectedDate.day)}>  
@@ -237,7 +279,7 @@ export const DatePicker = ({ id, onChange, options }) => {
         </div>
       </div>  
       
-      {showDatePicker &&<div id={`${id}-menu`} className={`datepicker-menu ${theme ? theme : ''}`}>
+      {showDatePicker &&<div id={`${id}-menu`} className={`datepicker-menu ${theme ? theme : ''}`} onBlur={handleValidateOnBlur}>
         {datepicker && <div className="datepicker-calendar">
           <nav className="datepicker-nav">
             <button type="button" onClick={() => handleMonthClick(prev)} className="datepicker-prev"><ThinLeft /></button>
@@ -263,7 +305,7 @@ export const DatePicker = ({ id, onChange, options }) => {
           </nav>
 
           <div className="datepicker-body">
-            <table id={`${id}-table`}>
+            <table id={`${id}-table`} onWheel={handleMonthScrollWheel}>
               <thead>
                 <tr>
                   { weeks ? <th></th> : '' }
@@ -349,10 +391,10 @@ const calendarBuilder = (date) => {
 /**
  * Adds the corresponding CSS class for :
  *  selected, greyed out, today and hightlighted dates
- * @param {Date} sDate    - current selected Date by user
- * @param {Date} tdDate   - td Date to display in calendar
- * @param {Object} dates  - td Date to display in calendar
- * @returns {string}      - classNames for this td
+ * @param {Date} sDate                             - current selected Date by user
+ * @param {Date} tdDate                            - td Date to display in calendar
+ * @param {Object.<number|HighlightedDate>} dates  - Date timepstamps or HighlightedDates to check upon
+ * @returns {string}                               - classNames for this td
  */
 const selectClass = (sDate, tdDate, dates) => {
   let className = [];

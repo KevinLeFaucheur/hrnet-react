@@ -96,8 +96,9 @@ export const CreateEmployee = () => {
                   // allowTimes: ['21:26','10:05','11:00','13:06'],
                   yearStart: 1970,
                   yearEnd: 2030,
-                  timepickerScrollbar: false,
+                  // timepickerScrollbar: false,
                   // inverseButton: true,
+                  scrollMonth: true,
                   // todayButton: false,
                   // weekends: ['08/09/2023'],
                   // hours12: true
@@ -116,6 +117,13 @@ export const CreateEmployee = () => {
                   disabledWeekDays: [0, 2, 5],
                   disabledDates: ['08/23/2023'],
                   // allowDates: ['8/8/2023', '8/16/2023'],
+                  // onSelectTime: () => console.log('onSelectTime'),  
+                  // onSelectDate: () => console.log('onSelectDate'),
+                  // onChangeMonth: () => console.log('onChangeMonth'),
+                  // onChangeYear: () => console.log('onChangeYear'),
+                  // onChangeDateTime: () => console.log('onChangeDateTime'),
+                  // onShow: () => console.log('onShow'),
+                  // onClose: () => console.log('onClose'),
                 }}
               />
             </InputWrapper>

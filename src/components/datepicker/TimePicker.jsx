@@ -70,11 +70,12 @@ export const TimePicker = ({ setSelectedTime, options }) => {
     timerpickerRef.current
       .querySelectorAll('.timepicker_time')
       .forEach(hour => hour.classList.remove('selected'));
-    // e.target.classList.add('selected');
     let selectedTime = e.target.dataset.hour + ':' + e.target.dataset.minute;
     setSelected(timeToMinutes(selectedTime));
     // let hour = options?.hours12 ? parseInt(e.target.dataset.hour) + 12 : e.target.dataset.hour;
     setSelectedTime(selectedTime);
+
+    if(options.onSelectTime) options.onSelectTime();
   }
 
   /**

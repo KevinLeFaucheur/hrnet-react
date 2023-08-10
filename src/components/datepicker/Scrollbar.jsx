@@ -4,11 +4,9 @@ import { ScrollingContext } from "./ScrollingContext";
 
 /**
  * Scroll Bar Component
- * @param {  } scroller 
- * @param { Callback } setMargin 
- * @param { } scrollPercent 
- * @returns 
- * 
+ * @param {Object} scroller -parentRef
+ * @param {Callback} setMargin 
+ * @param {number} scrollPercent 
  * TODO:
  */
 export const Scrollbar = ({ scroller, setMargin, scrollPercent }) => {
