@@ -74,7 +74,7 @@ export const CreateEmployee = () => {
               /> */}
             </InputWrapper>
             <InputWrapper>
-              <label htmlFor="start-date">Start Date</label>
+              <label htmlFor="start-date">Start Date {startValue}</label>
               <DatePicker 
                 id='start'
                 onChange={(value) => setStartValue(value)} 

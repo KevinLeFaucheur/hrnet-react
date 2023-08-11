@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Home, ThinLeft, ThinRight } from "./assets/Icons";
 import { internationalization as i18n } from "./internationalization";
 import { 
@@ -13,59 +13,34 @@ import { ScrollingContext } from "./ScrollingContext";
 import { Input } from "./Input";
 
 /**
- * Passing datepicker options as object
- * @type {Object} options
- * @property {boolean} save       - Should or not use a save button to confirm the selected date.
- * @property {boolean} timepicker - Should or not add a selection of hours.
- * @property {string} locale      - Localization for the datepicker, defaults to lang attribute.
- */
-const default_options = {
-  locale: document.documentElement.lang, 
-
-  saveSelected: false,
-  todayButton: true,
-
-  datepicker: true,
-  timepicker: false,
-  weeks: false,		
-  
-  highlightedDates: [],
-  highlightedPeriods: [], 
-}
-
-const timepicker_defaults = {
-  scrollbar: true,
-  allowTimes: [],
-}
-
-/**
  * 
  */
 export const DatePicker = ({ id, onChange, options }) => {
   /**
-   * Initializing variables with options if not null or default_options
+   * Initializing variables with options if not null else uses a default options
   */
-  const years = [options?.yearStart ?? 1950, options?.yearEnd ?? 2050].sort();
-  const yearsRange = range(years[0], years[1]);
-  const format = identifyFormat(options?.format ?? 'd/m/Y h:i');
+  const years = useMemo(() => [options?.yearStart ?? 1950, options?.yearEnd ?? 2050].sort(), [options?.yearEnd, options?.yearStart]);
+  const yearsRange = useMemo(() => range(years[0], years[1]), [years]);
+  // const format = identifyFormat(options?.format ?? 'd/m/Y h:i');
+  const format = useMemo(() => identifyFormat(options?.format ?? 'd/m/Y h:i'), [options?.format])
   
   // Localization
-  const locale = options?.locale ?? default_options.locale;
+  const locale = options?.locale ?? document.documentElement.lang;
   const weekdays = options?.dayOfWeekShort ?? i18n[locale].dayOfWeekShort;
   const months = options?.months ?? i18n[locale].months;
   
   // Controls & Buttons
-  const saveSelected = options?.saveSelected ?? default_options.saveSelected;
-  const todayButton = options?.todayButton ?? default_options.todayButton;
+  const saveSelected = options?.saveSelected ?? false;
+  const todayButton = options?.todayButton ?? true;
   const prev = options?.inverseButton ? 1 : -1;
   const next = options?.inverseButton ? -1 : 1;
   const scrollMonth = options?.scrollMonth ?? false;
   const closeOnDateSelect = options?.closeOnDateSelect ?? false;
   
   // Main features
-  const datepicker = options?.datepicker ?? default_options.datepicker;
-  const timepicker = options?.timepicker ?? default_options.timepicker;
-  const weeks = options?.weeks ?? default_options.weeks;
+  const datepicker = options?.datepicker ?? true;
+  const timepicker = options?.timepicker ?? false;
+  const weeks = options?.weeks ?? false;
   const inline = options?.inline ?? false;
   
   // Default and clamping Date and Time  
@@ -73,8 +48,6 @@ export const DatePicker = ({ id, onChange, options }) => {
   const startDate = options?.startDate ?? Date.now();
   const minDate = options?.minDate ?? false;
   const maxDate = options?.maxDate ?? false;
-  // const minDateTime = options?.minDateTime ?? false;
-  // const maxDateTime = options?.maxDateTime ?? false;
   
   // Select Class Dates
   const highlightedDates = getHighlightedDates(options?.highlightedDates) || [];
@@ -111,11 +84,11 @@ export const DatePicker = ({ id, onChange, options }) => {
     timepickerOnly: !datepicker,
 
     inverseButton: options?.inverseButton ?? false,
-    scrollbar: options?.timepickerScrollbar ?? timepicker_defaults.scrollbar,
+    scrollbar: options?.timepickerScrollbar ?? true,
 
     hours12: options?.hours12 ?? false,
     step: options?.step ?? 60,
-    allowTimes: options?.allowTimes ?? timepicker_defaults.allowTimes,
+    allowTimes: options?.allowTimes ?? [],
     defaultTime: options?.defaultTime ?? false,
     minTime: options?.minTime ?? false,
     maxTime: options?.maxTime ?? false,
@@ -141,15 +114,10 @@ export const DatePicker = ({ id, onChange, options }) => {
    * 
    */
   useEffect(() => {
-
     const date = new Date(selectedDate.year, selectedDate.month, selectedDate.day);
-    const localeDate = formatToDate(date, format);
-
+    if(onChange) onChange(formatToDate(date, format));
     setCalendar(calendarBuilder(date));
-
-    if(onChange) onChange(/*date.toLocaleDateString()*/localeDate);
-    
-  }, [onChange, selectedDate])
+  }, [format, onChange, selectedDate.day, selectedDate.month, selectedDate.year])
   
   // 
   useEffect(() => {
@@ -268,13 +236,15 @@ export const DatePicker = ({ id, onChange, options }) => {
       }));
       setCalendar(calendarBuilder(date));
     }
+
+    if(onChange) onChange(formatToDate(date, format));
   }
 
   // 
   const handleSaveSelected = () => {
     const date = new Date(selectedDate.year, selectedDate.month, selectedDate.day);
+    if(onChange) onChange(formatToDate(date, format));
     setCalendar(calendarBuilder(date));
-    if(onChange) onChange(date.toLocaleDateString());
     
     if(closeOnDateSelect) {
       setShowDatePicker(!showDatePicker);
@@ -287,8 +257,7 @@ export const DatePicker = ({ id, onChange, options }) => {
   const handleValidateOnBlur = () => {
     if(validateOnBlur) {
       const date = new Date(selectedDate.year, selectedDate.month, selectedDate.day); 
-      if(onChange) onChange(date.toLocaleDateString());
-
+      if(onChange) onChange(formatToDate(date, format));
       if(onChangeDateTime) onChangeDateTime();
     }
   }
