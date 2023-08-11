@@ -114,6 +114,7 @@ export const CreateEmployee = () => {
                   startDate: '8/15/2023',
                   step: 30,
                   // theme: 'dark',
+                  theme: 'night',
                   // opened: true,
                   disabledWeekDays: [0, 2, 5],
                   disabledDates: ['08/23/2023'],

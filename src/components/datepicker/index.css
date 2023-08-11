@@ -82,10 +82,22 @@
   padding-right: 1rem;
 
   appearance: none;
-  background-image: url('./assets/arrow.svg');
+  /* background-image: url('./assets/arrow.svg');
   background-repeat: no-repeat;
   background-position: right 0 bottom 50%;
-  background-size: 0.65rem auto;
+  background-size: 0.65rem auto; */
+}
+
+.datepicker-select {
+  position: relative;
+}
+
+.datepicker-select svg {
+  position: absolute;
+  height: 100%;
+  right: 1px;
+  opacity: 0.75;
+  width: 9px;
 }
 
 .datepicker-month:hover, .datepicker-year:hover {
@@ -188,6 +200,10 @@
 	box-shadow: none; */
 }
 
+.none {
+  display: none;
+}
+
 .hidden {
   visibility: hidden;
 }
@@ -286,10 +302,6 @@
 .datepicker-menu {
   padding: 15px 10px;
 }
-
-/* .datepicker-input:focus {
-  border: #2C71E1;
-} */
 
 .datepicker-menu nav {
   padding: 0 5px;
@@ -446,4 +458,72 @@
 
 .time_box.dark {
   border-color: #52473d;
+}
+
+/* 
+* Night Theme
+*/
+.datepicker-menu.night {
+  background-color: #282043;
+}
+
+.datepicker-month.night, .datepicker-year.night {
+  background-color: #221B38;
+  color: #FFF;
+}
+
+.datepicker-menu.night th {
+  color: #6A67F3;
+  font-weight: 500;
+}
+
+.datepicker-menu.night td {
+  background-color: #221B38;
+  color: #fff;
+  font-weight: 500;
+}
+
+.datepicker-menu.night td:hover {
+  background-color: #FC7785;
+  color: #fff;
+}
+
+.datepicker-menu.night td.selected {
+  background-color: #9a99ff;
+  color: #252525;
+}
+
+.datepicker-menu.night td.today {
+  color: #FC7785;
+}
+
+.datepicker-menu.night .thin-arrow-left, 
+.datepicker-menu.night .thin-arrow-right,
+.datepicker-menu.night path {
+  fill: #6A67F3;
+  stroke: #6A67F3;
+}
+
+.datepicker-month.night, .datepicker-year.night {
+
+}
+
+.timepicker_time.night {
+  background-color: #483a74;
+  border-color: #483a74;
+  color: #fff;
+}
+
+.timepicker_time:hover.night {
+  background-color: #FC7785;
+  color: #fff;
+}
+
+.timepicker_time.night.selected {
+  background-color: #6A67F3;
+  color: #000;
+}
+
+.time_box.night {
+  border-color: #282043;
 }

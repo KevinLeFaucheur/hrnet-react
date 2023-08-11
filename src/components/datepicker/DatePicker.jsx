@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Home, ThinLeft, ThinRight } from "./assets/Icons";
+import { ArrowDown, Home, ThinLeft, ThinRight } from "./assets/Icons";
 import { internationalization as i18n } from "./internationalization";
 import { 
   calendarBuilder, formatToDate, formatToTime, getCurrentWeek, 
@@ -21,7 +21,6 @@ export const DatePicker = ({ id, onChange, options }) => {
   */
   const years = useMemo(() => [options?.yearStart ?? 1950, options?.yearEnd ?? 2050].sort(), [options?.yearEnd, options?.yearStart]);
   const yearsRange = useMemo(() => range(years[0], years[1]), [years]);
-  // const format = identifyFormat(options?.format ?? 'd/m/Y h:i');
   const format = useMemo(() => identifyFormat(options?.format ?? 'd/m/Y h:i'), [options?.format])
   
   // Localization
@@ -277,21 +276,27 @@ export const DatePicker = ({ id, onChange, options }) => {
             <button type="button" onClick={() => handleMonthClick(prev)} className="datepicker-prev"><ThinLeft /></button>
             <button type="button" onClick={handleClickToday} className={`datepicker-today ${!todayButton ? 'hidden' : ''}`}><Home /></button>
 
-            <select 
-              className={`datepicker-month ${theme ? theme : ''}`} 
-              value={selectedDate.month} 
-              onChange={handleMonthChange}
-              >
-                { months.map((_, i) => <option key={months[i]} value={i}>{months[i]}</option>) }
-            </select>
+            <div className="datepicker-select">
+              <select 
+                className={`datepicker-month ${theme ? theme : ''}`} 
+                value={selectedDate.month} 
+                onChange={handleMonthChange}
+                >
+                  { months.map((_, i) => <option key={months[i]} value={i}>{months[i]}</option>) }
+              </select>
+              <ArrowDown />
+            </div>
 
-            <select 
-              className={`datepicker-year ${theme ? theme : ''}`} 
-              value={selectedDate.year} 
-              onChange={handleYearChange}
-              >
-                { yearsRange.map(year => <option key={year} value={year}>{year}</option>) }
-            </select>
+            <div className="datepicker-select">
+              <select 
+                className={`datepicker-year ${theme ? theme : ''}`} 
+                value={selectedDate.year} 
+                onChange={handleYearChange}
+                >
+                  { yearsRange.map(year => <option key={year} value={year}>{year}</option>) }
+              </select>   
+              <ArrowDown />           
+            </div>
 
             <button type="button" onClick={() => handleMonthClick(next)} className="datepicker-next"><ThinRight /></button>
           </nav>
