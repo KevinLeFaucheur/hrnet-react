@@ -81,6 +81,7 @@ export const CreateEmployee = () => {
                 options={{ 
                   locale: 'fr', 
                   timepicker: true, 
+                  // inline: true,
                   highlightedDates: [
                     '06/30/2023, Test',
                     '07/2/2023, Birthday',
@@ -124,7 +125,7 @@ export const CreateEmployee = () => {
                   // onChangeDateTime: () => console.log('onChangeDateTime'),
                   // onShow: () => console.log('onShow'),
                   // onClose: () => console.log('onClose'),
-                  format: 'y\\m\\d' 
+                  // format: 'y\\m\\d h"i' 
                 }}
               />
             </InputWrapper>

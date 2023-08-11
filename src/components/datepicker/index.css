@@ -50,8 +50,9 @@
   z-index: 2;
 }
 
-.inline-menu {
+.inline {
   position: static;
+  margin-top: 3px;
 	/* display: inline-block;
 	box-shadow: none; */
 }

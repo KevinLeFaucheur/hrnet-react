@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from "react";
-import { Home, Calendar, ThinLeft, ThinRight } from "./assets/Icons";
+import { Home, ThinLeft, ThinRight } from "./assets/Icons";
 import { internationalization as i18n } from "./internationalization";
 import { 
-  calendarBuilder, formatToDate, getCurrentWeek, 
+  calendarBuilder, formatToDate, formatToTime, getCurrentWeek, 
   getHighlightedDates, getHighlightedPeriod, 
   identifyFormat, range, 
   selectClass, selectTitle
@@ -10,6 +10,7 @@ import {
 import { TimePicker } from "./TimePicker";
 import "./index.css";
 import { ScrollingContext } from "./ScrollingContext";
+import { Input } from "./Input";
 
 /**
  * Passing datepicker options as object
@@ -46,7 +47,7 @@ export const DatePicker = ({ id, onChange, options }) => {
   */
   const years = [options?.yearStart ?? 1950, options?.yearEnd ?? 2050].sort();
   const yearsRange = range(years[0], years[1]);
-  const format = identifyFormat(options?.format ?? 'd/m/Y');
+  const format = identifyFormat(options?.format ?? 'd/m/Y h:i');
   
   // Localization
   const locale = options?.locale ?? default_options.locale;
@@ -65,6 +66,7 @@ export const DatePicker = ({ id, onChange, options }) => {
   const datepicker = options?.datepicker ?? default_options.datepicker;
   const timepicker = options?.timepicker ?? default_options.timepicker;
   const weeks = options?.weeks ?? default_options.weeks;
+  const inline = options?.inline ?? false;
   
   // Default and clamping Date and Time  
   let defaultDate = options?.defaultDate ?? false;
@@ -125,7 +127,6 @@ export const DatePicker = ({ id, onChange, options }) => {
 
   const [showDatePicker, setShowDatePicker] = useState(opened);
   const [selectedDate, setSelectedDate] = useState({
-    // date: new Date(startDate),
     year: new Date(startDate).getFullYear(),
     month: new Date(startDate).getMonth(),
     day: new Date(startDate).getDate(),
@@ -134,7 +135,6 @@ export const DatePicker = ({ id, onChange, options }) => {
   const [isScrolling, setIsScrolling] = useState(false);
   const [calendar, setCalendar] = useState([]);
 
-  const inputRef = useRef();
   const datepickerRef = useRef();
 
   /**
@@ -146,8 +146,6 @@ export const DatePicker = ({ id, onChange, options }) => {
     const localeDate = formatToDate(date, format);
 
     setCalendar(calendarBuilder(date));
-
-    inputRef.current.value = (datepicker ? localeDate : '') + (timepicker ? ' ' + selectedDate.time : ''); 
 
     if(onChange) onChange(/*date.toLocaleDateString()*/localeDate);
     
@@ -168,7 +166,6 @@ export const DatePicker = ({ id, onChange, options }) => {
 
   //
   const handleInputClick = () => { 
-    inputRef.current.focus({ focusVisible: true });
     setShowDatePicker(!showDatePicker);
 
     if(!showDatePicker && onShow) onShow(); 
@@ -277,7 +274,6 @@ export const DatePicker = ({ id, onChange, options }) => {
   const handleSaveSelected = () => {
     const date = new Date(selectedDate.year, selectedDate.month, selectedDate.day);
     setCalendar(calendarBuilder(date));
-    inputRef.current.value = (datepicker ? date.toLocaleDateString() : '') + (timepicker ? ' ' + selectedDate.time : ''); 
     if(onChange) onChange(date.toLocaleDateString());
     
     if(closeOnDateSelect) {
@@ -290,8 +286,7 @@ export const DatePicker = ({ id, onChange, options }) => {
   // 
   const handleValidateOnBlur = () => {
     if(validateOnBlur) {
-      const date = new Date(selectedDate.year, selectedDate.month, selectedDate.day);
-      inputRef.current.value = (datepicker ? date.toLocaleDateString() : '') + (timepicker ? ' ' + selectedDate.time : '');   
+      const date = new Date(selectedDate.year, selectedDate.month, selectedDate.day); 
       if(onChange) onChange(date.toLocaleDateString());
 
       if(onChangeDateTime) onChangeDateTime();
@@ -299,13 +294,15 @@ export const DatePicker = ({ id, onChange, options }) => {
   }
 
   return (
-    <div id={`${id}-container`} className="datepicker-container" ref={datepickerRef} /*data-date={new Date(selectedDate.year, selectedDate.month, selectedDate.day)}*/>  
-      <div tabIndex={0} className="datepicker-input">
-        <input ref={inputRef} onClick={handleInputClick} placeholder={new Date(defaultDate).toLocaleDateString()} onChange={(e) => handleInputOnChange(e.currentTarget.value)} /*onBlur={handleValidateOnBlur}*//>
-        <div className="datepicker-icon"><Calendar /></div>
-      </div>
+    <div id={`${id}-container`} className="datepicker-container" ref={datepickerRef} >  
+      <Input 
+        value={(datepicker ? formatToDate(new Date(selectedDate.year, selectedDate.month, selectedDate.day), format) : '') + (timepicker ? ' ' + formatToTime(selectedDate.time, format) : '')} 
+        placeholder={new Date(defaultDate).toLocaleDateString()} 
+        onClick={handleInputClick} 
+        onChange={(e) => handleInputOnChange(e.currentTarget.value)} 
+      />
       
-      {showDatePicker &&<div id={`${id}-menu`} className={`datepicker-menu ${theme ? theme : ''}`} onBlur={handleValidateOnBlur}>
+      {showDatePicker &&<div id={`${id}-menu`} className={`datepicker-menu ${theme ? theme : ''} ${inline ? 'inline' : ''}`} onBlur={handleValidateOnBlur}>
         {datepicker && <div className="datepicker-calendar">
           <nav className="datepicker-nav">
             <button type="button" onClick={() => handleMonthClick(prev)} className="datepicker-prev"><ThinLeft /></button>

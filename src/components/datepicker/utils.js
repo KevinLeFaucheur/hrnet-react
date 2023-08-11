@@ -253,23 +253,58 @@ const formatDate = (string) => {
           .join('/');
 }
 
+/**
+ * 
+ * @param {string} formatString 
+ * @returns {Object}
+ */
 export const identifyFormat = (formatString) => {
   if(!formatString) return undefined;
 
-  let fstring = formatString.toLowerCase();
+  let fstring = formatString.toLowerCase().split(' ');
+  let dString = /[ymd]/.test(fstring[0]) ? fstring[0] : /[ymd]/.test(fstring[1]) ? fstring[1] : null;
+  let tString = /[hi]/.test(fstring[0]) ? fstring[0] : /[hi]/.test(fstring[1]) ? fstring[1] : null;
 
-  let y = (/y/).test(fstring) ? fstring.indexOf('y') : -1;
-  let m = (/m/).test(fstring) ? fstring.indexOf('m') : -1;
-  let d = (/d/).test(fstring) ? fstring.indexOf('d') : -1;
+  let y = (/y/).test(dString) ? dString.indexOf('y') : -1;
+  let m = (/m/).test(dString) ? dString.indexOf('m') : -1;
+  let d = (/d/).test(dString) ? dString.indexOf('d') : -1;
+  let h = (/h/).test(tString) ? tString.indexOf('h') : -1;
+  let i = (/i/).test(tString) ? tString.indexOf('i') : -1;
 
   let format = {
-    order: Object.entries({y, m, d}).sort(([,a],[,b]) => a-b).map(i => i[0]),
-    separator: '/'
+    date: Object.entries({y, m, d})
+      .sort(([,a],[,b]) => a-b)
+      .reduce((format, letter) => {
+        if (letter[1] !== -1) {
+          format.push(letter[0]);
+        }
+        return format;
+      }, []),
+    time: Object.entries({h, i})
+      .sort(([,a],[,b]) => a-b)
+      .reduce((format, letter) => {
+        if (letter[1] !== -1) {
+          format.push(letter[0]);
+        }
+        return format;
+      }, []),
+    dSeparator: '/',
+    tSeparator: ':',
   };
-  format.separator = formatString.match(/[#%^*,.":|<>/\\]/)[0];
+  let dSep = dString.match(/[#%^*,.":|<>/\\]/);
+  let tSep = tString.match(/[#%^*,.":|<>/\\]/);
+  format.dSeparator = dSep ? dSep[0] : '';
+  format.tSeparator = tSep ? tSep[0] : '';
+
   return format;
 }
 
+/**
+ * Convert selected date string to formatted one
+ * @param {string} string - Date string to be converted
+ * @param {Format} format - Fornat
+ * @returns {string}      - Newly formatted date string
+ */
 export const formatToDate = (string, format) => {
   let date = {
     year: string.getFullYear(),
@@ -278,7 +313,7 @@ export const formatToDate = (string, format) => {
   }
 
   let dateString = [];
-  format.order.forEach(letter => {
+  format.date.forEach(letter => {
     switch (letter) {
       case 'd': dateString.push(date.day); break;
       case 'm': dateString.push(date.month); break;
@@ -286,15 +321,36 @@ export const formatToDate = (string, format) => {
       default: break;
     }
   })
-  let formattedDate = `${dateString[0]}${format.separator}${dateString[1]}${format.separator}${dateString[2]}`;
-  console.log(formattedDate);
-  return formattedDate;
+  return `${dateString[0]}${format.dSeparator}${dateString[1]}${format.dSeparator}${dateString[2]}`;
+}
+
+/**
+ * Convert selected time string to formatted one
+ * @param {String} string - Time string to be converted
+ * @param {Format} format - Format 
+ * @returns {String}      - Newly formatted time string
+ */
+export const formatToTime = (string, format) => {
+  let time = {
+    hour: string.split(':')[0],
+    minute: string.split(':')[1],
+  }
+
+  let dateString = [];
+  format.time.forEach(letter => {
+    switch (letter) {
+      case 'h': dateString.push(time.hour); break;
+      case 'i': dateString.push(time.minute); break;
+      default: break;
+    }
+  })
+  return `${dateString[0]}${dateString[1] ? format.tSeparator + dateString[1] : ''}`;
 }
 
 /**
  * Calculates Week Number 
  * @param {Date} currentDate - Which date
- * @returns {number}         - Integer, Week Number
+ * @returns {Number}         - Integer, Week Number
  */
 export const getCurrentWeek = (currentDate) => {
   let startDate = new Date(currentDate.getFullYear(), 0, 1);
@@ -304,9 +360,17 @@ export const getCurrentWeek = (currentDate) => {
 }
 
 /**
+ * @typedef {Object} Format
+ * @property {Array.<string>} date  - Format order, ex: ['y','d','m']
+ * @property {Array.<string>} time  - Format order, ex: ['h','i']
+ * @property {String} dSeparator    - Format separator for date, default '/'
+ * @property {String} tSeparator    - Format separator for time, default ':' 
+ */
+
+/**
  * @typedef {Object} HighlightedDate
- * @property {string} desc      - Description set in title attribute
- * @property {string} key       - Highlighted Date in MM/DD/YYYY format
- * @property {string} className - Custom CSS class, use a default one if left empty
- * @property {string} timestamp - Highlighted Date as timestamp in ms
+ * @property {String} desc      - Description set in title attribute
+ * @property {String} key       - Highlighted Date in MM/DD/YYYY format
+ * @property {String} className - Custom CSS class, use a default one if left empty
+ * @property {String} timestamp - Highlighted Date as timestamp in ms
  */
