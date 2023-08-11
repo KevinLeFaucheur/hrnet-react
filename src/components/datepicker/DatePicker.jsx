@@ -154,7 +154,7 @@ export const DatePicker = ({ id, onChange, options }) => {
   // 
   useEffect(() => {
     const close = (e) => {
-      if (datepickerRef.current && !datepickerRef.current.contains(e.target) && !isScrolling) {
+      if (datepickerRef.current && !datepickerRef.current.contains(e.target) && !isScrolling && !inline) {
         setShowDatePicker(false);
         if(onClose) onClose();
       }
@@ -162,7 +162,7 @@ export const DatePicker = ({ id, onChange, options }) => {
     window.addEventListener('click', close);
 
     return () => window.removeEventListener('click', close);
-  }, [isScrolling, onClose])
+  }, [inline, isScrolling, onClose])
 
   //
   const handleInputClick = () => { 
@@ -295,14 +295,14 @@ export const DatePicker = ({ id, onChange, options }) => {
 
   return (
     <div id={`${id}-container`} className="datepicker-container" ref={datepickerRef} >  
-      <Input 
+      {!inline && <Input
         value={(datepicker ? formatToDate(new Date(selectedDate.year, selectedDate.month, selectedDate.day), format) : '') + (timepicker ? ' ' + formatToTime(selectedDate.time, format) : '')} 
         placeholder={new Date(defaultDate).toLocaleDateString()} 
         onClick={handleInputClick} 
         onChange={(e) => handleInputOnChange(e.currentTarget.value)} 
-      />
+      />}
       
-      {showDatePicker &&<div id={`${id}-menu`} className={`datepicker-menu ${theme ? theme : ''} ${inline ? 'inline' : ''}`} onBlur={handleValidateOnBlur}>
+      {(showDatePicker || inline) && <div id={`${id}-menu`} className={`datepicker-menu ${theme ? theme : ''} ${inline ? 'inline' : ''}`} onBlur={handleValidateOnBlur}>
         {datepicker && <div className="datepicker-calendar">
           <nav className="datepicker-nav">
             <button type="button" onClick={() => handleMonthClick(prev)} className="datepicker-prev"><ThinLeft /></button>

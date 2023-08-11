@@ -50,13 +50,6 @@
   z-index: 2;
 }
 
-.inline {
-  position: static;
-  margin-top: 3px;
-	/* display: inline-block;
-	box-shadow: none; */
-}
-
 .datepicker-menu nav{
   display: flex;
   justify-content: space-between;
@@ -186,6 +179,13 @@
 
 .datepicker-save-selected .active {
   color: #454551;
+}
+
+.inline {
+  position: static;
+  margin-top: 3px;
+	/* display: inline-block;
+	box-shadow: none; */
 }
 
 .hidden {
