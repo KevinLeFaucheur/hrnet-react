@@ -8,7 +8,7 @@ export const Layout = () => {
     <>
       <div id="layout-title">
         <Link to='/'><h1>HRnet</h1></Link>
-        <img id='layout-logo'  src={logo} alt='Wealth Health' />
+        <img width="163" height="150" id='layout-logo' src={logo} alt='Wealth Health' />
       </div>
       <nav id='layout-nav'>
         <Link to='/'>Create Employee</Link>

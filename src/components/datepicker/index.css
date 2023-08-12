@@ -82,10 +82,6 @@
   padding-right: 1rem;
 
   appearance: none;
-  /* background-image: url('./assets/arrow.svg');
-  background-repeat: no-repeat;
-  background-position: right 0 bottom 50%;
-  background-size: 0.65rem auto; */
 }
 
 .datepicker-select {
@@ -502,10 +498,6 @@
 .datepicker-menu.night path {
   fill: #6A67F3;
   stroke: #6A67F3;
-}
-
-.datepicker-month.night, .datepicker-year.night {
-
 }
 
 .timepicker_time.night {

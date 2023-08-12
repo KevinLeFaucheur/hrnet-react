@@ -1,3 +1,4 @@
+import React from "react";
 import { styled } from "styled-components"
 import { Modal } from "../components/modal/Modal"
 import { useContext, useState } from "react"
@@ -68,10 +69,10 @@ export const CreateEmployee = () => {
           <InputsRow>
             <InputWrapper>              
               <label htmlFor="date-of-birth">Date of Birth</label>
-              {/* <DatePicker 
+              <DatePicker 
                 id='birth' 
                 onChange={(value) => setBirthValue(value)}
-              /> */}
+              />
             </InputWrapper>
             <InputWrapper>
               <label htmlFor="start-date">Start Date {startValue}</label>
@@ -79,45 +80,45 @@ export const CreateEmployee = () => {
                 id='start'
                 onChange={(value) => setStartValue(value)} 
                 options={{ 
-                  locale: 'fr', 
-                  timepicker: true, 
+                  // locale: 'fr', 
+                  // timepicker: true, 
                   // inline: true,
-                  highlightedDates: [
-                    '06/30/2023, Test',
-                    '07/2/2023, Birthday',
-                    '07/7/2023, Exam',
-                    '07/7/2023, Party',
-                    '07/18/2023, Another Test, hlCyan',
-                  ],
-                  highlightedPeriods: [
-                    '06/1/2023, 06/18/2023, holidays, hlGreen',
-                    '07/1/2023, 07/8/2023, practice, hlGreen',
-                    ['12/1/2023', '12/18/2023', 'winter', 'hlCyanPlain']
-                  ],
+                  // highlightedDates: [
+                  //   '06/30/2023, Test',
+                  //   '07/2/2023, Birthday',
+                  //   '07/7/2023, Exam',
+                  //   '07/7/2023, Party',
+                  //   '07/18/2023, Another Test, hlCyan',
+                  // ],
+                  // highlightedPeriods: [
+                  //   '06/1/2023, 06/18/2023, holidays, hlGreen',
+                  //   '07/1/2023, 07/8/2023, practice, hlGreen',
+                  //   ['12/1/2023', '12/18/2023', 'winter', 'hlCyanPlain']
+                  // ],
                   // allowTimes: ['21:26','10:05','11:00','13:06'],
-                  yearStart: 1970,
-                  yearEnd: 2030,
+                  // yearStart: 1970,
+                  // yearEnd: 2030,
                   // timepickerScrollbar: false,
                   // inverseButton: true,
-                  scrollMonth: true,
+                  // scrollMonth: true,
                   // todayButton: false,
                   // weekends: ['08/09/2023'],
                   // hours12: true
                   // datepicker: false,
-                  weeks: true,
-                  minTime: '17',
+                  // weeks: true,
+                  // minTime: '17',
                   // maxTime: '21',
-                  defaultTime: '18',
+                  // defaultTime: '18',
                   // minDate: '8/8/2023',
                   // maxDate: '8/16/2023',
-                  defaultDate: '8/17/2023',
-                  startDate: '8/15/2023',
-                  step: 30,
+                  // defaultDate: '8/17/2023',
+                  // startDate: '8/15/2023',
+                  // step: 30,
                   // theme: 'dark',
-                  theme: 'night',
+                  // theme: 'night',
                   // opened: true,
-                  disabledWeekDays: [0, 2, 5],
-                  disabledDates: ['08/23/2023'],
+                  // disabledWeekDays: [0, 2, 5],
+                  // disabledDates: ['08/23/2023'],
                   // allowDates: ['8/8/2023', '8/16/2023'],
                   // onSelectTime: () => console.log('onSelectTime'),  
                   // onSelectDate: () => console.log('onSelectDate'),

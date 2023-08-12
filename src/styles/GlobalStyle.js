@@ -6,6 +6,7 @@ export default createGlobalStyle`
   @font-face {
     font-family: 'Signika Negative';
     src: url(${SignikaNegativeRegular});
+    font-display: swap;
   }
 
   * {

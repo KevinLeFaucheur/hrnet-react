@@ -46,7 +46,13 @@ Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 The page will reload when you make changes.\
 You may also see any lint errors in the console.
 
-## 2.2 Building and launching the front-end build of HRNet
+## 2.2 DatePicker React Component
+
+1. NPM Package: [](https://www.npmjs.com/package/datepicker-p14)
+
+2. Datepicker Github repository: [](https://github.com/KevinLeFaucheur/datetimepicker-react)
+
+## 2.3 Building and launching the front-end build of HRNet
 
 1. Builds the app into the build folder:
    ```sh
