@@ -4,6 +4,7 @@
 ![node.js](https://img.shields.io/badge/node.js-v16.16.0-green?style=for-the-badge&logo=nodedotjs)
 ![react](https://img.shields.io/badge/react-18.2.0-18a7d6?style=for-the-badge&logo=react)
 ![react-router](https://img.shields.io/badge/react%20router-6.10.0-red?style=for-the-badge&logo=reactrouter)
+![styled-components](https://img.shields.io/badge/styled--components-5.3.9-teal?style=for-the-badge&logo=styled-components)
 <br>
 
 ---
@@ -48,9 +49,9 @@ You may also see any lint errors in the console.
 
 ## 2.2 DatePicker React Component
 
-1. NPM Package: [](https://www.npmjs.com/package/datepicker-p14)
+1. NPM Package: [www.npmjs.com/package/datepicker-p14](https://www.npmjs.com/package/datepicker-p14)
 
-2. Datepicker Github repository: [](https://github.com/KevinLeFaucheur/datetimepicker-react)
+2. Datepicker Github repository: [github.com/KevinLeFaucheur/datetimepicker-react](https://github.com/KevinLeFaucheur/datetimepicker-react)
 
 ## 2.3 Building and launching the front-end build of HRNet
 
