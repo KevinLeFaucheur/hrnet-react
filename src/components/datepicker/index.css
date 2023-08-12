@@ -3,6 +3,7 @@
   position: relative;
   font-size: 0.8rem;
   width: 173px;
+  box-sizing: content-box;
 }
 
 .datepicker-input {
@@ -10,15 +11,13 @@
   align-items: center;
   justify-content: space-between;
   user-select: none;
-  
-  background-color: #F8F9FD;
   border-radius: 3px;
-  height: 30px;
 }
 
 .datepicker-input input {
   padding-left: 0.5rem;
-  width: calc(173px - 0.5rem);
+  width: calc(100% - 0.5rem);
+  height: 32px;
 }
 
 .datepicker-icon {
@@ -57,11 +56,11 @@
 }
 
 .datepicker-month {
-  width: 100px;
+  width: max-content;
 }
 
 .datepicker-year {
-  width: 44px;
+  width: max-content;
 }
 
 .datepicker-nav button {
@@ -110,7 +109,7 @@
 }
 
 .datepicker-menu th, td {
-  width: 32px; /* more dynamic */
+  width: 32px;
   height: 25px;
 }
 
@@ -192,8 +191,6 @@
 .inline {
   position: static;
   margin-top: 3px;
-	/* display: inline-block;
-	box-shadow: none; */
 }
 
 .none {
@@ -237,10 +234,8 @@
 
 .time_box {
   position: relative;
-  height: 151px; /* need to calculate this */
+  height: 151px;
   overflow: hidden;
-  /* overflow: scroll;
-  overflow-x: hidden; */
   text-align: center;
   border: 1px solid #ddd;
 }
@@ -348,28 +343,11 @@
   border-bottom-right-radius: 10px;
 }
 
-/* .datepicker-menu td.hlCyan {
-  background: #d2feff;
-  box-shadow: #71eeff 0 1px 4px 0 inset;
-  color: #000;
-} */
-
 .datepicker-menu td.hlGreen {
   background: #d2fff0;
   box-shadow: #71ffac 0 1px 4px 0 inset;
   color: #000;
 }
-
-/* .datepicker-menu td[title]:hover::after {
-  content: attr(title);
-  position: absolute;
-  background: #0099ff;
-  padding: 10px;
-  z-index: 10;
-  border-radius: 10px;
-  top: -190%;
-  right: 0;
-} */
 
 .datepicker-menu td:hover {
   cursor: default;

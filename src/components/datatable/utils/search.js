@@ -4,28 +4,13 @@ export const search = (data, input) => {
    */
   let dataCopy = data.filter(row => 
     Object.values(row).some(value => regex(input).test(value))
-    // for (const value of Object.values(row)) {
-    //   if(regex(input).test(value)) return true;
-    // }
-    // return false;
   );
   return dataCopy;
 }
 
 const regex = (search, regex, smart = true, caseInsensitive = true) => {
   if (smart) {
-    /* For smart filtering we want to allow the search to work regardless of
-     * word order. We also want double quoted text to be preserved, so word
-     * order is important - a la google. So this is what we want to
-     * generate:
-     * 
-     * ^(?=.*?\bone\b)(?=.*?\btwo three\b)(?=.*?\bfour\b).*$
-     */
     let a = search.match(/"[^"]+"|[^ ]+/g) || [''].map(word => {
-
-      // console.log(word.match(/['"]+/g, ''));
-      // console.log(word.match(/^"(.*(?="$))"$/, '$1'));
-
       if (word.charAt(0) === '"') {
         let m = word.match(/^"(.*)"$/);
         word = m ? m[1] : word;
