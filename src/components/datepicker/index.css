@@ -147,13 +147,13 @@
 
 .datepicker-menu td.highlighted {
   background: #ffe9d2;
-  box-shadow: #ffb871 0 1px 4px 0 inset;
+  box-shadow: #ffb871 0 1px 4px 0;
   color: #000;
 }
 
 .datepicker-menu td.hlCyan {
   background: #d2feff;
-  box-shadow: #71eeff 0 1px 4px 0 inset;
+  box-shadow: #71eeff 0 1px 4px 0;
   color: #000;
 }
 
@@ -165,7 +165,7 @@
 
 .datepicker-menu td.hlGreen {
   background: #d2fff0;
-  box-shadow: #71ffac 0 1px 4px 0 inset;
+  box-shadow: #71ffac 0 1px 4px 0;
   color: #000;
 }
 
@@ -343,9 +343,32 @@
   border-bottom-right-radius: 10px;
 }
 
+.datepicker-menu td.highlighted {
+  background: #ffe9d2;
+  box-shadow: none;
+  border-bottom: 1px solid white;
+  color: #000;
+}
+
+.datepicker-menu td.hlCyan {
+  background: #d2feff;
+  box-shadow: none;
+  border-bottom: 1px solid white;
+  color: #000;
+}
+
+.datepicker-menu td.hlMagenta {
+  background: #ff79bc;
+  box-shadow: none;
+  border-bottom: 1px solid white;
+  border-radius: 12px;
+  color: #000;
+}
+
 .datepicker-menu td.hlGreen {
   background: #d2fff0;
-  box-shadow: #71ffac 0 1px 4px 0 inset;
+  box-shadow: none;
+  border-bottom: 1px solid white;
   color: #000;
 }
 
@@ -373,13 +396,28 @@
 /* 
 * Dark Theme
 */
+.datepicker-input.dark input {
+  background-color: #38393C;
+  color: #FFF;
+  border-color: #38393C;
+}
+
+.datepicker-input.dark input:focus {
+  outline-color: #00ffd5;
+}
+
+.datepicker-input.dark path {
+  fill: #ffc477;
+}
+
 .datepicker-menu.dark {
   background-color: #38393C;
+  border-color: #1b1b1d;
 }
 
 .datepicker-month.dark, .datepicker-year.dark {
-  background-color: #52473d;
-  color: #FFF;
+  background-color: #38393C;
+  color: #ffc477;
 }
 
 .datepicker-menu.dark th {
@@ -437,17 +475,33 @@
 /* 
 * Night Theme
 */
+.datepicker-input.night input {
+  background-color: #282043;
+  font-weight: 600;
+  color: #FFF;
+  border-color: #282043;
+}
+
+.datepicker-input.night input:focus {
+  outline-color: #FC7785;
+}
+
+.datepicker-input.night path {
+  fill: #8987ff;
+}
+
 .datepicker-menu.night {
   background-color: #282043;
+  border-color: #1d1730;
 }
 
 .datepicker-month.night, .datepicker-year.night {
-  background-color: #221B38;
-  color: #FFF;
+  background-color: #282043;
+  color: #8987ff;
 }
 
 .datepicker-menu.night th {
-  color: #6A67F3;
+  color: #8987ff;
   font-weight: 500;
 }
 
@@ -463,8 +517,8 @@
 }
 
 .datepicker-menu.night td.selected {
-  background-color: #9a99ff;
-  color: #252525;
+  background-color: #7776ce;
+  color: #FFF;
 }
 
 .datepicker-menu.night td.today {
@@ -474,8 +528,8 @@
 .datepicker-menu.night .thin-arrow-left, 
 .datepicker-menu.night .thin-arrow-right,
 .datepicker-menu.night path {
-  fill: #6A67F3;
-  stroke: #6A67F3;
+  fill: #8987ff;
+  stroke: #8987ff;
 }
 
 .timepicker_time.night {

@@ -269,6 +269,7 @@ export const DatePicker = ({ id, onChange, options }) => {
         placeholder={new Date(defaultDate).toLocaleDateString()} 
         onClick={handleInputClick} 
         onChange={(e) => handleInputOnChange(e.currentTarget.value)} 
+        theme={theme}
       />}
       
       {(showDatePicker || inline) && <div id={`${id}-menu`} className={`datepicker-menu ${theme ? theme : ''} ${inline ? 'inline' : ''}`} onBlur={handleValidateOnBlur}>

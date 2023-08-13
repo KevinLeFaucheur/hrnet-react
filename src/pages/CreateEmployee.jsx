@@ -83,18 +83,15 @@ export const CreateEmployee = () => {
                   // locale: 'fr', 
                   // timepicker: true, 
                   // inline: true,
-                  // highlightedDates: [
-                  //   '06/30/2023, Test',
-                  //   '07/2/2023, Birthday',
-                  //   '07/7/2023, Exam',
-                  //   '07/7/2023, Party',
-                  //   '07/18/2023, Another Test, hlCyan',
-                  // ],
-                  // highlightedPeriods: [
-                  //   '06/1/2023, 06/18/2023, holidays, hlGreen',
-                  //   '07/1/2023, 07/8/2023, practice, hlGreen',
-                  //   ['12/1/2023', '12/18/2023', 'winter', 'hlCyanPlain']
-                  // ],
+                  highlightedDates: [
+                    '8/3/2023, Test',
+                    '8/8/2023, Birthday, hlMagenta',
+                    '8/24/2023, Another Test',
+                  ],
+                  highlightedPeriods: [
+                    '8/17/2023, 9/1/2023, OpenClassrooms, hlGreen',
+                    ['12/1/2023', '12/18/2023', 'winter', 'hlCyanPlain']
+                  ],
                   // allowTimes: ['21:26','10:05','11:00','13:06'],
                   // yearStart: 1970,
                   // yearEnd: 2030,
