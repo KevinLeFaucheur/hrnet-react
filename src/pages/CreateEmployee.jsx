@@ -241,6 +241,7 @@ const SaveButton = styled.button`
   color: #fff;
   padding: 10px;
   width: 120px;
+  font-weight: 600;
 
   &:hover {
     background-color: #6ca1f5;
