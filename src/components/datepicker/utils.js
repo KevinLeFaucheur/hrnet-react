@@ -59,12 +59,6 @@ export const selectClass = (sDate, tdDate, dates) => {
   let minDateTimestamp = Date.parse(minDate);
   let maxDateTimestamp = Date.parse(maxDate);
 
-  if (sDate.getFullYear() === tdDate.getFullYear()
-    && sDate.getMonth() === tdDate.getMonth()
-    && sDate.getDate() === tdDate.getDate()) {
-      className.push('selected');
-  }
-
   if(sDate.getMonth() !== tdDate.getMonth()) {
     className.push('greyed');
   }
@@ -111,6 +105,14 @@ export const selectClass = (sDate, tdDate, dates) => {
     }
     else className.push('highlighted');
   }
+
+  if (sDate.getFullYear() === tdDate.getFullYear()
+    && sDate.getMonth() === tdDate.getMonth()
+    && sDate.getDate() === tdDate.getDate()) {
+      className = [];
+      className.push('selected');
+  }
+
   return className.join(' ');
 }
 
@@ -357,6 +359,32 @@ export const getCurrentWeek = (currentDate) => {
   let days = Math.floor((currentDate - startDate) / (24 * 60 * 60 * 1000));
    
   return Math.ceil(days / 7);
+}
+
+export const inputMask = (e) => {
+  console.log(e.target.value);
+  if(e.keyCode < 47 || e.keyCode > 57) {
+    // e.preventDefault();
+  }
+  
+  let len = e.target.value.length;
+  if(len !== 1 || len !== 3) {
+    if(e.keyCode === 47) {
+      // e.preventDefault();
+    }
+  }
+  if(len === 2) {
+    e.target.value += '/';
+  }
+  if(len === 5) {
+    e.target.value += '/';
+  }
+  if(len === 9) {
+    e.target.value += ' ';
+  }
+  if(len === 12) {
+    e.target.value += ':';
+  }
 }
 
 /**
