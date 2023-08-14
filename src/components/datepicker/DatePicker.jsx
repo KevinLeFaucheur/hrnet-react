@@ -11,7 +11,6 @@ import {
 import { TimePicker } from "./TimePicker";
 import "./index.css";
 import { ScrollingContext } from "./ScrollingContext";
-import { Input } from "./Input";
 
 /**
  * 
@@ -249,27 +248,27 @@ export const DatePicker = ({ id, onChange, options }) => {
    * 
    * @param {*} value 
    */
-  const handleInputOnChange = (value) => {
-    const date = new Date(value);
-    const y = date.getFullYear();
-    const m = date.getMonth();
-    const d = date.getDate();
+  // const handleInputOnChange = (value) => {
+  //   const date = new Date(value);
+  //   const y = date.getFullYear();
+  //   const m = date.getMonth();
+  //   const d = date.getDate();
 
-    if(date instanceof Date 
-      && y.toString().length === 4 
-      && m.toString().length >= 1 
-      && d.toString().length >= 1) {
+  //   if(date instanceof Date 
+  //     && y.toString().length === 4 
+  //     && m.toString().length >= 1 
+  //     && d.toString().length >= 1) {
 
-      setSelectedDate(o => ({
-        ...o,
-        year : parseInt(y),
-        month: parseInt(m),
-        day: parseInt(d)
-      }));
-      setCalendar(calendarBuilder(date));
-    }
-    if(onChange) onChange(formatToDate(date, format));
-  }
+  //     setSelectedDate(o => ({
+  //       ...o,
+  //       year : parseInt(y),
+  //       month: parseInt(m),
+  //       day: parseInt(d)
+  //     }));
+  //     setCalendar(calendarBuilder(date));
+  //   }
+  //   if(onChange) onChange(formatToDate(date, format));
+  // }
 
   /**
    * Save Selected Button
@@ -335,14 +334,6 @@ export const DatePicker = ({ id, onChange, options }) => {
 
   return (
     <div id={`${id}-container`} className="datepicker-container" ref={datepickerRef} >  
-      {/* {!inline && <Input
-        // value={handleInputValue()} 
-        placeholder={new Date(defaultDate).toLocaleDateString()} 
-        onClick={handleInputClick} 
-        // onChange={(e) => handleInputOnChange(e.currentTarget.value)} 
-        onChange={() => handleInputValue()} 
-        theme={theme}
-      />} */}
 
       {!inline && <div className={`datepicker-input ${theme ? theme : ''}`}>
         <input 
