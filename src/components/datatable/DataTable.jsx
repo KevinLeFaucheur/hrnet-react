@@ -31,8 +31,8 @@ export const DataTable = ({ table }) => {
     if(sortBy) {
       let desc = sortBy.desc ? -1 : 1;
       displayData.sort((a, b) => { 
-        return  a[sortBy.col] < b[sortBy.col] ? 1 * desc :
-                a[sortBy.col] > b[sortBy.col] ? -1 * desc : 0;
+        return  a[sortBy.col].toLowerCase() < b[sortBy.col].toLowerCase() ? 1 * desc :
+                a[sortBy.col].toLowerCase() > b[sortBy.col].toLowerCase() ? -1 * desc : 0;
       });
     }
 
