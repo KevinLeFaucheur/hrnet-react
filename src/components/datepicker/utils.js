@@ -361,30 +361,28 @@ export const getCurrentWeek = (currentDate) => {
   return Math.ceil(days / 7);
 }
 
-export const inputMask = (e) => {
-  console.log(e.target.value);
-  if(e.keyCode < 47 || e.keyCode > 57) {
-    // e.preventDefault();
-  }
+export const inputMask = (value) => {
+  let maskedValue = value;
+
+  // if(e.keyCode < 47 || e.keyCode > 57) {
+  //   // e.preventDefault();
+  // }
   
-  let len = e.target.value.length;
-  if(len !== 1 || len !== 3) {
-    if(e.keyCode === 47) {
-      // e.preventDefault();
-    }
+  let length = maskedValue.length;
+  // if(len !== 1 || len !== 3) {
+  //   if(e.keyCode === 47) {
+  //     // e.preventDefault();
+  //   }
+  // }
+
+  switch (length) {
+    case 2: maskedValue += '/'; break;
+    case 5: maskedValue += '/'; break;
+    case 10: maskedValue += ' '; break;
+    case 12: maskedValue += ':'; break;
+    default: break;
   }
-  if(len === 2) {
-    e.target.value += '/';
-  }
-  if(len === 5) {
-    e.target.value += '/';
-  }
-  if(len === 9) {
-    e.target.value += ' ';
-  }
-  if(len === 12) {
-    e.target.value += ':';
-  }
+  return maskedValue;
 }
 
 /**

@@ -5,7 +5,7 @@ import { internationalization as i18n } from "./internationalization";
 import { 
   calendarBuilder, formatToDate, formatToTime, getCurrentWeek, 
   getHighlightedDates, getHighlightedPeriod, 
-  identifyFormat, range, 
+  identifyFormat, inputMask, range, 
   selectClass, selectTitle
 } from "./utils";
 import { TimePicker } from "./TimePicker";
@@ -67,6 +67,7 @@ export const DatePicker = ({ id, onChange, options }) => {
   const theme = options?.theme ?? false; // 'dark' is supported
   const opened = options?.opened ?? false;
   const validateOnBlur = options?.validateOnBlur ?? true;
+  const mask = options?.mask ?? false;
 
   /** Callbacks */
   const onSelectDate = options?.onSelectDate ?? false;
@@ -245,32 +246,6 @@ export const DatePicker = ({ id, onChange, options }) => {
   }
 
   /**
-   * 
-   * @param {*} value 
-   */
-  // const handleInputOnChange = (value) => {
-  //   const date = new Date(value);
-  //   const y = date.getFullYear();
-  //   const m = date.getMonth();
-  //   const d = date.getDate();
-
-  //   if(date instanceof Date 
-  //     && y.toString().length === 4 
-  //     && m.toString().length >= 1 
-  //     && d.toString().length >= 1) {
-
-  //     setSelectedDate(o => ({
-  //       ...o,
-  //       year : parseInt(y),
-  //       month: parseInt(m),
-  //       day: parseInt(d)
-  //     }));
-  //     setCalendar(calendarBuilder(date));
-  //   }
-  //   if(onChange) onChange(formatToDate(date, format));
-  // }
-
-  /**
    * Save Selected Button
    */
   const handleSaveSelected = () => {
@@ -320,11 +295,11 @@ export const DatePicker = ({ id, onChange, options }) => {
       if(e.type === "change") {
         // console.log(e.currentTarget.value);
         setValue(e.currentTarget.value);
-        return e.currentTarget.value;
+        return mask ? inputMask(e.currentTarget.value) : e.currentTarget.value;
       }
     }
     if(inputRef.current === document.activeElement) {
-      return value;
+      return mask ? inputMask(value) : value;
     };
 
     const date = datepicker ? formatToDate(new Date(selectedDate.year, selectedDate.month, selectedDate.day), format) : '';
@@ -421,3 +396,33 @@ export const DatePicker = ({ id, onChange, options }) => {
     </div>
   )
 }
+
+
+/**
+ * 
+ */
+/**
+ * 
+ * @param {*} value 
+ */
+// const handleInputOnChange = (value) => {
+//   const date = new Date(value);
+//   const y = date.getFullYear();
+//   const m = date.getMonth();
+//   const d = date.getDate();
+
+//   if(date instanceof Date 
+//     && y.toString().length === 4 
+//     && m.toString().length >= 1 
+//     && d.toString().length >= 1) {
+
+//     setSelectedDate(o => ({
+//       ...o,
+//       year : parseInt(y),
+//       month: parseInt(m),
+//       day: parseInt(d)
+//     }));
+//     setCalendar(calendarBuilder(date));
+//   }
+//   if(onChange) onChange(formatToDate(date, format));
+// }

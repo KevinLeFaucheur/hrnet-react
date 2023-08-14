@@ -80,17 +80,17 @@ export const CreateEmployee = () => {
                 id='start'
                 onChange={(value) => setStartValue(value)} 
                 options={{ 
-                  // locale: 'fr', 
+                  locale: 'fr', 
                   // timepicker: true, 
                   // inline: true,
                   highlightedDates: [
-                    '8/3/2023, Test',
-                    '8/8/2023, Birthday, hlMagenta',
-                    '8/24/2023, Another Test',
+                    '8/3/2023, This is a test date',
+                    '8/8/2023, This is magenta, hlMagenta',
+                    '8/24/2023, This is an overlapping test date',
                   ],
                   highlightedPeriods: [
                     '8/17/2023, 9/1/2023, OpenClassrooms, hlGreen',
-                    ['12/1/2023', '12/18/2023', 'winter', 'hlCyanPlain']
+                    ['12/21/2023', '3/20/2024', 'Winter', 'hlCyanPlain']
                   ],
                   // allowTimes: ['21:26','10:05','11:00','13:06'],
                   // yearStart: 1970,

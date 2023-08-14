@@ -4,8 +4,6 @@ import { Icon } from "./assets/Icon";
 
 /**
  * TODO: 
- * - CSS options
- * - accessibility:
  * - more tolerant options building (optional)
  * - upwards is broken
  */
@@ -16,6 +14,10 @@ export const Select = ({ placeHolder, options, onChange }) => {
   const [upwards, setUpwards] = useState(false);
   const [focus, setFocus] = useState(0);
   const inputRef = useRef();
+
+  useEffect(() => {
+    if(selectedValue) onChange(selectedValue.value);
+  }, [onChange, selectedValue])
 
   useEffect(() => {
     const handler = (e) => { 
