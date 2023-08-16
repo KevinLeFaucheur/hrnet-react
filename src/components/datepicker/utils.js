@@ -10,7 +10,7 @@ export const weekCount = (daysCount) => Math.ceil(daysCount / 7);
  * Fills the calendar with an array for each week for each date visible
  * Includes previous and next month days if needed to be seen
  * @param {Date} date        - 
- * @returns {Array.<Date[]>} - 
+ * @returns {Array.<Date[]>} - Dates to display in calendar, each TD
  */
 export const calendarBuilder = (date) => {
   const month = date.getMonth();
@@ -131,7 +131,8 @@ export const selectTitle = (tdDate, arrayOfDates) => {
 }
 
  /**
-  * 
+  * Builds an array of HighlightedDate for each highlighted day,
+  * Checking for overlapping dates and overlapping description
   * @param {Array.<string>} hlDates     - string of valid date, optional desc and optional className
   * @returns {Array.<HighlightedDate>}  - Highlighted Dates, to be compared with Periods then used in Calendar
   */
@@ -256,9 +257,9 @@ const formatDate = (string) => {
 }
 
 /**
- * 
- * @param {string} formatString 
- * @returns {Object}
+ * Tries to identify format pattern into object
+ * @param {string} formatString - string format (ex: 'y/m/d')
+ * @returns {Format}            - Format object
  */
 export const identifyFormat = (formatString) => {
   if(!formatString) return undefined;
@@ -361,6 +362,11 @@ export const getCurrentWeek = (currentDate) => {
   return Math.ceil(days / 7);
 }
 
+/**
+ * Tries to display date as __/__/____
+ * @param {string} inputValue - event value
+ * @returns {string}          - date string to display 
+ */
 export const inputMask = (value) => {
   let maskedValue = value;
 

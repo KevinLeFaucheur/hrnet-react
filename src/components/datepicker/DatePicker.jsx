@@ -161,7 +161,7 @@ export const DatePicker = ({ id, onChange, options }) => {
 
     setSelectedDate(o => ({
       ...o,
-      year : month + i < 0 ? year - 1 : month + i > 11 ? year + 1 : year ,
+      year : month + i < 0 ? year - 1 : month + i > 11 ? year + 1 : year,
       month: month + i < 0 ? 11 : month + i > 11 ? 0 : month + i
     }));
     if(onChangeMonth) onChangeMonth();
